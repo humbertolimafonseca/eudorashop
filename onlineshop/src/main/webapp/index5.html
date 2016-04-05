@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!-- Declares the root element that allows behaviour to be modified through Angular custom HTML tags. -->
+<html ng-app="eudoraShop">
+<head>
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.4/angular-material.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.11/ng-grid.min.js"></script>
+    
+
+    <script src="script/person.js"></script>
+    <script src="script/ui-bootstrap-tpls-1.2.4.min.js"></script>
+    
+
+  
+   	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.11/ng-grid.min.css"/>
+   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+   
+</head>
+
+<body>
+
+<br>
+
+ <div class="grid">
+    <!-- Specify a JavaScript controller script that binds Javascript variables to the HTML.-->
+    <div ng-controller="listaClientes">
+        <!-- Binds the grid component to be displayed. -->
+        <div class="gridStyle" ng-grid="gridOptions"></div>
+
+        <!--  Bind the pagination component to be displayed. -->
+                     
+        <pagination direction-links="true" boundary-links="true"
+                    total-items="clientes.totalResults" page="clientes.currentPage" items-per-page="clientes.pageSize"
+                    on-select-page="refreshGrid(page)">
+        </pagination>
+        
+        <uib-pagination total-items="clientes.totalResults" items-per-page="clientes.pageSize" ng-model="page" 
+        	ng-change="refreshGrid(page)"></uib-pagination>
+    </div>
+</div>
+	
+</body>
+</html>

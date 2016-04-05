@@ -1,0 +1,68 @@
+
+
+
+<div class="view view-first">
+	
+		<ol class="breadcrumb">
+			<li><a href="../partes/template.html#/"	title="Go to Home Page">Home</a></li>
+			<li ><a href="../partes/template.html#/tag"> Tag </a> </li>
+			<li class="active">Nova</li>
+		</ol>
+		<ul class="previous">
+			<li><a href="../partes/template.html#/">Back to Previous
+					Page</a></li>
+		</ul>
+		<div class="clearfix"></div>
+	
+
+	<script type="text/javascript">
+		$('#messageDiv').hide();
+	</script>
+
+	
+  </form>
+
+	<div class="form-horizontal" ng-controller="tagCtrl">
+			<h3>Tag</h3>
+			<div id="messageDiv" class="alert alert-success" ng-class="{'alert-warning': messageError}">{{message}}</div>
+			<form novalidate enctype="multipart/form-data" method="post"  id="formTag" name="formTag">
+				<div class="form-group" ng-class="{ 'has-error': formTag.nome.$invalid }">
+					<label for="nome" class="col-sm-2 control-label">Nome*</label>
+					<div class="col-sm-6">
+						<input placeholder="Tag"  required name="nome"  ng-model="nome" id="nome" type="text" class="form-control" >
+					</div>
+				</div>
+				<div class="form-group">
+	    			<div class="col-sm-offset-2 col-sm-10">
+						<input type="button" class="btn btn-success" ng-class="{ 'btn-danger': formTag.nome.$invalid }" 
+							ng-click="send();"  ng-disabled="formTag.$invalid" value="Enviar">
+							
+					</div>
+				</div>
+				 
+				
+			</form>
+			
+		<div  class="col-sm-6">
+		
+			<table class="table table-bordered">
+				<thead>
+				<tr>
+					<th >#</th>
+					<th >Tag</th>
+				</tr>
+				</thead>
+				<tr ng-repeat = "tag in tags">
+					<td width="30px" > <a class="glyphicon glyphicon-trash" ng-click="remover(tag.nome)" href="#/tag"></a> </td>
+					<td>{{tag.nome}}</td> 
+				</tr>
+			</table>
+		</div>
+		
+		<div class="clearfix"></div>
+	</div>
+	
+
+
+
+</div>

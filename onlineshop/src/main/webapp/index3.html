@@ -1,0 +1,73 @@
+<div class="form" ng-controller="clienteController">
+    <!-- Verify Cliente, if there is no id present, that we are Adding a Cliente -->
+    <div ng-if="Cliente.id == null">
+     <h3>Add Cliente</h3>
+    </div>
+    <!-- Otherwise it's an Edit -->
+    <div ng-if="cliente.id != null">
+        <h3>Edit Cliente</h3>
+    </div>
+
+    <div>
+        <!-- Specify the function to be called on submit and disable HTML5 validation, since we're using Angular validation-->
+        <form name="clienteForm" ng-submit="updateCliente()" novalidate>
+
+            <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
+            <div class="form-group" ng-class="{'has-error' : clienteForm.name.$invalid && clienteForm.name.$dirty}">
+                <label for="name">Name:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : clienteForm.name.$valid && clienteForm.name.$dirty}"></span>
+
+                <input id="name" name="name" type="text" class="form-control" maxlength="50"
+                       ng-model="cliente.name"
+                       required ng-minlength="2" ng-maxlength="50"/>
+
+                <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                <p class="help-block" ng-show="clienteForm.name.$error.required">Add Name.</p>
+                <p class="help-block" ng-show="clienteForm.name.$error.minlength">Name must be at least 2 characters long.</p>
+                <p class="help-block" ng-show="clienteForm.name.$error.maxlength">Name cannot be longer than 50 characters.</p>
+            </div>
+
+            <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
+            <div class="form-group" ng-class="{'has-error' : clienteForm.description.$invalid && clienteForm.description.$dirty}">
+                <label for="description">Description:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : clienteForm.description.$valid && clienteForm.description.$dirty}"></span>
+
+                <input id="description" name="description" type="text" class="form-control" maxlength="100"
+                       ng-model="cliente.description"
+                       required ng-minlength="5" ng-maxlength="100"/>
+
+                <!-- Validation messages to be displayed on required, minlength and maxlength -->
+                <p class="help-block" ng-show="clienteForm.description.$error.required">Add Description.</p>
+                <p class="help-block" ng-show="clienteForm.description.$error.minlength">Description must be at least 5 characters long.</p>
+                <p class="help-block" ng-show="clienteForm.description.$error.maxlength">Description cannot be longer than 100 characters.</p>
+            </div>
+
+            <!-- Display an error if the input is invalid and is dirty (only when someone changes the value) -->
+            <div class="form-group" ng-class="{'has-error' : clienteForm.imageUrl.$invalid && clienteForm.imageUrl.$dirty}">
+                <label for="imageUrl">Image URL:</label>
+                <!-- Display a check when the field is valid and was modified -->
+                <span ng-class="{'glyphicon glyphicon-ok' : clienteForm.imageUrl.$valid && clienteForm.imageUrl.$dirty}"></span>
+
+                <input id="imageUrl" name="imageUrl" type="url" class="form-control" maxlength="500"
+                       ng-model="cliente.imageUrl"
+                       required/>
+
+                <!-- Validation messages to be displayed on required and invalid. Type 'url' makes checks to a proper url format. -->
+                <p class="help-block" ng-show="clienteForm.imageUrl.$error.required">Add Image URL.</p>
+                <p class="help-block" ng-show="clienteForm.imageUrl.$invalid && clienteForm.imageUrl.$dirty">Invalid Image URL.</p>
+            </div>
+
+            <div class="avatar" ng-if="cliente.imageUrl">
+                <img ng-src="{{cliente.imageUrl}}" width="400" height="250"/>
+            </div>
+
+            <!-- Form buttons. The 'Save' button is only enabled when the form is valid. -->
+            <div class="buttons">
+                <button type="button" class="btn btn-primary" ng-click="clearForm()">Clear</button>
+                <button type="submit" class="btn btn-primary" ng-disabled="clienteForm.$invalid">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

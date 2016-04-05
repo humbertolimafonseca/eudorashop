@@ -1,0 +1,99 @@
+
+
+
+<div class="view view-first">
+	
+		<ol class="breadcrumb">
+			<li><a href="../partes/template.html#/"	title="Go to Home Page">Home</a></li>
+			<li ><a href="../partes/template.html#/produto"> Produto </a> </li>
+			<li class="active">Novo</li>
+		</ol>
+		<ul class="previous">
+			<li><a href="../partes/template.html#/">Back to Previous
+					Page</a></li>
+		</ul>
+		<div class="clearfix"></div>
+	
+
+	<script type="text/javascript">
+		$('#messageDiv').hide();
+	</script>
+
+	
+  </form>
+
+	<div class="form-horizontal" ng-controller="produtoCtrl">
+			<h3>Produto</h3>
+			<div id="messageDiv" class="alert alert-success" ng-class="{'alert-warning': messageError}">{{message}}</div>
+			<form novalidate enctype="multipart/form-data" method="post"  id="formProduto" name="formProduto">
+				<input type="hidden" ng-model="selectedTags" name="tags" id="tags" >
+				<div class="form-group" ng-class="{ 'has-error': formProduto.nome.$invalid }">
+					<label for="nome" class="col-sm-2 control-label">Nome*</label>
+					<div class="col-sm-6">
+						<input placeholder="Nome"  required name="nome"  ng-model="nome" id="nome" type="text" class="form-control" >
+					</div>
+				</div>
+				<div class="form-group" ng-class="{ 'has-error': formProduto.descricao.$invalid }">
+					<label for="descricao" class="col-sm-2 control-label">Descrição*</label>
+					<div class="col-sm-6">
+						<textarea placeholder="Descrição"  required name="descricao"  ng-model="descricao" id="descricao" class="form-control" ></textarea>
+					</div>
+				</div>
+				
+				<div class="form-group" ng-class="{ 'has-error': formProduto.preco.$invalid }">
+					<label for="preco" class="col-sm-2 control-label">Preço*</label>
+					<div class="col-sm-6">
+						<input placeholder="Preço"  required name="preco"  ng-model="preco" id="preco" class="form-control" type="number">
+					</div>
+				</div>
+				<div class="form-group" ng-class="{ 'has-error': formProduto.tags.$invalid }">
+					<label for="tags" class="col-sm-2 control-label">Tags*</label>
+					<div class="col-sm-6">
+						<input placeholder="Tag"  name="tag"  ng-model="tag" id="tag" class="form-control" type="text" >
+						<div id="tags" class="panel panel-default" style="height: 100px">
+							<span ng-repeat="tag in tags | filter:tag" style="display: inline-block;" ng-class="{ 'label-success': tag.checked }" class="label label-default">
+								<span ng-click="selectTag(tag)">
+									#{{tag.nome}}
+								</span>
+<!-- 								<span class="glyphicon glyphicon-trash" ng-show="tag.checked" ng-model="tag" ng-click="removerTag(tag)"></span> -->
+								</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				
+				
+				<div class="form-group">
+	    			<div class="col-sm-offset-2 col-sm-10">
+						<input type="button" class="btn btn-success" ng-class="{ 'btn-danger': formProduto.nome.$invalid }" 
+							ng-click="send();"  ng-disabled="formProduto.$invalid" value="Enviar">
+							
+					</div>
+				</div>
+				 
+				
+			</form>
+			
+		<div  class="col-sm-6">
+		
+			<table class="table table-bordered">
+				<thead>
+				<tr>
+					<th >#</th>
+					<th >Produto</th>
+				</tr>
+				</thead>
+				<tr ng-repeat = "produto in produtos">
+					<td width="30px" > <a class="glyphicon glyphicon-trash" ng-click="remover(produto.id)" href="#/produto"></a> </td>
+					<td>{{produto.nome}}</td> 
+				</tr>
+			</table>
+		</div>
+		
+		<div class="clearfix"></div>
+	</div>
+	
+
+
+
+</div>

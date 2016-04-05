@@ -1,0 +1,54 @@
+
+
+
+<div class="view view-first">
+	
+		<ol class="breadcrumb">
+			<li><a href="../partes/template.html#/"	title="Go to Home Page">Home</a></li>
+			<li ><a href="../partes/template.html#/login"> Conta </a> </li>
+			<li class="active">Login</li>
+		</ol>
+		<ul class="previous">
+			<li><a href="../partes/template.html#/">Back to Previous
+					Page</a></li>
+		</ul>
+		<div class="clearfix"></div>
+	
+
+	<script type="text/javascript">
+		$('#messageDiv').hide();
+	</script>
+
+	<div class="form-horizontal" ng-controller="loginCtrl">
+			<h3>Login</h3>
+			<div id="messageDiv" class="alert alert-success" ng-class="{'alert-warning': messageError}">{{message}}</div>
+			<form novalidate enctype="multipart/form-data" method="post"  id="loginForm" name="loginForm">
+				<div class="form-group" ng-class="{ 'has-error': loginForm.login.$invalid }">
+					<label for="login" class="col-sm-2 control-label">Login*</label>
+					<div class="col-sm-6">
+						<input placeholder="Login"  required name="login"  ng-model="login" id="login" type="text" class="form-control" >
+					</div>
+				</div>
+				<div class="form-group" ng-class="{ 'has-error': loginForm.senha.$invalid }">
+					<label for="senha" class="col-sm-2 control-label">Senha*</label>
+					<div class="col-sm-6">
+						<input placeholder="Senha"  required name="senha"  ng-model="senha" id="senha" type="password" class="form-control" >
+					</div>
+				</div>
+				<div class="form-group">
+	    			<div class="col-sm-offset-2 col-sm-10">
+						<input type="button" class="btn btn-success" ng-class="{ 'btn-danger': loginForm.nome.$invalid }" 
+							ng-click="logar();"  ng-disabled="loginForm.$invalid" value="Enviar">
+						
+						<input type="button" class="btn" ng-click="cancel();" value="Cancelar">
+					</div>
+				</div>
+				 
+			</form>
+			
+			
+			
+		<div class="clearfix"></div>
+	</div>
+	
+</div>

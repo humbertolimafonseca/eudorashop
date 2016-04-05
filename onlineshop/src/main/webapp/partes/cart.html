@@ -1,0 +1,29 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+
+			Search: <input ng-model="query"> Sort by: <select
+				ng-model="orderProp">
+				<option value="produto.nome">Nome</option>
+				<option value="produto.valor">Valor</option>
+			</select> 
+			<pre>{{phones | filter:query | orderBy:orderProp | json}}</pre>
+			<ul>
+				<li ng-repeat="item in cart | filter:query  | orderBy:orderProp ">
+					<span>{{item.produto.nome}}</span> {{item.produto.valor}}
+					{{item.quantidade}} 
+<!-- 					<img ng-src="{{item.produto.imagem}}"> -->
+					 <a href="#/cart/{{item.produto.id}}" class="thumb" > Detalhe </a>
+				</li>
+			</ul>
+
+
+			<p>Total de itens no carrinho: {{cart.length}}</p>
+			<p>Valor total da compra:</p>
+
+		</div>
+
+	</div>
+
+</div>
+
