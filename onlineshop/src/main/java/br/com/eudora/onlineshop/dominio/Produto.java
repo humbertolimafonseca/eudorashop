@@ -34,7 +34,7 @@ public class Produto {
 	private String moeda;
 
 	@ManyToMany
-	private List<Tag> tags;
+	private List<Tag> tags = new ArrayList<Tag>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "produto")
 	private List<Avaliacao> avaliacoes;
@@ -43,7 +43,7 @@ public class Produto {
 	private Marca marca;
 
 	@OneToMany
-	private List<Imagem> imagens;
+	private List<Imagem> imagens = new ArrayList<Imagem>();
 
 	public Produto() {
 	}
@@ -72,17 +72,18 @@ public class Produto {
 	}
 
 	public void addImagem(String nome, String tema, boolean principal) {
-
-		if (principal) {
-			for (Imagem img : this.imagens) {
-				if (img.isPrincipal()) {
-					img.setPrincipal(false);
+		if(nome != null && !nome.equals("")){
+			if (principal) {
+				for (Imagem img : this.imagens) {
+					if (img.isPrincipal()) {
+						img.setPrincipal(false);
+					}
 				}
 			}
+	
+			Imagem i = new Imagem(nome, tema, principal);
+			imagens.add(i);
 		}
-
-		Imagem i = new Imagem(nome, tema, principal);
-		imagens.add(i);
 	}
 
 	public Long getId() {
@@ -139,6 +140,22 @@ public class Produto {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public BigDecimal getPreco() {
+		return preco;
+	}
+
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
+	}
+
+	public String getMoeda() {
+		return moeda;
+	}
+
+	public void setMoeda(String moeda) {
+		this.moeda = moeda;
 	}
 
 }

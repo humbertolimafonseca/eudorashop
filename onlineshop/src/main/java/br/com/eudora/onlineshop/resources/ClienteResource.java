@@ -1,4 +1,4 @@
-package br.com.eudora.onlineshop.resources;
+package br.com.eudora.onlineshop.resources; 
 
 import java.util.List;
 
@@ -64,7 +64,7 @@ public class ClienteResource extends Application {
                                                     @DefaultValue("asc")
                                                     @QueryParam("sortDirections")
                                                     String sortDirections) {
-        PaginatedListWrapper<Cliente> paginatedListWrapper = new PaginatedListWrapper<>();
+        PaginatedListWrapper<Cliente> paginatedListWrapper = new PaginatedListWrapper();
         paginatedListWrapper.setCurrentPage(page);
         paginatedListWrapper.setSortFields(sortFields);
         paginatedListWrapper.setSortDirections(sortDirections);

@@ -1,4 +1,4 @@
-package br.com.eudora.onlineshop.resources;
+package br.com.eudora.onlineshop.resources; 
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.money.CurrencyUnit;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ApplicationPath;
@@ -35,7 +34,6 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.javamoney.moneta.CurrencyUnitBuilder;
 import org.javamoney.moneta.Money;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -107,21 +105,12 @@ public class ProdutoResource {
 	}
 
 	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{nome}")
-	public Response delete(@PathParam("nome") String nome) {
-		Map<String, Boolean> map = new HashMap<>();
+	@Path("/{id}")
+	public Response delete(@PathParam("id") String id) {
 
-		map.put(nome, true);
-		ObjectMapper mapper = new ObjectMapper();
+		manager.remover(new Long(id));
 
-		try {
-			return Response.ok(mapper.writer().withRootName("files").writeValueAsString(map)).build();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return Response.serverError().build();
-		}
-
+		return Response.ok("Produto removido").build();
 	}
 
 	@GET
@@ -174,22 +163,18 @@ public class ProdutoResource {
 	}
 
 	@GET
-	public Response get() {
-		System.out.println("Teste");
-		
-		return Response.ok().entity(manager.getList()).build();
+	public Response getLista() {
+
+		return Response.ok(manager.getList()).build();
 	}
+
 
 	@POST
 	@Path("/add")
 	public Response addProduto(@FormParam("descricao") String descricao, @FormParam("nome") String nome,
 			@FormParam("preco") String preco, @FormParam("tags") String tags) {
 
-		Produto produto = new Produto();
-		produto.setDescricao(descricao);
-		produto.setNome(nome);
-		Money m = Money.of(new BigDecimal(preco), "BRL");
-		produto.setValor(m);
+		Produto produto = new Produto(nome,descricao,new BigDecimal(preco).floatValue(),"BRL","","");
 		
 		String[] tagss = tags.split(",");
 		

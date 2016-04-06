@@ -17,6 +17,7 @@
 
 	<script type="text/javascript">
 		$('#messageDiv').hide();
+		$('#tags').hide();
 	</script>
 
 	
@@ -26,7 +27,7 @@
 			<h3>Produto</h3>
 			<div id="messageDiv" class="alert alert-success" ng-class="{'alert-warning': messageError}">{{message}}</div>
 			<form novalidate enctype="multipart/form-data" method="post"  id="formProduto" name="formProduto">
-				<input type="hidden" ng-model="selectedTags" name="tags" id="tags" >
+				<input type="text" ng-model="selectedTags" name="tags" id="tags" >
 				<div class="form-group" ng-class="{ 'has-error': formProduto.nome.$invalid }">
 					<label for="nome" class="col-sm-2 control-label">Nome*</label>
 					<div class="col-sm-6">
@@ -86,6 +87,13 @@
 				<tr ng-repeat = "produto in produtos">
 					<td width="30px" > <a class="glyphicon glyphicon-trash" ng-click="remover(produto.id)" href="#/produto"></a> </td>
 					<td>{{produto.nome}}</td> 
+					<td>
+						<span ng-repeat="tag in produto.tags " style="display: inline-block;" class="label label-success">
+								#{{tag.nome}}
+						</span>
+						
+					
+					</td>
 				</tr>
 			</table>
 		</div>

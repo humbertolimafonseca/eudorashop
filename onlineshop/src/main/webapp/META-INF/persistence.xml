@@ -13,7 +13,7 @@
 
 			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
 <!-- 			<property name="javax.persistence.jdbc.url"	value="jdbc:derby:/home/03435691409/workspace/eudora/onlineshop/eudorashop" /> -->
-			<property name="javax.persistence.jdbc.url"	value="jdbc:derby:/home/03435691409/workspace/eudora/onlineshop/eudorashop;create=true" />
+			<property name="javax.persistence.jdbc.url"	value="jdbc:derby:/home/03435691409/git/eudora/eudorashop/onlineshop/eudorashop;create=true" />
 			<property name="javax.persistence.jdbc.user" value="App" />
 			<property name="javax.persistence.jdbc.password" value="" />
 

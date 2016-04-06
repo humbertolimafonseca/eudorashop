@@ -1,5 +1,6 @@
 package tarefas;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
@@ -49,12 +50,14 @@ public class CriarBanco {
 		
 		List<Produto> lista = dao.getList();
 		
-//		for (Produto produto : lista) {
-////			System.out.println(produto.getValor());
-//			em.getTransaction().begin();
-//			em.remove(produto);
-//			em.getTransaction().commit();
-//		}
+		for (Produto produto : lista) {
+			produto.setPreco(new BigDecimal("2.45"));
+			produto.setMoeda("BRL");
+			System.out.println(produto.getValor());
+			em.getTransaction().begin();
+			em.merge(produto);
+			em.getTransaction().commit();
+		}
 		
 		Produto p = new Produto("Batom","desc", 12.56f, "BRL", "/img/batom1.jpg");
 		Cliente c = em.find(Cliente.class, 401l);
