@@ -9,16 +9,30 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, tagService) {
 	 $scope.listar();
 	 
 	 $scope.load = function (id){
+		 $scope.limparForm();
 		 $http.get('../resources/produto/'+ id).success(function(data) {
 			    $scope.produto = data;
 			    console.log(data);
 			    $scope.nome = data.nome;
+			    $scope.preco = data.preco;
 			    $scope.descricao = data.descricao;
-			    $scope.logomarca = data.logomarca.nome;
-			    $scope.imgLogo = data.logomarca.nome;
 			    $scope.id = data.id;
-			    $('#imagemTemp').hide();
-			    $('#imagem')[0].src="../resources/produto/logomarca/" + $scope.logomarca + "/"+$scope.id;
+			    $scope.imagem = data.imagens[0];
+			    console.log($scope.imagem);
+			    
+			    $('#img')[0].src = '../resources/imagem/produto/'+ $scope.id + "/" + $scope.imagem.nome;
+			    
+			    for(var sTagi in data.tags){
+			    	
+			    	var sTag = data.tags[sTagi];
+			    	console.log(sTag);
+				    for (var tag in $scope.tags){
+					    if(sTag.nome == $scope.tags[tag].nome ){
+					    		console.log($scope.tags[tag].nome);
+					    		$scope.selectTag($scope.tags[tag]);
+					    }
+					}
+		 		}
 		  });
 	 }
 	 
@@ -26,6 +40,7 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, tagService) {
 	 
 	 $scope.cancel = function (){
 		$scope.limparForm();
+		$('#messageDiv').hide();
 	 }
 	 
 	 $scope.sendImage = function (file){
@@ -65,7 +80,10 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, tagService) {
 		 $scope.nome="";
 		 $scope.descricao="";
 		 $scope.preco="";
+		 $scope.id="";
 		 $scope.selectedTags=[];
+		 $scope.imagem="";
+		 $("#img")[0].src = "";
 		 tagService.lista().success(function (data){
 	    	 $scope.tags = data;
 	     });
@@ -76,10 +94,12 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, tagService) {
 		var form = $('#formProduto')[0] ;
 		
 		console.log($(form).serialize());
+		var fd = new FormData(form);
 		
-		 $http.post('../resources/produto/add',$(form).serialize(), {
+		 $http.post('../resources/produto/add',fd, {
 			  headers: {
-				  'Content-Type': 'application/x-www-form-urlencoded'
+//				  'Content-Type': 'application/x-www-form-urlencoded'
+				  'Content-Type': undefined
             }
 		  }).success(function(data){
 			    var message;
@@ -137,7 +157,7 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, tagService) {
      $scope.edit = function() {
  		var form = $('#formProduto')[0] ;
 
- 		$http.post('../resources/produto/edit/'+$scope.id + '/' + imgLogo.value,$(form).serialize(), {
+ 		$http.post('../resources/produto/edit/'+$scope.id,$(form).serialize(), {
  			  headers: {
  				  'Content-Type': 'application/x-www-form-urlencoded'
              }

@@ -42,7 +42,7 @@ public class Produto {
 	@ManyToOne
 	private Marca marca;
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Imagem> imagens = new ArrayList<Imagem>();
 
 	public Produto() {
@@ -156,6 +156,10 @@ public class Produto {
 
 	public void setMoeda(String moeda) {
 		this.moeda = moeda;
+	}
+
+	public List<Imagem> getImagens() {
+		return imagens;
 	}
 
 }

@@ -2,80 +2,109 @@
 
 
 <div class="view view-first">
-	
-		<ol class="breadcrumb">
-			<li><a href="../partes/template.html#/"	title="Go to Home Page">Home</a></li>
-			<li ><a href="../partes/template.html#/produto"> Produto </a> </li>
-			<li class="active">Novo</li>
-		</ol>
-		<ul class="previous">
-			<li><a href="../partes/template.html#/">Back to Previous
-					Page</a></li>
-		</ul>
-		<div class="clearfix"></div>
-	
-
+			<ol class="breadcrumb">
+				<li><a href="../partes/template.html#/"	title="Go to Home Page">Home</a></li>
+				<li ><a href="../partes/template.html#/produto"> Produto </a> </li>
+				<li class="active">Novo</li>
+			</ol>
+			<ul class="previous">
+				<li><a href="../partes/template.html#/">voltar</a></li>
+			</ul>
+		
 	<script type="text/javascript">
 		$('#messageDiv').hide();
 		$('#tags').hide();
 	</script>
 
-	
-  </form>
-
+	<div class="panel panel-default">
+	<div class="panel-body">
 	<div class="form-horizontal" ng-controller="produtoCtrl">
 			<h3>Produto</h3>
 			<div id="messageDiv" class="alert alert-success" ng-class="{'alert-warning': messageError}">{{message}}</div>
 			<form novalidate enctype="multipart/form-data" method="post"  id="formProduto" name="formProduto">
-				<input type="text" ng-model="selectedTags" name="tags" id="tags" >
-				<div class="form-group" ng-class="{ 'has-error': formProduto.nome.$invalid }">
-					<label for="nome" class="col-sm-2 control-label">Nome*</label>
-					<div class="col-sm-6">
-						<input placeholder="Nome"  required name="nome"  ng-model="nome" id="nome" type="text" class="form-control" >
-					</div>
-				</div>
-				<div class="form-group" ng-class="{ 'has-error': formProduto.descricao.$invalid }">
-					<label for="descricao" class="col-sm-2 control-label">Descrição*</label>
-					<div class="col-sm-6">
-						<textarea placeholder="Descrição"  required name="descricao"  ng-model="descricao" id="descricao" class="form-control" ></textarea>
-					</div>
-				</div>
-				
-				<div class="form-group" ng-class="{ 'has-error': formProduto.preco.$invalid }">
-					<label for="preco" class="col-sm-2 control-label">Preço*</label>
-					<div class="col-sm-6">
-						<input placeholder="Preço"  required name="preco"  ng-model="preco" id="preco" class="form-control" type="number">
-					</div>
-				</div>
-				<div class="form-group" ng-class="{ 'has-error': formProduto.tags.$invalid }">
-					<label for="tags" class="col-sm-2 control-label">Tags*</label>
-					<div class="col-sm-6">
-						<input placeholder="Tag"  name="tag"  ng-model="tag" id="tag" class="form-control" type="text" >
-						<div id="tags" class="panel panel-default" style="height: 100px">
-							<span ng-repeat="tag in tags | filter:tag" style="display: inline-block;" ng-class="{ 'label-success': tag.checked }" class="label label-default">
-								<span ng-click="selectTag(tag)">
-									#{{tag.nome}}
-								</span>
-<!-- 								<span class="glyphicon glyphicon-trash" ng-show="tag.checked" ng-model="tag" ng-click="removerTag(tag)"></span> -->
-								</span>
-							</span>
+				<div class="row">
+					<div class="col-md-10"> 
+						<input type="text" ng-model="selectedTags" name="tags" id="tags" >
+						
+							<div class="form-group" ng-class="{ 'has-error': formProduto.nome.$invalid }">
+								<label for="nome" class="col-sm-2 control-label">Nome*</label>
+								<div class="col-sm-6">
+									<input placeholder="Nome"  required name="nome"  ng-model="nome" id="nome" type="text" class="form-control" >
+								</div>
+							</div>
+						
+						<div class="form-group" ng-class="{ 'has-error': formProduto.descricao.$invalid }">
+							<label for="descricao" class="col-sm-2 control-label">Descrição*</label>
+							<div class="col-sm-6">
+								<textarea placeholder="Descrição"  required name="descricao"  ng-model="descricao" id="descricao" class="form-control" ></textarea>
+							</div>
 						</div>
+						
+						<div class="form-group" ng-class="{ 'has-error': formProduto.preco.$invalid }">
+							<label for="preco" class="col-sm-2 control-label">Preço*</label>
+							<div class="col-sm-6">
+								<input placeholder="Preço"  required name="preco"  ng-model="preco" id="preco" class="form-control" type="number">
+							</div>
+						</div>
+						<div class="form-group" ng-class="{ 'has-error': formProduto.tags.$invalid }">
+							<label for="tags" class="col-sm-2 control-label">Tags*</label>
+							<div class="col-sm-6">
+								<input placeholder="Tag"  name="tag"  ng-model="tag" id="tag" class="form-control" type="text" >
+								<div id="tags" class="panel panel-default" style="height: 100px">
+									<span ng-repeat="tag in tags | filter:tag" style="display: inline-block;" ng-class="{ 'label-success': tag.checked }" class="label label-default">
+										<span ng-click="selectTag(tag)">
+											#{{tag.nome}}
+										</span>
+		<!-- 								<span class="glyphicon glyphicon-trash" ng-show="tag.checked" ng-model="tag" ng-click="removerTag(tag)"></span> -->
+										</span>
+									</span>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+			    			<div class="col-sm-offset-2 col-sm-10">
+								<input type="button" ng-hide="id" class="btn btn-success" ng-class="{ 'btn-danger': formProduto.nome.$invalid }" 
+									ng-click="send();"  ng-disabled="formProduto.$invalid" value="Enviar">
+									
+								<input type="button" ng-show="id" class="btn btn-success" ng-class="{ 'btn-danger': formProduto.nome.$invalid }" 
+									ng-click="edit();"  ng-disabled="formProduto.$invalid" value="Editar">
+								
+								<input type="button" class="btn" ng-click="cancel();" value="Cancelar">
+									
+							</div>
+						</div>
+					</div><!-- 				 md10 -->
+					
+					<script type="text/javascript">
+						$('#imagem').hide();
+
+						var loadFile = function(event) {
+						    var reader = new FileReader();
+						    reader.onload = function(){
+					      	var output = $('#img')[0];
+					      	output.src = reader.result;
+					    };
+					    
+					    reader.readAsDataURL(event.target.files[0]);
+					    
+					  };
+					</script>
+					
+					<input type="file" name="imagem" required ng-model="imagem" accept="image/*" id="imagem" onchange=" loadFile(event)">
+					
+					<div class="col-md-2"> 
+						<img alt="click" id="img" name="img" ng-model="img"  class="img-thumbnail" style="width: 140px; height: 140px" onclick="$('#imagem').click();console.log('clicado'); ">
+						 
 					</div>
-				</div>
-				
-				
-				<div class="form-group">
-	    			<div class="col-sm-offset-2 col-sm-10">
-						<input type="button" class="btn btn-success" ng-class="{ 'btn-danger': formProduto.nome.$invalid }" 
-							ng-click="send();"  ng-disabled="formProduto.$invalid" value="Enviar">
-							
-					</div>
-				</div>
-				 
+
+				 </div><!-- 				 row -->
+
 				
 			</form>
 			
-		<div  class="col-sm-6">
+		<div  class="col-sm-12">
 		
 			<table class="table table-bordered">
 				<thead>
@@ -86,7 +115,7 @@
 				</thead>
 				<tr ng-repeat = "produto in produtos">
 					<td width="30px" > <a class="glyphicon glyphicon-trash" ng-click="remover(produto.id)" href="#/produto"></a> </td>
-					<td>{{produto.nome}}</td> 
+					<td><a href="#/produto" ng-click="load(produto.id)">{{produto.nome}}<a></a></td> 
 					<td>
 						<span ng-repeat="tag in produto.tags " style="display: inline-block;" class="label label-success">
 								#{{tag.nome}}
@@ -99,6 +128,9 @@
 		</div>
 		
 		<div class="clearfix"></div>
+	</div>
+	
+	</div>
 	</div>
 	
 

@@ -40,9 +40,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
+import br.com.eudora.onlineshop.dominio.Marca;
 import br.com.eudora.onlineshop.dominio.Produto;
 import br.com.eudora.onlineshop.manager.ProdutoManager;
 import br.com.eudora.onlineshop.manager.TagManager;
+import br.com.eudora.onlineshop.util.ImageUtil;
 import br.com.eudora.onlineshop.util.UploadedFile;
 import tarefas.CdiUtil;
 
@@ -95,6 +97,31 @@ public class ProdutoResource {
 		}
 
 	}
+	
+	@POST
+	@Path("/edit/{id}")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response edit(@FormParam("descricao") String descricao, @FormParam("nome") String nome,
+			@FormParam("preco") String preco, @FormParam("tags") String tags, @PathParam("id") String id) {
+
+			
+		Produto p = manager.encontrar(Long.parseLong(id));
+		p.setNome(nome);
+		p.setDescricao(descricao);
+		p.setMoeda("BRL");
+		p.setPreco(new BigDecimal(preco));
+		p.getTags().clear();
+		
+		String[] tagss = tags.split(",");
+		
+		for (String	tag : tagss) {
+			p.addTag( tagManager.encontrar(tag) );
+		}
+		
+		manager.atualizar(p);
+
+		return Response.ok("Produto atualizada com sucesso!").build();
+	}
 
 	private void createPath() {
 		String realpath = context.getRealPath("");
@@ -102,6 +129,14 @@ public class ProdutoResource {
 
 		File f = new File(path);
 		f.mkdirs();
+	}
+	
+	@GET
+	@Path("/{id}")
+	public Response load(@PathParam("id") String id) {
+		Produto p = manager.encontrar(new Long(id));
+
+		return Response.ok().entity(p).build();
 	}
 
 	@DELETE
@@ -171,21 +206,42 @@ public class ProdutoResource {
 
 	@POST
 	@Path("/add")
-	public Response addProduto(@FormParam("descricao") String descricao, @FormParam("nome") String nome,
-			@FormParam("preco") String preco, @FormParam("tags") String tags) {
+//	public Response addProduto(@FormParam("descricao") String descricao, @FormParam("nome") String nome,
+//			@FormParam("preco") String preco, @FormParam("tags") String tags) {
+//		
+	public Response addProduto(FormDataMultiPart uploadedInputStream){
 
-		Produto produto = new Produto(nome,descricao,new BigDecimal(preco).floatValue(),"BRL","","");
+		String nome = uploadedInputStream.getField("nome").getValue();
+		String descricao = uploadedInputStream.getField("descricao").getValue();
+		String preco = uploadedInputStream.getField("preco").getValue();
+		String tags = uploadedInputStream.getField("tags").getValue();
 		
-		String[] tagss = tags.split(",");
+		FormDataBodyPart bodyPart = uploadedInputStream.getField("imagem");
+
+		FormDataContentDisposition cd = bodyPart.getFormDataContentDisposition();
+		InputStream is = bodyPart.getValueAs(InputStream.class);
 		
-		for (String	tag : tagss) {
-			produto.addTag( tagManager.encontrar(tag) );
-		}
+		
 		
 		try {
+			
+			ImageUtil.save(cd.getFileName(), is, "produto", null, true);
+			
+			Produto produto = new Produto(nome,descricao,new BigDecimal(preco).floatValue(),"BRL",cd.getFileName(),"");
+			
+			String[] tagss = tags.split(",");
+			
+			for (String	tag : tagss) {
+				produto.addTag( tagManager.encontrar(tag) );
+			}
+			
 			manager.salvar(produto);
+			ImageUtil.persiste(cd.getFileName(), "produto", produto.getId().toString());
+			
 		} catch (ChaveDuplicadaException e) {
 			Response.serverError().build();
+		} catch (IOException e) {
+			Response.serverError().entity("Erro ao salvar imagem").build();
 		}
 
 		return Response.ok("Produto criado com sucesso.").build();
