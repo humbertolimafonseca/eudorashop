@@ -1,17 +1,6 @@
 
-var eudoraShop = angular.module('eudoraShop', ['ngRoute', 'filtrosEudora']);
+var eudoraShop = angular.module('eudoraShop', ['ngRoute', 'filtrosEudora', 'ui.bootstrap']);
 
-eudoraShop.service('tagService', function($http){
-
-	this.lista = function() {
-    	return $http.get('../resources/tag'); 
-    }
-    
-    this.teste = function (){
-    	alert("teste");
-    }
- });
-    
 
 eudoraShop.config(['$routeProvider',
                     function($routeProvider) {

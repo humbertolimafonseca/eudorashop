@@ -31,8 +31,9 @@ public class TagResource extends Application {
 		try {
 			manager.salvar(new Tag(nome));
 		} catch (ChaveDuplicadaException e) {
-			e.printStackTrace();
 			return Response.serverError().entity("Tag com o mesmo nome já criada.").build();
+		} catch (Throwable e) {
+			e.printStackTrace();
 		}
 
 		return Response.ok("Tag criada com sucesso!").build();
@@ -48,7 +49,12 @@ public class TagResource extends Application {
 	@Path("/{nome}")
 	public Response delete(@PathParam("nome") String nome) {
 
-		manager.remover(nome);
+		try {
+			manager.remover(nome);
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return Response.ok("Tag removida: " + nome).build();
 	}

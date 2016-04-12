@@ -13,15 +13,15 @@ public abstract class Manager<D extends DaoGenerico<T,I>, T, I extends Serializa
 	@Inject
 	protected D dao;
 
-	public T salvar(T entity) throws ChaveDuplicadaException {
+	public T salvar(T entity) throws Throwable {
 		return dao.salvar(entity);
 	}
 
-	public T atualizar(T entity) {
+	public T atualizar(T entity) throws Throwable{
 		return dao.atualizar(entity);
 	}
 
-	public void remover(I id) {
+	public void remover(I id) throws Throwable{
 		dao.remover(id);
 	}
 

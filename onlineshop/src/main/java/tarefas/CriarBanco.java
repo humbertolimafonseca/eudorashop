@@ -11,15 +11,21 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.glassfish.jersey.servlet.internal.Utils;
+
 import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
+import br.com.eudora.onlineshop.dao.MarcaDao;
 import br.com.eudora.onlineshop.dao.ProdutoDao;
 import br.com.eudora.onlineshop.dominio.Cliente;
+import br.com.eudora.onlineshop.dominio.Marca;
 import br.com.eudora.onlineshop.dominio.Produto;
 
 
 public class CriarBanco {
 	
 	static ProdutoDao dao = new ProdutoDao();
+	static MarcaDao marcaDao = new MarcaDao();
 
 	public static void main(String[] args) {
 //		insertCliente();
@@ -59,7 +65,10 @@ public class CriarBanco {
 			em.getTransaction().commit();
 		}
 		
-		Produto p = new Produto("Batom","desc", 12.56f, "BRL", "/img/batom1.jpg");
+		Marca m = marcaDao.getList().get(0);
+		
+		Produto p = new Produto("Batom","desc","E4456",m, 12.56f, "BRL", new Date(), DateUtils.addMonths(new Date(), 1), "/img/batom1.jpg");
+		
 		Cliente c = em.find(Cliente.class, 401l);
 		p.addAvaliacao(3, c, "Bom produto");
 //		em.getTransaction().begin();

@@ -31,9 +31,9 @@ import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
-import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
 import br.com.eudora.onlineshop.dominio.Marca;
 import br.com.eudora.onlineshop.manager.MarcaManager;
+import br.com.eudora.onlineshop.util.ErroAoSalvarImagem;
 import br.com.eudora.onlineshop.util.ImageUtil;
 import tarefas.CdiUtil;
 
@@ -57,10 +57,12 @@ public class MarcaResource extends Application {
 		try {
 			
 			manager.salvar(new Marca(nome, descricao, imgLogo));
+		}catch(ErroAoSalvarImagem ex){
+			return Response.serverError().entity("Erro ao incluir a imagem.").build();
 			
-		} catch (ChaveDuplicadaException e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
-			return Response.serverError().entity("Marca com o mesmo nome já criada.").build();
+			return Response.serverError().entity(e.getMessage()).build();
 		}
 
 		return Response.ok("Marca criada com sucesso!").build();
@@ -78,7 +80,13 @@ public class MarcaResource extends Application {
 		m.setNome(nome);
 		m.setDescricao(descricao);
 		m.getLogomarca().setNome(imgLogo);
-		manager.atualizar(m);
+		try {
+			manager.atualizar(m);
+		} catch (ErroAoSalvarImagem e) {
+			return Response.serverError().entity("Erro ao salvar Imagem.").build();
+		} catch (Throwable e) {
+			return Response.serverError().entity(e.getMessage()).build();
+		}
 
 		return Response.ok("Marca atualizada com sucesso!").build();
 	}
@@ -101,7 +109,7 @@ public class MarcaResource extends Application {
 		
 		//ImageUtil.realpath = context.getRealPath("");
 		
-		FormDataBodyPart bodyPart = uploadedInputStream.getField("logomarca");
+		FormDataBodyPart bodyPart = uploadedInputStream.getField("imagem");
 
 		FormDataContentDisposition cd = bodyPart.getFormDataContentDisposition();
 		
@@ -186,7 +194,13 @@ public class MarcaResource extends Application {
 	@Path("/{id}")
 	public Response delete(@PathParam("id") String id) {
 
-		manager.remover(new Long(id));
+		try {
+			manager.remover(new Long(id));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 
 		return Response.ok("Marca removida" ).build();
 	}

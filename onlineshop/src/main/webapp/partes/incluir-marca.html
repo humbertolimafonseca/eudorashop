@@ -1,14 +1,14 @@
 
 <div class="view view-first">
-		<ol class="breadcrumb">
-			<li><a href="../partes/template.html#/"	title="Go to Home Page">Home</a></li>
-			<li ><a href="../partes/template.html#/marca"> Marca </a> </li>
-			<li class="active">Nova</li>
-		</ol>
-		<ul class="previous">
-			<li><a href="../partes/template.html#/">Back to Previous Page</a></li>
-		</ul>
-		<div class="clearfix"></div>
+	<ol class="breadcrumb">
+		<li><a href="../partes/template.html#/" title="Go to Home Page">Home</a></li>
+		<li><a href="../partes/template.html#/marca"> Marca </a></li>
+		<li class="active">Nova</li>
+	</ol>
+	<ul class="previous">
+		<li><a href="../partes/template.html#/">Back to Previous Page</a></li>
+	</ul>
+	<div class="clearfix"></div>
 
 	<script type="text/javascript">
 		$('#messageDiv').hide();
@@ -16,73 +16,120 @@
 	</script>
 
 
-	<div class="form-horizontal"  ng-controller="marcaCtrl">
-			<h3>Marca</h3>
-			<div id="messageDiv" class="alert alert-success">{{message}}</div>
-			<form nome="formMarcaImg" id="formMarcaImg">
-				<div class="form-group" ng-class="{ 'has-error': formMarca.nome.$invalid }">
-					<div class="col-sm-6"> 
-						<input placeholder="Logomarca" required name="logomarca"  ng-model="logomarca" id="logomarca" type="file" onchange="angular.element(this).scope().sendImage()">
-					</div>
-				</div>
-			</form>
-			<img id="imagem" name="imagem" >
-			<form novalidate enctype="multipart/form-data" method="post"  id="formMarca" name="formMarca">
-				<input type="text" ng-model="imgLogo" name="imgLogo" id="imgLogo">
-			
-				<div class="form-group" ng-class="{ 'has-error': formMarca.nome.$invalid }">
-					<label for="nome" class="col-sm-2 control-label">Nome</label>
-					<div class="col-sm-6"> 
-						<input required class="form-control"  name="nome"  ng-model="nome" id="nome" type="text" >
-					</div>
-				</div>
-				<div class="form-group" ng-class="{ 'has-error': formMarca.descricao.$invalid }">
-					<label for="descricao" class="col-sm-2 control-label">Descrição</label>
-					<div class="col-sm-6">  
-						<textarea rows="3" required name="descricao" class="form-control"   ng-model="descricao" id="descricao" type="textarea" ></textarea>
-					</div>
-				</div>
-				
-					
-				<div class="form-group">
-	    			<div class="col-sm-offset-2 col-sm-10">
-	    				
-	    				<input type="button" ng-hide="id" class="btn btn-success" ng-class="{ 'btn-danger': formMarca.nome.$invalid }" 
-						ng-click="send();"  ng-disabled="formMarca.$invalid" value="Enviar"> 
-				
-						<input type="button" ng-show="id" class="btn btn-success" ng-class="{ 'btn-danger': formMarca.nome.$invalid }" 
-							ng-click="edit();"  ng-disabled="formMarca.$invalid" value="Editar">
-						
-						<input type="button" class="btn" ng-click="cancel();" value="Cancelar">
-							
-					</div>
-				</div>
-					
-			
-				
-			</form>
-			
-		<div class="col-sm-6">
-			
-			<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th >#</th>
-					<th >Marca</th>
-				</tr>
-				</thead>
-				<tr ng-repeat = "marca in marcas">
-					<td width="30px" > <a class="glyphicon glyphicon-trash" ng-click="remover(marca.id)" href="#/marca"></a> </td>
-<!-- 					<td width="35px" ><img width="30px" name="imagem" src="../resources/marca/logomarca/{{marca.logomarca.nome}}/{{marca.id}}"> </td> -->
-					<td> <a href="#/marca" ng-click="load(marca.id)"> {{marca.nome}} <a></a></td> 
-				</tr>
-			</table>
-		</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="form-horizontal" ng-controller="marcaCtrl">
+				<h3>Marca</h3>
+				<div id="messageDiv" class="alert alert-success"
+					ng-class="{'alert-warning': messageError}">{{message}}</div>
 
-		
-		<div class="clearfix"></div>
+				<div class="row">
+					<div class="col-md-10">
+						<form novalidate enctype="multipart/form-data" method="post"
+							id="formMarca" name="formMarca">
+							<input type="text" ng-model="imgLogo" name="imgLogo" id="imgLogo">
+
+							<div class="form-group"
+								ng-class="{ 'has-error': formMarca.nome.$invalid }">
+								<label for="nome" class="col-sm-2 control-label">Nome</label>
+								<div class="col-sm-6">
+									<input required class="form-control" name="nome"
+										ng-model="nome" id="nome" type="text">
+								</div>
+							</div>
+							<div class="form-group"
+								ng-class="{ 'has-error': formMarca.descricao.$invalid }">
+								<label for="descricao" class="col-sm-2 control-label">Descrição</label>
+								<div class="col-sm-6">
+									<textarea rows="3" required name="descricao"
+										class="form-control" ng-model="descricao" id="descricao"
+										type="textarea"></textarea>
+								</div>
+							</div>
+
+
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+
+									<input type="button" ng-hide="id" class="btn btn-success"
+										ng-class="{ 'btn-danger': formMarca.$invalid}"
+										ng-click="send();" ng-disabled="formMarca.$invalid"
+										value="Enviar">
+										
+									 <input type="button" ng-show="id"
+										class="btn btn-success"
+										ng-class="{ 'btn-danger': formMarca.$invalid}"
+										ng-click="edit();" ng-disabled="formMarca.$invalid"
+										value="Editar">
+										
+									<input type="button" class="btn"
+										ng-click="cancel();" value="Cancelar">
+
+								</div>
+							</div>
+					</div>
+					<!-- 	md10 -->
+					</form>
+					<form nome="formMarcaImg" id="formMarcaImg">
+						<script type="text/javascript">
+							$('#imagem').hide();
+
+							var loadFile = function(event) {
+								var reader = new FileReader();
+								reader.onload = function() {
+									var output = $('#img')[0];
+									output.src = reader.result;
+								};
+
+								reader.readAsDataURL(event.target.files[0]);
+								$("#imgHidden")[0].click();
+							};
+						</script>
+
+						<div class="col-md-2">
+							<input type="hidden" id="imgHidden" name="imgHidden"
+								ng-click="sendImage()"> 
+							
+							<input type="file" name="imagem"
+								ng-model="imagem" accept="image/*" id="imagem"
+								onchange="loadFile(event)"> 
+							
+							<img alt="click" id="img"
+								name="img" ng-model="img" class="img-thumbnail"
+								style="width: 140px; height: 140px"
+								onclick="$('#imagem').click();">
+
+						</div>
+					</form>
+				</div>
+
+
+				<div class="col-sm-6">
+
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Marca</th>
+							</tr>
+						</thead>
+						<tr ng-repeat="marca in marcas">
+							<td width="30px"><a class="glyphicon glyphicon-trash"
+								ng-click="remover(marca.id)" href="#/marca"></a></td>
+							<!-- 					<td width="35px" ><img width="30px" name="imagem" src="../resources/marca/logomarca/{{marca.logomarca.nome}}/{{marca.id}}"> </td> -->
+							<td><a href="#/marca" ng-click="load(marca.id)">
+									{{marca.nome}} <a></a></td>
+						</tr>
+					</table>
+				</div>
+
+
+				<div class="clearfix"></div>
+			</div>
+
+		</div>
 	</div>
-	
+
 
 
 

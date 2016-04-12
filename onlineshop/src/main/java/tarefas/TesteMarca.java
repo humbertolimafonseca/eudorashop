@@ -16,7 +16,7 @@ public class TesteMarca{
 	MarcaManager manager;
 	
 	@Test
-	public void testChaveDuplicada() throws ChaveDuplicadaException{
+	public void testChaveDuplicada() throws Throwable{
 		
 		for (Marca tag : manager.getList()) {
 			System.out.println("Removendo " + tag.getNome());

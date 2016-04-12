@@ -22,11 +22,6 @@ public class CartResource extends Application{
     @Produces(MediaType.APPLICATION_JSON)
 	public List<Item> itens(){
 		List<Item> lista = new ArrayList<Item>();
-		lista.add(new Item(new Produto("Livro 1","desc", 10.00f,"BRL", "img/livro.jpg"), 2));
-		lista.add(new Item(new Produto("Livro 2","desc", 50.00f,"BRL", "img/livro.jpg"), 2));
-		lista.add(new Item(new Produto("Livro 3","desc", 30.00f,"BRL", "img/livro.jpg"), 2));
-		lista.add(new Item(new Produto("Livro 4","desc", 40.00f,"BRL", "img/livro.jpg"), 2));
-		
 		return lista;
 	}
 	
@@ -34,7 +29,7 @@ public class CartResource extends Application{
     @Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
     public Item detalheItem( @PathParam("id") Long id) {
-        return new Item(new Produto("Livro " + id,"desc", 10.00f, "BRL", "img/livro.jpg"),2);
+        return new Item(new Produto(),2);
     }
 
 }

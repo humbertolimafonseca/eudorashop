@@ -16,7 +16,7 @@ public class TesteTag{
 	TagManager manager;
 	
 	@Test(expected=ChaveDuplicadaException.class)
-	public void testChaveDuplicada() throws ChaveDuplicadaException{
+	public void testChaveDuplicada() throws Throwable{
 		
 		for (Tag tag : manager.getList()) {
 			manager.remover(tag.getNome());

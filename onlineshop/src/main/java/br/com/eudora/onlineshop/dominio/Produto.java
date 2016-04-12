@@ -3,6 +3,7 @@ package br.com.eudora.onlineshop.dominio;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -25,6 +26,12 @@ public class Produto {
 	private String nome;
 
 	private String descricao;
+	
+	private String codigo;
+	
+	private Date inicio;
+	
+	private Date fim;
 
 	@Transient
 	private Money valor;
@@ -48,11 +55,14 @@ public class Produto {
 	public Produto() {
 	}
 
-	public Produto(String nome, String descricao, float preco, String moeda, String imagemPrincipal,
+	public Produto(String nome, String descricao, String codigo, Marca marca ,  float preco, String moeda, Date inicio, Date fim, String imagemPrincipal,
 			String... imagens) {
 		
 		super();
 		this.nome = nome;
+		this.codigo = codigo;
+		this.inicio = inicio;
+		this.fim = fim;
 		this.valor = Money.of(new BigDecimal(preco), moeda);
 
 		for (String img : imagens) {
@@ -64,6 +74,7 @@ public class Produto {
 		this.preco = new BigDecimal(preco);
 		avaliacoes = new ArrayList<Avaliacao>();
 		this.descricao = descricao;
+		this.marca = marca;
 		
 	}
 
@@ -160,6 +171,30 @@ public class Produto {
 
 	public List<Imagem> getImagens() {
 		return imagens;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public Date getInicio() {
+		return inicio;
+	}
+
+	public void setInicio(Date inicio) {
+		this.inicio = inicio;
+	}
+
+	public Date getFim() {
+		return fim;
+	}
+
+	public void setFim(Date fim) {
+		this.fim = fim;
 	}
 
 }

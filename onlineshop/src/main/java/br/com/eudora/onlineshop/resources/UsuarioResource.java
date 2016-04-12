@@ -38,6 +38,9 @@ public class UsuarioResource extends Application {
 		} catch (ChaveDuplicadaException e) {
 			e.printStackTrace();
 			return Response.serverError().entity("Usuário com o mesmo nome já criado.").build();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return Response.ok("Usuário criado com sucesso!").build();
@@ -73,7 +76,15 @@ public class UsuarioResource extends Application {
 	@Path("/{id}")
 	public Response delete(@PathParam("id") String id) {
 
-		manager.remover(new Long(id));
+		try {
+			manager.remover(new Long(id));
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return Response.ok("Usuário removido").build();
 	}

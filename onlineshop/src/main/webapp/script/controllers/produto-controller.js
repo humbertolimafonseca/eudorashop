@@ -1,10 +1,42 @@
-eudoraShop.controller('produtoCtrl', function ($scope, $http, tagService) {
+eudoraShop.controller('produtoCtrl', function ($scope, $http, tagService, marcaService) {
 	
 	 $scope.listar = function (){
 		 $http.get('../resources/produto').success(function(data) {
 			    $scope.produtos = data;
+			    console.log("$scope.listar() chamado..");
+			    console.log($scope.produtos);
 		  });
 	 }
+	 
+	 $scope.popup = {
+	    opened: false
+	  };
+	 
+	 $scope.popup2 = {
+			    opened: false
+	  };
+	 
+	 $scope.open = function() {
+		    $scope.popup.opened = true;
+		  };
+		  
+	  $scope.open2 = function() {
+		    $scope.popup2.opened = true;
+		  };
+		  
+	  function disabled(data) {
+	    var date = data.date,
+	      mode = data.mode;
+	    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+	  }
+		  
+	  $scope.dateOptions = {
+		    dateDisabled: disabled,
+		    formatYear: 'yy',
+		    maxDate: new Date(2020, 5, 22),
+		    minDate: new Date(),
+		    startingDay: 1
+		  };
 	 
 	 $scope.listar();
 	 
@@ -17,6 +49,11 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, tagService) {
 			    $scope.preco = data.preco;
 			    $scope.descricao = data.descricao;
 			    $scope.id = data.id;
+			    $scope.marca = data.marca;
+			    $scope.codigo = data.codigo;
+			    $scope.inicio = new Date( data.inicio );
+			    $scope.fim = new Date( data.fim );
+			    console.log($scope.inicio);
 			    $scope.imagem = data.imagens[0];
 			    console.log($scope.imagem);
 			    
@@ -81,9 +118,11 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, tagService) {
 		 $scope.descricao="";
 		 $scope.preco="";
 		 $scope.id="";
+		 $scope.marca="";
 		 $scope.selectedTags=[];
 		 $scope.imagem="";
 		 $("#img")[0].src = "";
+		 $("#formProduto")[0].reset();
 		 tagService.lista().success(function (data){
 	    	 $scope.tags = data;
 	     });
@@ -126,6 +165,12 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, tagService) {
      tagService.lista().success(function (data){
     	 $scope.tags = data;
      });
+     
+     marcaService.lista().success(function (data){
+    	 $scope.marcas = data;
+    	 console.log($scope.marcas);
+     });
+	
 	
      $scope.selectTag = function(tag){
     	 if(tag.checked){
@@ -156,10 +201,13 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, tagService) {
      
      $scope.edit = function() {
  		var form = $('#formProduto')[0] ;
+		
+		console.log($(form).serialize());
+		var fd = new FormData(form);
 
- 		$http.post('../resources/produto/edit/'+$scope.id,$(form).serialize(), {
+ 		$http.post('../resources/produto/edit/'+$scope.id,fd, {
  			  headers: {
- 				  'Content-Type': 'application/x-www-form-urlencoded'
+ 				  'Content-Type': undefined
              }
  		  }).success(function(data){
  			    var message;

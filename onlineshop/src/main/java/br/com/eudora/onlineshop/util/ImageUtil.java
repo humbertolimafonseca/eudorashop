@@ -21,15 +21,27 @@ public class ImageUtil {
 		ImageIO.write(img, "png", new File(path + filename));
 	}
 
-	public static void persiste(String filename, String source, String id) throws IOException {
+	public static void persiste(String filename, String source, String id) throws ErroAoSalvarImagem {
 
 		String path = realpath + "/images/" + source + "/temp/" + filename;
-
-		FileInputStream is = new FileInputStream(new File(path));
-
-		save(filename, is, source, id, false);
 		
-		remove(filename, source, id);
+		String pathJaExiste = realpath + "/images/" + source + "/" + id + "/" + filename;
+
+		try{
+			if(new File(pathJaExiste).exists()){
+				return;
+			}
+			
+			FileInputStream is = new FileInputStream(new File(path));
+	
+			save(filename, is, source, id, false);
+			
+			remove(filename, source, id);
+			
+		}catch(IOException ex){
+			throw new ErroAoSalvarImagem(ex);
+		}
+		
 	}
 	
 	public static File recupera(String filename, String source, String id) throws IOException {
@@ -66,7 +78,7 @@ public class ImageUtil {
 		return path;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ErroAoSalvarImagem {
 		realpath = "/home/03435691409/Documentos/Imagens";
 		
 		String path = realpath + "/aprovado.png";

@@ -14,8 +14,9 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 			    $scope.descricao = data.descricao;
 			    $scope.logomarca = data.logomarca.nome;
 			    $scope.imgLogo = data.logomarca.nome;
+			    $scope.imagem = data.logomarca;
 			    $scope.id = data.id;
-			    $('#imagem')[0].src="../resources/marca/logomarca/" + $scope.logomarca + "/"+$scope.id;
+			    $('#img')[0].src="../resources/imagem/marca/" + $scope.id + "/" + $scope.imagem.nome;
 		  });
 	 }
 	 
@@ -28,15 +29,20 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 	 $scope.sendImage = function (){
 		  var data = $("#formMarcaImg")[0]; 
 		  
-		  imgLogo.value =  logomarca.value;
+//		  logomarca.value = $("#imagem")[0].value;
 		  
+//		  console.log(imagem.value);
+//		  console.log($("#imgHidden")[0]);
+//		  console.log(img);
+		  
+		  $scope.imgLogo = imagem.value;
+			  
 		  $http.post('../resources/marca/addImg',new FormData(data), {
 			  headers: {
                  'Content-Type': undefined
              }
 		  }).success(function(data){
-			  $('#imagem')[0].src ="../resources/marca/logomarca/" + logomarca.value;
-			  console.log("Imagem modificada:" + logomarca.value);
+			  console.log("Imagem modificada:" + imagem.value);
 		  });
 		  
 	  };
@@ -61,9 +67,8 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 		 $scope.logomarca="";
 		 $scope.id = "";
 		 
-		 $('#formMarcaImg')[0].reset();
-//		 $('#imagemTemp')[0].src = "";
-		 $('#imagem')[0].src = "";
+		 $('#formMarca')[0].reset();
+		 $('#img')[0].src = "";
 	 }
 	
 	
@@ -84,15 +89,17 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 			  	$scope.listar();
 		  }).error(function(data){
 			  $scope.message = data;
-			  $('#messageDiv').show();
 			  $scope.messageError = true;
+			  $('#messageDiv').show();
 		  })
      };
      
      $scope.edit = function() {
  		var form = $('#formMarca')[0] ;
-
- 		$http.post('../resources/marca/edit/'+$scope.id + '/' + imgLogo.value,$(form).serialize(), {
+ 		
+ 		console.log($(form).serialize());
+ 		
+ 		$http.post('../resources/marca/edit/'+$scope.id + '/' + imagem.value,$(form).serialize(), {
  			  headers: {
  				  'Content-Type': 'application/x-www-form-urlencoded'
              }
@@ -105,8 +112,9 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
  			  	$scope.listar();
  		  }).error(function(data){
  			  $scope.message = data;
- 			  $('#messageDiv').show();
  			  $scope.messageError = true;
+ 			  $('#messageDiv').show();
+ 			  
  		  })
       };
      
