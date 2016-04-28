@@ -101,7 +101,7 @@ eudoraShop.config(['$routeProvider',
                           }).
                           when('/produto', {
                               templateUrl: 'partes/incluir-produto.html',
-                              controller: 'produtoCtrl'
+                              controller: 'itemProdutoCtrl'
                             });
                     }]);
 

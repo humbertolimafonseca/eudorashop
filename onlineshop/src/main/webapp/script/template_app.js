@@ -1,7 +1,7 @@
 
 var eudoraShop = angular.module('eudoraShop', ['ngRoute', 'filtrosEudora', 'ui.bootstrap']);
 
-eudoraShop.run(function($rootScope){
+eudoraShop.run(function($rootScope, $location, $anchorScroll){
 	
 	
 	$rootScope.limpaMensagem = function(){
@@ -15,6 +15,32 @@ eudoraShop.run(function($rootScope){
 		    language: 'pt-BR',
 		    startingDay: 1
 	}; 
+	
+	 $rootScope.confirmAndDo = function(msg, doIt, param){
+    	 if( confirm(msg) )
+    	 {
+    		 doIt(param);
+    	 };
+     }
+	 
+	 $rootScope.redirect = function(url, message){
+		 
+		 document.location = url;
+		 $rootScope.message = message;
+		
+	 }
+	 
+	 
+	 
+	 $rootScope.gotoAnchor = function(anchor) {
+	      // set the location.hash to the id of
+	      // the element you wish to scroll to.
+	      $location.hash(anchor);
+
+	      // call $anchorScroll()
+	      $anchorScroll();
+	    };
+	 
 	
 });
 
@@ -37,6 +63,10 @@ eudoraShop.config(['$routeProvider',
                                 templateUrl: '../partes/incluir-item-produto.html',
                                 controller: 'itemProdutoCtrl'
                               }).
+                              when('/item-produto/:id', {
+                                  templateUrl: '../partes/incluir-item-produto.html',
+                                  controller: 'itemProdutoCtrl'
+                                }).
                               when('/lista-item-produto', {
                                   templateUrl: '../partes/lista-item-produto.html',
                                   controller: 'itemProdutoCtrl'

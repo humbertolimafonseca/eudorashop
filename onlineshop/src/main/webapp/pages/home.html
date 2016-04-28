@@ -1,21 +1,21 @@
 <h3 class="m_1">Novos Produtos</h3>
-				 <div class="content_grid" ng-controller='produtoCtrl'>
-				   <div ng-repeat="p in produtos" class="col_1_of_3 span_1_of_3" style="width: 20%;"> 
+				 <div class="content_grid" ng-controller='itemProdutoCtrl'>
+				   <div ng-repeat="ip in itemsProdutos" class="col_1_of_3 span_1_of_3" style="width: 20%;"> 
 				  	 <div class="view view-first">
-					      <a href="#/produto/{{p.id}}"">
+					      <a href="#/produto/{{ip.produto.id}}"">
 						   <div class="inner_content clearfix">
 							<div class="product_image">
-								<img src="../resources/imagem/produto/{{p.id}}/{{p.imagens[0].nome}}" class="img-responsive" alt=""/>
+								<img src="../resources/imagem/produto/{{ip.produto.id}}/{{ip.produto.imagens[0].nome}}" class="img-responsive" alt=""/>
 								<div class="mask">
 		                       		<div class="info">Quick View</div>
 				                  </div>
 								<div class="product_container">
 								   <div class="cart-left">
-									 <p class="title">{{p.nome}}</p>
+									 <p class="title">{{ip.produto.nome}}</p>
 								   </div>
 								   <br/>
 								   <br/>
-								   <div class="price">R${{p.preco}}</div>
+								   <div class="price">R${{ip.preco1.valor}}</div>
 								   
 								   <div class="clearfix"></div>
 							     </div>		

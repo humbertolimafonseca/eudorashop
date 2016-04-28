@@ -3,7 +3,10 @@ package br.com.eudora.onlineshop.dominio;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import br.com.eudora.onlineshop.dao.OrderBy;
+
 @Entity
+@OrderBy(property="nome")
 public class Tag {
 	
 	@Id

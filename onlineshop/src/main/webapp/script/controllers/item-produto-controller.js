@@ -1,4 +1,5 @@
-eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope) {
+eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$routeParams,$window) {
+	$scope.params = $routeParams;
 	
 	 $scope.listar = function (){
 		 $http.get('../resources/item-produto').success(function(data) {
@@ -38,7 +39,7 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope) {
 	 $scope.loadProduto = function()
 	 {
 		 
-		 $http.get('../resources/produto/codigo/'+$scope.codigoProduto)
+		 $http.get('../resources/produto/codigo/'+$scope.itemProduto.produto.codigo)
 		 
 		 .success(function(data) {
 			 console.log(data);
@@ -52,50 +53,56 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope) {
 		 });
 	 }
 	 
-	 $scope.load = function (itemProduto){
-		 $http.get('../resources/item-produto/'+itemProduto).success(function(data) {
-			    $scope.itemProduto = data;
-			    console.log(data);
-//			    $scope.nome = data.entity.nome;
-//			    $scope.descricao = data.entity.descricao;
-//			    $scope.logomarca = data.entity.logomarca.nome;
-//			    $scope.imgLogo = data.entity.logomarca.nome;
-//			    $scope.imagem = data.entity.logomarca;
-//			    $scope.id = data.entity.id;
-//			    $('#img')[0].src="../resources/imagem/marca/" + $scope.id + "/" + $scope.imagem.nome;
-		  });
+	 $scope.pageChanged = function(){
+		 console.log('Page changed to: ' + $scope.currentPage);
+		 $scope.start = (($scope.currentPage-1)*$scope.maxsize);
+		 console.log('Page start: ' + $scope.start);
+	 }
+	 
+	 $scope.load = function (id){
+		 if(id){
+			 $http.get('../resources/item-produto/'+id).success(function(data) {
+				 	console.log(data);
+				    $scope.itemProduto = data;
+				    $scope.loadProduto();
+	// $scope.nome = data.entity.nome;
+	// $scope.descricao = data.entity.descricao;
+	// $scope.logomarca = data.entity.logomarca.nome;
+	// $scope.imgLogo = data.entity.logomarca.nome;
+	// $scope.imagem = data.entity.logomarca;
+	// $scope.id = data.entity.id;
+	// $('#img')[0].src="../resources/imagem/marca/" + $scope.id + "/" +
+	// $scope.imagem.nome;
+			  });
+		 }
 	 }
 	 
 	 $scope.cancel = function (){
 		$scope.limparForm();
 	 }
 	 
-	 $scope.remover = function(hateosObj) {
-		 $http.delete(hateosObj.deleteLink).success(function(data){
+	 $scope.remover = function(id) {
+		 $http.delete("../resources/item-produto/" + id).success(function(data){
 			 $rootScope.message = data;
 			 $rootScope.messageError = false;
 			 $scope.listar();
 		 }).error(function(data){
 			 $rootScope.message = data;
-			 $('#messageDiv').show();
 			 $rootScope.messageError = true;
 		 });
 		 
 	 }
 	 
 	 $scope.limparForm = function(){
-		 $scope.nome="";
-		 $scope.descricao="";
-		 $scope.logomarca="";
-		 $scope.id = "";
+		 $scope.itemProduto = null;
 		 
-		 $('#formMarca')[0].reset();
-		 $('#img')[0].src = "";
+		 $('#form')[0].reset();
+		 
 	 }
 	
 	
 	$scope.send = function() {
-		var form = $('#formItemProduto')[0] ;
+		var form = $('#form')[0] ;
 		
 		
 		 $http.post('../resources/item-produto/add',$(form).serialize(), {
@@ -114,27 +121,28 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope) {
      };
      
      $scope.edit = function() {
- 		var form = $('#formMarca')[0] ;
+ 		var form = $('#form')[0] ;
  		
  		console.log($(form).serialize());
- 		$http.post($scope.marca.editLink + '/' + $scope.imagem.nome,$(form).serialize(), {
+ 		$http.post('../resources/item-produto/edit/' + $scope.itemProduto.id,$(form).serialize(), {
  			  headers: {
  				  'Content-Type': 'application/x-www-form-urlencoded'
              }
  		  }).success(function(data){
- 			    var message;
- 			  	$scope.message = data;
- 			  	$scope.messageError = false;
- 			  	$('#messageDiv').show();
- 			  	$scope.limparForm();
- 			  	$scope.listar();
+			    var message;
+			  	$rootScope.message = data;
+			  	$rootScope.messageError = false;
  		  }).error(function(data){
- 			  $scope.message = data;
- 			  $scope.messageError = true;
- 			  $('#messageDiv').show();
+ 			  	$rootScope.message = data;
+ 			  	$rootScope.messageError = true;
  			  
  		  })
+ 		  
+ 		 $rootScope.gotoAnchor('home');
+ 		  
+ 		  
       };
      
+      
      
 	});

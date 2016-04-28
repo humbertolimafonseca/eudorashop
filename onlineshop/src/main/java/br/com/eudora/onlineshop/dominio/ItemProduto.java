@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import br.com.eudora.onlineshop.dao.OrderBy;
+
 /**
  * Representa o item de um produto
  * 
@@ -19,6 +21,7 @@ import javax.persistence.ManyToOne;
  *
  */
 @Entity
+@OrderBy(property="id")
 public class ItemProduto implements OnlineShopEntity<Long>{
 	
 	@Id

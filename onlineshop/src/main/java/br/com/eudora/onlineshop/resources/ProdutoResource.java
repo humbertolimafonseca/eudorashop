@@ -220,15 +220,7 @@ public class ProdutoResource {
 	@Path("/{id}")
 	public Response delete(@PathParam("id") String id) {
 
-		try {
-			manager.remover(new Long(id));
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		manager.remover(new Long(id));
 
 		return Response.ok("Produto removido").build();
 	}

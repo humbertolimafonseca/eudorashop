@@ -1,7 +1,7 @@
-<div class="view view-first" ng-init="listar()">
+<div class="view view-first" id="home" ng-init="listar(); gotoAnchor('home'); limpaMensagem();">
 			<ol class="breadcrumb">
 				<li><a href="../partes/template.html#/"	title="Go to Home Page">Home</a></li>
-				<li class="active" ><a href="../partes/template.html#/produto"> Item de Produto </a> </li>
+				<li class="active" > Item de Produto </li>
 			</ol>
 			<ul class="previous">
 				<li><a href="../partes/template.html#/">voltar</a></li>
@@ -29,7 +29,7 @@
 				
 				<tr ng-repeat = "item in itemsProdutos | limitTo:maxsize:start">
 					<td width="30px" > <a class="glyphicon glyphicon-trash" ng-click=" confirmAndDo('Deseja remover o item ' + item.id + ' ? ', remover, item.id )" href="#/lista-item-produto"></a> </td>
-					<td><a href="#/item-produto" ng-click="load(item.id);" >{{item.id}}</a></td>
+					<td><a href="#/item-produto/{{item.id}}" >{{item.id}}</a></td>
 					<td>{{item.produto.nome}}</td>
 				</tr>
 			

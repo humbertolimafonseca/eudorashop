@@ -186,14 +186,6 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, $rootScope, tagSer
 		 
 	 }
 	
-	 $scope.redirect = function(url, message){
-		 
-		 document.location = url;
-		 $rootScope.message = message;
-		
-	 }
-	
-	
 	$scope.send = function(url) {
 		var form = $('#formProduto')[0] ;
 		
@@ -261,13 +253,6 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, $rootScope, tagSer
 //	 }
 //	 
 //	 $scope.onload();
-     
-     $scope.confirmAndDo = function(msg, doIt, param){
-    	 if( confirm(msg) )
-    	 {
-    		 doIt(param);
-    	 };
-     }
      
      
      $scope.edit = function() {
