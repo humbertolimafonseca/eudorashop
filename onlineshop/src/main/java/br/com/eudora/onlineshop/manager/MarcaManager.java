@@ -9,7 +9,7 @@ import br.com.eudora.onlineshop.util.ImageUtil;
 public class MarcaManager extends Manager<MarcaDao, Marca, Long> {
 
 	@Override
-	public Marca salvar(Marca entity) throws Throwable, ChaveDuplicadaException {
+	public Marca salvar(Marca entity) throws ChaveDuplicadaException, ErroAoSalvarImagem {
 
 		Marca m = super.salvar(entity);
 
@@ -19,7 +19,7 @@ public class MarcaManager extends Manager<MarcaDao, Marca, Long> {
 	}
 
 	@Override
-	public Marca atualizar(Marca entity) throws Throwable, ErroAoSalvarImagem {
+	public Marca atualizar(Marca entity) throws ErroAoSalvarImagem {
 		Marca m = super.atualizar(entity);
 
 		salvaImagens(m);

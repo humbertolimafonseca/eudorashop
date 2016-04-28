@@ -7,11 +7,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Avaliacao {
+public class Avaliacao implements OnlineShopEntity<Long>{
 
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	
 	@OneToOne
 	private Produto produto;
@@ -57,11 +57,11 @@ public class Avaliacao {
 		this.cliente = cliente;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -71,6 +71,11 @@ public class Avaliacao {
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+	}
+
+	@Override
+	public String getEntityResourceName() {
+		return "avaliacao";
 	}
 	
 }

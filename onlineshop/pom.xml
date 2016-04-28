@@ -122,5 +122,19 @@
 
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.glassfish.hk2</groupId>
+				<artifactId>hk2-inhabitant-generator</artifactId>
+				<version>${hk2.version}</version>
+			</plugin>
+		</plugins>
+	</build>
+
+
+<properties>
+	 <hk2.version>2.4.0-b06</hk2.version>
+</properties>
 
 </project>

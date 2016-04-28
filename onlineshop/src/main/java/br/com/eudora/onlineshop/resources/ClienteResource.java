@@ -23,7 +23,7 @@ import br.com.eudora.onlineshop.dominio.Cliente;
 
 @ApplicationPath("/resources")
 @Path("clientes")
-public class ClienteResource extends Application {
+public class ClienteResource  {
 	
 	private EntityManagerFactory factory = Persistence.createEntityManagerFactory("eudorashop");
    

@@ -6,13 +6,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import br.com.eudora.onlineshop.dao.OrderBy;
+
 @Entity
-public class Marca {
+@OrderBy(property="nome")
+public class Marca implements OnlineShopEntity<Long>{
 	public static final String MARCA_IMAGE_FOLDER = "marca";
 	
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	
 	private String nome;
 	private String descricao;
@@ -21,7 +25,6 @@ public class Marca {
 	private Imagem logomarca;
 	
 	public Marca() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	
@@ -66,6 +69,13 @@ public class Marca {
 
 	public Long getId() {
 		return id;
+	}
+
+
+
+	@Override
+	public String getEntityResourceName() {
+		return "marca";
 	}
 
 }

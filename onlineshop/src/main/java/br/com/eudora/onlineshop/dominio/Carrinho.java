@@ -6,7 +6,7 @@ import java.util.List;
 import org.javamoney.moneta.Money;
 
 public class Carrinho {
-	private List<Item> itens;
+	private List<ItemCompra> itens;
 	
 	public Money total(){
 		

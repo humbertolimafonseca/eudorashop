@@ -82,7 +82,7 @@
 						ng-repeat="tag in tags  | filter:tag"
 						style="display: inline-block;"
 						class="label label-default label-success"> <a
-						class="glyphicon glyphicon-trash" ng-click="remover(tag.nome)"
+						class="glyphicon glyphicon-trash" ng-click="confirmaRemover(tag.nome)"
 						href="#/tag"></a> <span ng-click="selectTag(tag)">
 							#{{tag.nome}} </span> <!-- 								<span class="glyphicon glyphicon-trash" ng-show="tag.checked" ng-model="tag" ng-click="removerTag(tag)"></span> -->
 					</span> </span>

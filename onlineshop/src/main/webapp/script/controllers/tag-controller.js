@@ -8,6 +8,12 @@ eudoraShop.controller('tagCtrl', function ($scope, $http) {
 	 
 	 $scope.listar();
 	 
+	 $scope.confirmaRemover = function (tag){
+		 if(confirm("Deseja realmente apagar a tag: " + tag)){
+			$scope.remover(tag); 
+		 }
+	 }
+	 
 	 $scope.remover = function(nome) {
 		 $http.delete("../resources/tag/" + nome).success(function(data){
 			 $scope.message = data;

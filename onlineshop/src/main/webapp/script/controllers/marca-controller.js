@@ -3,19 +3,21 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 	 $scope.listar = function (){
 		 $http.get('../resources/marca').success(function(data) {
 			    $scope.marcas = data;
+			    console.log($scope.marcas);
+			    console.log($scope.marcas[0].selfLink);
 		  });
 	 }
 	 
-	 $scope.load = function (id){
-		 $http.get('../resources/marca/'+ id).success(function(data) {
+	 $scope.load = function (marca){
+		 $http.get(marca.selfLink).success(function(data) {
 			    $scope.marca = data;
 			    console.log(data);
-			    $scope.nome = data.nome;
-			    $scope.descricao = data.descricao;
-			    $scope.logomarca = data.logomarca.nome;
-			    $scope.imgLogo = data.logomarca.nome;
-			    $scope.imagem = data.logomarca;
-			    $scope.id = data.id;
+			    $scope.nome = data.entity.nome;
+			    $scope.descricao = data.entity.descricao;
+			    $scope.logomarca = data.entity.logomarca.nome;
+			    $scope.imgLogo = data.entity.logomarca.nome;
+			    $scope.imagem = data.entity.logomarca;
+			    $scope.id = data.entity.id;
 			    $('#img')[0].src="../resources/imagem/marca/" + $scope.id + "/" + $scope.imagem.nome;
 		  });
 	 }
@@ -35,20 +37,21 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 //		  console.log($("#imgHidden")[0]);
 //		  console.log(img);
 		  
-		  $scope.imgLogo = imagem.value;
+		  console.log(imagem.files[0]);
+		  $scope.imgLogo = imagem.files[0].name;
 			  
 		  $http.post('../resources/marca/addImg',new FormData(data), {
 			  headers: {
                  'Content-Type': undefined
              }
 		  }).success(function(data){
-			  console.log("Imagem modificada:" + imagem.value);
+			  console.log("Imagem modificada:" + $scope.imgLogo);
 		  });
 		  
 	  };
 	 
-	 $scope.remover = function(nome) {
-		 $http.delete("../resources/marca/" + nome).success(function(data){
+	 $scope.remover = function(hateosObj) {
+		 $http.delete(hateosObj.deleteLink).success(function(data){
 			 $scope.message = data;
 			 $scope.messageError = false;
 			 $('#messageDiv').show();
@@ -98,8 +101,7 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
  		var form = $('#formMarca')[0] ;
  		
  		console.log($(form).serialize());
- 		
- 		$http.post('../resources/marca/edit/'+$scope.id + '/' + imagem.value,$(form).serialize(), {
+ 		$http.post($scope.marca.editLink + '/' + $scope.imagem.nome,$(form).serialize(), {
  			  headers: {
  				  'Content-Type': 'application/x-www-form-urlencoded'
              }

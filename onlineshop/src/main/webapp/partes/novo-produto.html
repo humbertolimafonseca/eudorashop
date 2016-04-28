@@ -1,7 +1,7 @@
 
 
 
-<div class="view view-first">
+<div class="view view-first" ng-init="load(params['produtoId'])">
 			<ol class="breadcrumb">
 				<li><a href="../partes/template.html#/"	title="Go to Home Page">Home</a></li>
 				<li ><a href="../partes/template.html#/produto"> Produto </a> </li>
@@ -12,7 +12,6 @@
 			</ul>
 		
 	<script type="text/javascript">
-		$('#messageDiv').hide();
 		$('#tags').hide();
 	</script>
 
@@ -20,90 +19,91 @@
 	<div class="panel-body">
 	<div class="form-horizontal" ng-controller="produtoCtrl">
 			<h3>Produto</h3>
-			<div id="messageDiv" class="alert alert-success" ng-class="{'alert-warning': messageError}">{{message}}</div>
-			<form novalidate enctype="multipart/form-data" method="post"  id="formProduto" name="formProduto">
+			<div id="messageDiv" ng-show="message" class="alert alert-success" ng-class="{'alert-warning': messageError}">
+				{{message}}
+			 	<div style="display: inline;float: right;"><a href="" class="glyphicon glyphicon-remove" ng-click="limpaMensagem()"></a></div>
+			</div>
+			<form action="#/produto" novalidate enctype="multipart/form-data" method="post"  id="formProduto" name="formProduto">
 				<div class="row">
 					<div class="col-md-10"> 
 						<input type="text" ng-model="selectedTags" name="tags" id="tags" >
 						
 						<div class="form-group" >
 							<label for="imagem" class="col-sm-2 control-label">Imagem</label>
+							
 							<input type="file" name="imagem" ng-model="imagem" accept="image/*" id="imagem" onchange=" loadFile(event)">
 						
 							<div class="col-md-2"> 
-								<img alt="click" id="img" name="img" ng-model="img"  class="img-thumbnail" style="width: 100%; height: auto" onclick="$('#imagem').click();console.log('clicado'); ">
+								<img alt="click" src="../resources/imagem/produto/{{produto.id}}/{{imagem.nome}}" id="img" name="img" ng-model="img"  class="img-thumbnail" style="width: 100%; height: auto" onclick="$('#imagem').click();console.log('clicado'); ">
 								 
 							</div>
 						
 						</div>
 						
-						
 						<div class="form-group" ng-class="{ 'has-error': formProduto.codigo.$invalid }">
 							<label for="codigo" class="col-sm-2 control-label">Código*</label>
 							<div class="col-sm-6">
-								<input required placeholder="Código"   name="codigo"  ng-model="codigo" id="codigo" class="form-control" type="text">
+								<input required placeholder="Código" name="codigo" ng-model="produto.codigo" id="codigo" class="form-control" type="text">
 							</div>
 						</div> 
 						
 							<div class="form-group" ng-class="{ 'has-error': formProduto.nome.$invalid }">
 								<label for="nome" class="col-sm-2 control-label">Nome*</label>
 								<div class="col-sm-6">
-									<input required placeholder="Nome"   name="nome"  ng-model="nome" id="nome" type="text" class="form-control" >
+									<input required placeholder="Nome"   name="nome"  ng-model="produto.nome" id="nome" type="text" class="form-control" >
 								</div>
 							</div>
 						
 						<div class="form-group" ng-class="{ 'has-error': formProduto.descricao.$invalid }">
 							<label for="descricao" class="col-sm-2 control-label">Descrição*</label>
 							<div class="col-sm-6">
-								<textarea required placeholder="Descrição"   name="descricao"  ng-model="descricao" id="descricao" class="form-control" ></textarea>
+								<textarea required placeholder="Descrição"   name="descricao"  ng-model="produto.descricao" id="descricao" class="form-control" ></textarea>
 							</div>
 						</div>
 						
 						<div class="form-group" ng-class="{ 'has-error': formProduto.marca.$invalid }">
 							<label for="marca" class="col-sm-2 control-label">Marca*</label>
 							<div class="col-sm-6">
-								<select required ng-options="m.nome for m in marcas track by m.id" ng-model="marca" id="marca" name="marca">
-									<option disabled="disabled" value="selecione...">selecione...</option>
+								<select required ng-model="marca" id="marca" name="marca">
+									<option ng-repeat="m in marcas" value="{{m.entity.id}}" >{{m.entity.nome}}</option>
 								</select>
 							</div>
 						</div>
 						
-						<div class="form-group" ng-class="{ 'has-error': formProduto.preco.$invalid }">
-							<label for="preco" class="col-sm-2 control-label">Preço*</label>
-							<div class="col-sm-6">
-								<input required placeholder="Preço"   name="preco"  ng-model="preco" id="preco" class="form-control" type="number">
-							</div>
-						</div>
-						<div class="form-group" ng-class="{ 'has-error': formProduto.fim.$invalid }">
-							<label for="inicio" class="col-sm-2 control-label">Inicio*</label>
-							<div class="col-sm-6">
-<!-- 								<input required placeholder="Inicio"   name="inicio"  ng-model="inicio" id="inicio" class="form-control" type="text"> -->
-								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" 
-					          		ng-model="inicio" name="inicio" id="inicio" is-open="popup.opened" datepicker-options="dateOptions" 
-					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" />
-					          		<button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
-							</div>
-						</div>
+<!-- 						<div class="form-group" ng-class="{ 'has-error': formProduto.preco.$invalid }"> -->
+<!-- 							<label for="preco" class="col-sm-2 control-label">Preço*</label> -->
+<!-- 							<div class="col-sm-6"> -->
+<!-- 								<input required placeholder="Preço"   name="preco"  ng-model="produto.preco" id="preco" class="form-control" type="number"> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="form-group" ng-class="{ 'has-error': formProduto.fim.$invalid }"> -->
+<!-- 							<label for="inicio" class="col-sm-2 control-label">Inicio*</label> -->
+<!-- 							<div class="col-sm-6"> -->
+<!-- 								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy"  -->
+<!-- 					          		ng-model="produto.inicio" name="inicio" id="inicio" is-open="popup.opened" datepicker-options="dateOptions"  -->
+<!-- 					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" /> -->
+<!-- 					          		<button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						
-						<div class="form-group" ng-class="{ 'has-error': formProduto.fim.$invalid }">
-							<label for="fim" class="col-sm-2 control-label">Fim*</label>
-							<div class="col-sm-6">
-<!-- 								<input required placeholder="Fim"   name="fim"  ng-model="fim" id="fim" class="form-control" type="text"> -->
-								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" 
-					          		ng-model="fim" name="fim" id="fim" is-open="popup2.opened" datepicker-options="dateOptions" 
-					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" />
-					          		<button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
-							</div>
-						</div>
+<!-- 						<div class="form-group" ng-class="{ 'has-error': formProduto.fim.$invalid }"> -->
+<!-- 							<label for="fim" class="col-sm-2 control-label">Fim*</label> -->
+<!-- 							<div class="col-sm-6"> -->
+<!-- 								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy"  -->
+<!-- 					          		ng-model="produto.fim" name="fim" id="fim" is-open="popup2.opened" datepicker-options="dateOptions"  -->
+<!-- 					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" /> -->
+<!-- 					          		<button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						
 						<div class="form-group" >
 							<label for="tags" class="col-sm-2 control-label">Tags*</label>
-							<div class="col-sm-6">
+							<div class="col-sm-6" >
 								<input placeholder="Tag"  name="tag"  ng-model="tag" id="tag" class="form-control" type="text" >
-								<div id="tags" class="panel panel-default" style="height: 100px">
-									<span ng-repeat="tag in tags | filter:tag" style="display: inline-block;" ng-class="{ 'label-success': tag.checked }" class="label label-default">
-										<span ng-click="selectTag(tag)">
-											#{{tag.nome}}
+								<div id="tags" class="panel panel-default" style="height: 100px" >
+									<span ng-repeat="t in tags | filter:tag" style="display: inline-block;" ng-class="{ 'label-success': t.checked }" class="label label-default">
+										<span ng-click="selectTag(t)">
+											#{{t.nome}}
 										</span>
 		<!-- 								<span class="glyphicon glyphicon-trash" ng-show="tag.checked" ng-model="tag" ng-click="removerTag(tag)"></span> -->
 										</span>
@@ -115,13 +115,15 @@
 						
 						<div class="form-group">
 			    			<div class="col-sm-offset-2 col-sm-10">
-								<input type="button" ng-hide="id" class="btn btn-success" ng-class="{ 'btn-danger': formProduto.$invalid }" 
-									ng-click="send();"  ng-disabled="formProduto.$invalid" value="Enviar">
+								<input type="button" type="button" ng-hide="produto.id" class="btn btn-success"  
+									ng-click="send();"  ng-disabled="formProduto.$invalid" value="Novo">
 									
-								<input type="button" ng-show="id" class="btn btn-success" ng-class="{ 'btn-danger': formProduto.$invalid }" 
+								<input type="button" ng-show="produto.id" class="btn btn-success" 
 									ng-click="edit();"  ng-disabled="formProduto.$invalid" value="Editar">
 								
-								<input type="button" class="btn" ng-click="cancel();" value="Cancelar">
+								<input type="button" class="btn btn-warning" ng-click="cancel();" value="Cancelar">
+								
+								<input type="button" class="btn btn-info" ng-click="cancel();redirect('#/produto')" value="Voltar">
 									
 							</div>
 						</div>
@@ -148,28 +150,6 @@
 				
 			</form>
 			
-		<div  class="col-sm-12">
-		
-			<table class="table table-bordered">
-				<thead>
-				<tr>
-					<th >#</th>
-					<th >Produto</th>
-				</tr>
-				</thead>
-				<tr ng-repeat = "produto in produtos">
-					<td width="30px" > <a class="glyphicon glyphicon-trash" ng-click="remover(produto.id)" href="#/produto"></a> </td>
-					<td><a href="#/produto" ng-click="load(produto.id)">{{produto.nome}}<a></a></td> 
-					<td>
-						<span ng-repeat="tag in produto.tags " style="display: inline-block;" class="label label-success">
-								#{{tag.nome}}
-						</span>
-						
-					
-					</td>
-				</tr>
-			</table>
-		</div>
 		
 		<div class="clearfix"></div>
 	</div>

@@ -11,25 +11,26 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
-import br.com.eudora.onlineshop.dominio.Item;
+import br.com.eudora.onlineshop.dominio.ItemCompra;
+import br.com.eudora.onlineshop.dominio.ItemProduto;
 import br.com.eudora.onlineshop.dominio.Produto;
 
 @ApplicationPath("/resources")
 @Path("cart")
-public class CartResource extends Application{
+public class CartResource {
 	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
-	public List<Item> itens(){
-		List<Item> lista = new ArrayList<Item>();
+	public List<ItemCompra> itens(){
+		List<ItemCompra> lista = new ArrayList<ItemCompra>();
 		return lista;
 	}
 	
 	@GET
     @Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-    public Item detalheItem( @PathParam("id") Long id) {
-        return new Item(new Produto(),2);
+    public ItemCompra detalheItem( @PathParam("id") Long id) {
+        return new ItemCompra(new ItemProduto(),2);
     }
 
 }

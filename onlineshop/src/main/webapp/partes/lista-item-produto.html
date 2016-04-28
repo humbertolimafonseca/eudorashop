@@ -1,0 +1,55 @@
+<div class="view view-first" ng-init="listar()">
+			<ol class="breadcrumb">
+				<li><a href="../partes/template.html#/"	title="Go to Home Page">Home</a></li>
+				<li class="active" ><a href="../partes/template.html#/produto"> Item de Produto </a> </li>
+			</ol>
+			<ul class="previous">
+				<li><a href="../partes/template.html#/">voltar</a></li>
+			</ul>
+		
+	<div class="panel panel-default">
+	<div class="panel-body">
+	<div class="form-horizontal" style="height: 470px">
+			<h3>Itens de Produtos<a href="#/item-produto" class="glyphicon glyphicon-plus-sign"></a> </h3>
+			<div id="messageDiv" ng-show="message" class="alert alert-success" ng-class="{'alert-warning': messageError}">
+				 {{message}} 
+				 <div style="display: inline;float: right;"><a href="" class="glyphicon glyphicon-remove" ng-click="limpaMensagem()"></a></div>
+			</div>
+			
+		<div  class="col-sm-12">
+		 
+			<table class="table table-bordered">
+				<thead>
+				<tr>
+					<th >#</th>
+					<th >Código</th>
+					<th >Produto</th>
+				</tr>
+				</thead>
+				
+				<tr ng-repeat = "item in itemsProdutos | limitTo:maxsize:start">
+					<td width="30px" > <a class="glyphicon glyphicon-trash" ng-click=" confirmAndDo('Deseja remover o item ' + item.id + ' ? ', remover, item.id )" href="#/lista-item-produto"></a> </td>
+					<td><a href="#/item-produto" ng-click="load(item.id);" >{{item.id}}</a></td>
+					<td>{{item.produto.nome}}</td>
+				</tr>
+			
+			</table>
+		
+			
+			
+		</div>
+			<div style="position: absolute; bottom: 10px; left: 30px">
+			<uib-pagination total-items="totalItems" items-per-page="maxsize" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+		</div>
+		<div class="clearfix"></div>
+		
+		
+	</div>
+	
+	</div>
+	</div>
+	
+
+
+
+</div>

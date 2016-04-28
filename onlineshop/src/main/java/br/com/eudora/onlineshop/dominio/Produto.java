@@ -1,9 +1,7 @@
 package br.com.eudora.onlineshop.dominio;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,11 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
-import org.javamoney.moneta.Money;
+import br.com.eudora.onlineshop.dao.OrderBy;
 
 @Entity
+@OrderBy(property="nome")
 public class Produto {
 	@Id
 	@GeneratedValue
@@ -29,17 +27,6 @@ public class Produto {
 	
 	private String codigo;
 	
-	private Date inicio;
-	
-	private Date fim;
-
-	@Transient
-	private Money valor;
-
-	private BigDecimal preco;
-
-	private String moeda;
-
 	@ManyToMany
 	private List<Tag> tags = new ArrayList<Tag>();
 
@@ -55,23 +42,18 @@ public class Produto {
 	public Produto() {
 	}
 
-	public Produto(String nome, String descricao, String codigo, Marca marca ,  float preco, String moeda, Date inicio, Date fim, String imagemPrincipal,
+	public Produto(String nome, String descricao, String codigo, Marca marca , String imagemPrincipal,
 			String... imagens) {
 		
 		super();
 		this.nome = nome;
 		this.codigo = codigo;
-		this.inicio = inicio;
-		this.fim = fim;
-		this.valor = Money.of(new BigDecimal(preco), moeda);
 
 		for (String img : imagens) {
 			addImagem(img, "produto", false);
 		}
 		addImagem(imagemPrincipal, "produto" , true);
 
-		this.moeda = moeda;
-		this.preco = new BigDecimal(preco);
 		avaliacoes = new ArrayList<Avaliacao>();
 		this.descricao = descricao;
 		this.marca = marca;
@@ -113,14 +95,6 @@ public class Produto {
 		this.nome = nome;
 	}
 
-	public Money getValor() {
-		return Money.of(preco, moeda);
-	}
-
-	public void setValor(Money valor) {
-		this.valor = valor;
-	}
-
 	public Marca getMarca() {
 		return marca;
 	}
@@ -153,22 +127,6 @@ public class Produto {
 		this.descricao = descricao;
 	}
 
-	public BigDecimal getPreco() {
-		return preco;
-	}
-
-	public void setPreco(BigDecimal preco) {
-		this.preco = preco;
-	}
-
-	public String getMoeda() {
-		return moeda;
-	}
-
-	public void setMoeda(String moeda) {
-		this.moeda = moeda;
-	}
-
 	public List<Imagem> getImagens() {
 		return imagens;
 	}
@@ -179,22 +137,6 @@ public class Produto {
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
-	}
-
-	public Date getInicio() {
-		return inicio;
-	}
-
-	public void setInicio(Date inicio) {
-		this.inicio = inicio;
-	}
-
-	public Date getFim() {
-		return fim;
-	}
-
-	public void setFim(Date fim) {
-		this.fim = fim;
 	}
 
 }

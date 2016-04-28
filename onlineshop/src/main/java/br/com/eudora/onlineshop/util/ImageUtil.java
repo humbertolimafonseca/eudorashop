@@ -13,12 +13,20 @@ public class ImageUtil {
 	public static String realpath = "/home/03435691409/eudora";
 
 	public static void save(String filename, InputStream inputStream, String source, String id, boolean temp)
-			throws IOException {
-		BufferedImage img = ImageIO.read(inputStream);
+			throws ErroAoSalvarImagem {
+		BufferedImage img;
+		try {
+			img = ImageIO.read(inputStream);
+			
+			String path = createPath(source, id, temp);
 
-		String path = createPath(source, id, temp);
+			ImageIO.write(img, "png", new File(path + filename));
+			
+		} catch (IOException e) {
+			throw new ErroAoSalvarImagem(e);
+		}
 
-		ImageIO.write(img, "png", new File(path + filename));
+		
 	}
 
 	public static void persiste(String filename, String source, String id) throws ErroAoSalvarImagem {
@@ -44,7 +52,7 @@ public class ImageUtil {
 		
 	}
 	
-	public static File recupera(String filename, String source, String id) throws IOException {
+	public static File recupera(String filename, String source, String id) throws ErroAoSalvarImagem {
 
 		String path = realpath + "/images/" + source + "/temp/" + filename;
 		

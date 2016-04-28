@@ -26,7 +26,7 @@ import br.com.eudora.onlineshop.util.ImageUtil;
 
 @ApplicationPath("/resources")
 @Path("imagem")
-public class ImagemResource extends Application {
+public class ImagemResource {
 
 	@Context
 	private ServletContext context;
@@ -37,7 +37,7 @@ public class ImagemResource extends Application {
 	@GET
 	@Produces("image/*")
 	@Path("/{source}/{id}/{name}")
-	public Response getImagemById(@PathParam("source") String source,@PathParam("id") String id, @PathParam("name") String name) {
+	public Response getImagemById(@PathParam("source") String source, @PathParam("id") String id, @PathParam("name") String name) {
 		
 		BufferedImage image;
 		
@@ -61,8 +61,7 @@ public class ImagemResource extends Application {
 			return Response.ok(bigInputStream).cacheControl(cc).build();
 
 		} catch (IOException e) {
-			e.printStackTrace();
-
+			System.out.println("Erro ao carregar imagem.");
 			return Response.noContent().build();
 		}
 		

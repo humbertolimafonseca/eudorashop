@@ -31,15 +31,20 @@ import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
+import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
 import br.com.eudora.onlineshop.dominio.Marca;
 import br.com.eudora.onlineshop.manager.MarcaManager;
+import br.com.eudora.onlineshop.resources.hateoas.DefaultHateoasResponse;
+import br.com.eudora.onlineshop.resources.hateoas.HateosResponseList;
 import br.com.eudora.onlineshop.util.ErroAoSalvarImagem;
 import br.com.eudora.onlineshop.util.ImageUtil;
 import tarefas.CdiUtil;
 
 @ApplicationPath("/resources")
 @Path("marca")
-public class MarcaResource extends Application {
+public class MarcaResource {
+
+	private static final String CONTEXTO = "http://localhost:8080/onlineshop";
 
 	MarcaManager manager = CdiUtil.get(MarcaManager.class);
 	
@@ -52,17 +57,16 @@ public class MarcaResource extends Application {
 	@POST
 	@Path("/add")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response add(@FormParam("nome") String nome, @FormParam("descricao") String descricao, @FormParam("imgLogo") String imgLogo) {
+	public Response add(@FormParam("nome") String nome, @FormParam("descricao") String descricao, 
+			@FormParam("imgLogo") String imgLogo,  @FormParam("imagem") String imagem) {
 
 		try {
 			
 			manager.salvar(new Marca(nome, descricao, imgLogo));
 		}catch(ErroAoSalvarImagem ex){
 			return Response.serverError().entity("Erro ao incluir a imagem.").build();
-			
-		} catch (Throwable e) {
-			e.printStackTrace();
-			return Response.serverError().entity(e.getMessage()).build();
+		} catch (ChaveDuplicadaException e) {
+			return Response.serverError().entity("Chave Duplicada.").build();
 		}
 
 		return Response.ok("Marca criada com sucesso!").build();
@@ -84,8 +88,6 @@ public class MarcaResource extends Application {
 			manager.atualizar(m);
 		} catch (ErroAoSalvarImagem e) {
 			return Response.serverError().entity("Erro ao salvar Imagem.").build();
-		} catch (Throwable e) {
-			return Response.serverError().entity(e.getMessage()).build();
 		}
 
 		return Response.ok("Marca atualizada com sucesso!").build();
@@ -95,8 +97,8 @@ public class MarcaResource extends Application {
 	@Path("/{id}")
 	public Response load(@PathParam("id") String id) {
 		Marca marca = manager.encontrar(new Long(id));
-
-		return Response.ok().entity(marca).build();
+		
+		return Response.ok().entity( new DefaultHateoasResponse(marca, CONTEXTO)).build();
 	}
 	
 	
@@ -121,10 +123,10 @@ public class MarcaResource extends Application {
 			
 			return Response.ok().build();
 			
-		} catch (IOException e) {
+		} catch (ErroAoSalvarImagem e) {
 			e.printStackTrace();
 			
-			return Response.serverError().build();
+			return Response.serverError().entity("Erro ao salvar imagem").build();
 		}
 
 	}
@@ -187,20 +189,14 @@ public class MarcaResource extends Application {
 	@GET
 	public Response getLista() {
 
-		return Response.ok(manager.getList()).build();
+		return Response.ok( new HateosResponseList( manager.getList(), CONTEXTO)).build();
 	}
 
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") String id) {
 
-		try {
-			manager.remover(new Long(id));
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		manager.remover(new Long(id));
 
 		return Response.ok("Marca removida" ).build();
 	}

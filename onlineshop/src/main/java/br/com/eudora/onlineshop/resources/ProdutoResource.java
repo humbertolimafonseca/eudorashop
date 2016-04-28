@@ -114,7 +114,7 @@ public class ProdutoResource {
 
 		String nome = uploadedInputStream.getField("nome").getValue();
 		String descricao = uploadedInputStream.getField("descricao").getValue();
-		String preco = uploadedInputStream.getField("preco").getValue();
+//		String preco = uploadedInputStream.getField("preco").getValue();
 		String tags = uploadedInputStream.getField("tags").getValue();
 		String marca = uploadedInputStream.getField("marca").getValue();
 		String codigo = uploadedInputStream.getField("codigo").getValue();
@@ -135,7 +135,7 @@ public class ProdutoResource {
 			produto.setDescricao(descricao);
 			produto.setMarca(m);
 			produto.setNome(nome);
-			produto.setPreco(new BigDecimal(preco));
+//			produto.setPreco(new BigDecimal(preco));
 			produto.setCodigo(codigo);
 
 			produto.getTags().clear();
@@ -155,9 +155,7 @@ public class ProdutoResource {
 		} catch (ErroAoSalvarImagem e) {
 			Response.serverError().entity("Erro ao salvar imagem").build();
 			e.printStackTrace();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		} 
 
 		return Response.ok("Produto atualizado com sucesso.").build();
 
@@ -205,6 +203,16 @@ public class ProdutoResource {
 	public Response load(@PathParam("id") String id) {
 		Produto p = manager.encontrar(new Long(id));
 
+		return Response.ok().entity(p).build();
+	}
+	
+	@GET
+	@Path("/codigo/{codigo}")
+	public Response encontraPorCodigo(@PathParam("codigo") String codigo) {
+		Produto p = manager.encontrarPorCodigo(codigo);
+		if(p == null){
+			return Response.serverError().entity("Produto não encontrado").build();
+		}
 		return Response.ok().entity(p).build();
 	}
 
@@ -286,11 +294,11 @@ public class ProdutoResource {
 
 		String nome = uploadedInputStream.getField("nome").getValue();
 		String descricao = uploadedInputStream.getField("descricao").getValue();
-		String preco = uploadedInputStream.getField("preco").getValue();
+//		String preco = uploadedInputStream.getField("preco").getValue();
 		String tags = uploadedInputStream.getField("tags").getValue();
 		String marca = uploadedInputStream.getField("marca").getValue();
-		String inicio = uploadedInputStream.getField("inicio").getValue();
-		String fim = uploadedInputStream.getField("fim").getValue();
+//		String inicio = uploadedInputStream.getField("inicio").getValue();
+//		String fim = uploadedInputStream.getField("fim").getValue();
 		String codigo = uploadedInputStream.getField("codigo").getValue();
 
 		FormDataBodyPart bodyPart = uploadedInputStream.getField("imagem");
@@ -302,8 +310,7 @@ public class ProdutoResource {
 
 			ImageUtil.save(cd.getFileName(), is, "produto", null, true);
 			Marca m = marcaManager.encontrar(Long.parseLong(marca));
-			Produto produto = new Produto(nome, descricao,codigo, m, new BigDecimal(preco).floatValue(), "BRL",
-					parse(inicio), parse(fim), cd.getFileName(), "");
+			Produto produto = new Produto(nome, descricao,codigo, m, cd.getFileName(), "");
 
 			String[] tagss = tags.split(",");
 
@@ -317,8 +324,8 @@ public class ProdutoResource {
 		} catch (ErroAoSalvarImagem e) {
 			Response.serverError().entity("Erro ao salvar imagem").build();
 			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
+		} catch (ChaveDuplicadaException e) {
+			Response.serverError().entity(e.getMessage()).build();
 			e.printStackTrace();
 		}
 

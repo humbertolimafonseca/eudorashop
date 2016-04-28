@@ -21,26 +21,24 @@ import tarefas.CdiUtil;
 
 @ApplicationPath("/resources")
 @Path("usuario")
-public class UsuarioResource extends Application {
+public class UsuarioResource {
 
 	UsuarioManager manager = CdiUtil.get(UsuarioManager.class);
-	
+
 	@Context
 	private HttpServletRequest request;
 
 	@POST
 	@Path("/add")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response add(@FormParam("nome") String nome, @FormParam("email") String email, @FormParam("senha") String senha) {
+	public Response add(@FormParam("nome") String nome, @FormParam("email") String email,
+			@FormParam("senha") String senha) {
 
 		try {
 			manager.salvar(new Usuario(nome, senha, email));
 		} catch (ChaveDuplicadaException e) {
 			e.printStackTrace();
 			return Response.serverError().entity("Usuário com o mesmo nome já criado.").build();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		return Response.ok("Usuário criado com sucesso!").build();
@@ -51,24 +49,24 @@ public class UsuarioResource extends Application {
 
 		return Response.ok(manager.getList()).build();
 	}
-	
+
 	@GET
 	@Path("/logged")
 	public Response getLogged() {
 		Usuario u = (Usuario) request.getSession().getAttribute("usuario");
-		
-		if(u == null){
+
+		if (u == null) {
 			return Response.serverError().build();
 		}
-		
+
 		return Response.ok().entity(u).build();
 	}
-	
+
 	@GET
 	@Path("/logout")
 	public Response logout() {
 		request.getSession().invalidate();
-		
+
 		return Response.ok().build();
 	}
 
@@ -76,28 +74,20 @@ public class UsuarioResource extends Application {
 	@Path("/{id}")
 	public Response delete(@PathParam("id") String id) {
 
-		try {
-			manager.remover(new Long(id));
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		manager.remover(new Long(id));
 
 		return Response.ok("Usuário removido").build();
 	}
-	
+
 	@POST
 	@Path("/login")
-	public Response login(@FormParam("login") String login, @FormParam("senha") String senha){
-		
-//		manager.encontrar(new Usuario(nome, null, senha));
-		
-		Usuario u = new Usuario("Ana Flávia", "flaviannafonseca@gmail.com","");
+	public Response login(@FormParam("login") String login, @FormParam("senha") String senha) {
+
+		// manager.encontrar(new Usuario(nome, null, senha));
+
+		Usuario u = new Usuario("Ana Flávia", "flaviannafonseca@gmail.com", "");
 		request.getSession(true).setAttribute("usuario", u);
-		
+
 		return Response.ok().entity(u).build();
 	}
 

@@ -28,18 +28,24 @@ public class TransactionManager {
 	public static void commitTransaction() {
 		EntityTransaction t = getEntityManager().getTransaction();
 		t.commit();
-		getEntityManager().close();
 	}
 
 	public static void rolllBackTransaction() {
 		EntityTransaction t = getEntityManager().getTransaction();
 		t.rollback();
-		getEntityManager().close();
 	}
 
 
 	public static HibernateEntityManagerFactory getEmf() {
 		return emf;
+	}
+
+	public static boolean isTransactionActive() {
+		return getEntityManager().getTransaction().isActive();
+	}
+	
+	public static void close() {
+		getEntityManager().close();
 	}
 
 }

@@ -110,7 +110,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							  	</div>
 							  	<ul class="quick_access">
 				   		 			<li class="view_cart"><a href="checkout.html">Ver Carrinho</a></li>
-				   		 			<li class="check"><a href="checkout.html">Checkout</a></li>
+				   		 			<li class="check"><a href="../partes/template.html"><i class="glyphicon glyphicon-wrench"></i></a></li>
+				   		 			<li style="text-align: right"><a href="checkout.html">Checkout</a></li>
+				   		 			
 				   		 			<div class='clearfix'></div>
 				   		 		</ul>
 				   		 		<div class="search">
@@ -199,54 +201,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				     <div class="tags">
 				      	<h4 class="tag_head">Dicas de beleza</h4>
 				      	 <ul class="article_links">
-							<li><a href="#">videntur parum clar sollemnes</a></li>
-							<li><a href="#">ullamcorper suscipit lobortis</a></li>
+							<li><a href="#">Saiba como dar volume aos lábios.</a></li>
+							<li><a href="#">Olhos pequenos? Aprenda a fazer uma maquiagem para aumentá-los.</a></li>
 						  </ul>
 						 <a href="#" class="link1">Ver todos</a>
 				      </div>
 				</div>
-			   <div class="col-md-9">
-				<h3 class="m_1">Novos Produtos</h3>
-				 <div class="content_grid">
-				   <div ng-repeat="p in produtos" class="col_1_of_3 span_1_of_3" style="width: 20%;"> 
-				  	 <div class="view view-first">
-					      <a href="single.html">
-						   <div class="inner_content clearfix">
-							<div class="product_image">
-								<img src="../resources/imagem/produto/{{p.id}}/{{p.imagens[0].nome}}" class="img-responsive" alt=""/>
-								<div class="mask">
-		                       		<div class="info">Quick View</div>
-				                  </div>
-								<div class="product_container">
-								   <div class="cart-left">
-									 <p class="title">{{p.nome}}</p>
-								   </div>
-								   <br/>
-								   <br/>
-								   <div class="price">R${{p.preco}}</div>
-								   
-								   <div class="clearfix"></div>
-							     </div>		
-							      <uib-rating ng-model="rate" max="5" read-only="true" 
-								   		aria-labelledby="default-rating"></uib-rating>
-							</div>
-		                    <div class="sale-box"><span class="on_sale title_shop">Novo</span></div>	
-		                   </div>
-		                 </a>
-				       </div>
-				    </div>
-				    
-				   <div class="clearfix"></div>
-			  </div>
-			   <h3 class="m_2">Top Products</h3>
-			   <div class="content_grid">
-			   		
-				    <div class="clearfix"></div>
-			    </div>
-			    <h3 class="m_2">Sale Products</h3>
-			   <div class="content_grid">
-				   <div class="clearfix"></div>
-			    </div>
+			   <div class="col-md-9" ng-view>
+				
 			  </div>
 			</div>
 		 </div>
@@ -254,7 +216,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="container">
 		  <div class="brands">
 			 <ul class="brand_icons">
-				<li ng-repeat="m in marcas" ><img src='../resources/imagem/marca/{{m.id}}/{{m.logomarca.nome}}' class="img-responsive" alt=""/></li>
+				<li ng-repeat="m in marcas" ><img src='../resources/imagem/marca/{{m.entity.id}}/{{m.entity.logomarca.nome}}' class="img-responsive" alt=""/></li>
 <!-- 				<li class="last"><img src='../images/icon7.jpg' class="img-responsive" alt=""/></li> -->
 			 </ul>
 		   </div>

@@ -1,0 +1,183 @@
+
+
+
+<div class="view view-first" >
+			<ol class="breadcrumb">
+				<li><a href="../partes/template.html#/"	title="Go to Home Page">Home</a></li>
+				<li ><a href="../partes/template.html#/produto"> Item de Produto </a> </li>
+				<li class="active">Novo</li>
+			</ol>
+			<ul class="previous">
+				<li><a href="../partes/template.html#/">voltar</a></li>
+			</ul>
+		
+	<script type="text/javascript">
+
+	</script>
+
+	<div class="panel panel-default">
+	<div class="panel-body">
+	<div class="form-horizontal">
+			<h3>Item de Produto</h3>
+			<div id="messageDiv" ng-show="message" class="alert alert-success" ng-class="{'alert-warning': messageError}">
+				{{message}}
+			 	<div style="display: inline;float: right;"><a href="" class="glyphicon glyphicon-remove" ng-click="limpaMensagem()"></a></div>
+			</div>
+			<form action="#/item-produto" novalidate enctype="multipart/form-data" method="post"  id="formItemProduto" name="formItemProduto">
+				<div class="row">
+					<div class="col-md-10"> 
+						
+						<div class="form-group" ng-class="{ 'has-error': formItemProduto.codigoProduto.$invalid }">
+							<label for="produto" class="col-sm-2 control-label">Produto*</label>
+							<div class="col-sm-6">
+								<input ng-blur="loadProduto()" required type="text" class="form-control" name="codigoProduto" ng-model="codigoProduto" id="codigoProduto" >
+							</div>
+							
+							<div class="col-sm-4" style="position: absolute; display: inline;">
+							
+								<div class="col-sm-12" > 
+									
+										<img  src="../resources/imagem/produto/{{produto.id}}/{{produto.imagens[0].nome}}" id="img" name="img" class="img-thumbnail" style="width: 100%; height: auto" >
+									 
+									
+									 
+								</div>
+								<div class="col-sm-12" style="display: inline; position: absolute;"> 
+										<p>{{produto.codigo}}  </p>
+										<p><strong>{{produto.nome}}</strong></p>
+										
+										<i> {{produto.descricao}} </i>							 
+									
+									 
+								</div>
+							
+							</div>
+						</div>
+						
+						
+						<div class="form-group" ng-class="{ 'has-error': formItemProduto.preco1.$invalid }">
+							<label for="preco1" class="col-sm-2 control-label">Preço*</label>
+							<div class="col-sm-6">
+								<input required placeholder="Preço1"   name="preco1"  ng-model="itemProduto.preco1" id="preco1" class="form-control" type="number">
+							</div>
+						</div>
+						<div class="form-group" ng-class="{ 'has-error': formItemProduto.fim1.$invalid }">
+							<label for="inicio1" class="col-sm-2 control-label">Inicio1*</label>
+							<div class="col-sm-6">
+								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" 
+					          		ng-model="inicio1" name="inicio1" id="inicio1" is-open="popup1.opened" 
+					          		datepicker-options="dateOptions" 
+					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" 
+					          		current-text="Hoje" clear-text="Limpar"
+					          		/>
+					          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup1)"><i class="glyphicon glyphicon-calendar"></i></button>
+							</div>
+						</div>
+						
+						<div class="form-group" ng-class="{ 'has-error': formItemProduto.fim1.$invalid }">
+							<label for="fim1" class="col-sm-2 control-label">Fim1*</label>
+							<div class="col-sm-6">
+								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" 
+					          		ng-model="fim1" name="fim1" id="fim1" is-open="popup2.opened" datepicker-options="dateOptions" 
+					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" 
+					          		current-text="Hoje" clear-text="Limpar"
+					          		 />
+					          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup2)"><i class="glyphicon glyphicon-calendar"></i></button>
+							</div>
+						</div>
+						
+						
+						<div class="form-group" ng-class="{ 'has-error': formItemProduto.preco2.$invalid }">
+							<label for="preco2" class="col-sm-2 control-label">Preço2*</label>
+							<div class="col-sm-6">
+								<input required placeholder="Preço2"   name="preco2"  ng-model="itemProduto.preco2" id="preco2" class="form-control" type="number">
+							</div>
+						</div>
+						<div class="form-group" ng-class="{ 'has-error': formItemProduto.fim2.$invalid }">
+							<label for="inicio2" class="col-sm-2 control-label">Inicio2*</label>
+							<div class="col-sm-6">
+								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" 
+					          		ng-model="itemProduto.inicio2" name="inicio2" id="inicio2" is-open="popup3.opened" datepicker-options="dateOptions" 
+					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" 
+					          		current-text="Hoje" clear-text="Limpar" />
+					          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup3)"><i class="glyphicon glyphicon-calendar"></i></button>
+							</div>
+						</div>
+						
+						<div class="form-group" ng-class="{ 'has-error': formItemProduto.fim2.$invalid }">
+							<label for="fim2" class="col-sm-2 control-label">Fim2*</label>
+							<div class="col-sm-6">
+								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" 
+					          		ng-model="itemProduto.fim2" name="fim2" id="fim2" is-open="popup4.opened" datepicker-options="dateOptions" 
+					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" 
+					          		current-text="Hoje" clear-text="Limpar" />
+					          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup4)"><i class="glyphicon glyphicon-calendar"></i></button>
+							</div>
+						</div>
+						
+						
+						<div class="form-group" ng-class="{ 'has-error': formItemProduto.quantidade.$invalid }">
+							<label for="fim2" class="col-sm-2 control-label">Quantidade</label>
+							<div class="col-sm-6">
+								<input placeholder="Quantidade" class="col-sm-5" type="text" class="form-control"  
+					          		ng-model="itemProduto.quantidade" name="quantidade" id="quantidade" />
+							</div>
+						</div>
+						
+						<div class="form-group" ng-class="{ 'has-error': formItemProduto.custo.$invalid }">
+							<label for="fim2" class="col-sm-2 control-label">Custo</label>
+							<div class="col-sm-6">
+								<input placeholder="Custo" class="col-sm-5" type="text" class="form-control"  
+					          		ng-model="itemProduto.custo" name="custo" id="custo" />
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+			    			<div class="col-sm-offset-2 col-sm-10">
+								<input type="button" type="button" ng-hide="itemProduto.id" class="btn btn-success"  
+									ng-click="send();"  ng-disabled="formItemProduto.$invalid" value="Novo">
+									
+								<input type="button" ng-show="itemProduto.id" class="btn btn-success" 
+									ng-click="edit();"  ng-disabled="formProduto.$invalid" value="Editar">
+								
+								<input type="button" class="btn btn-warning" ng-click="cancel();" value="Cancelar">
+								
+								<input type="button" class="btn btn-info" ng-click="cancel();redirect('#/item-produto')" value="Voltar">
+									
+							</div>
+						</div>
+					</div><!-- 				 md10 -->
+					
+					<script type="text/javascript">
+						
+						$('#imagem').hide();
+						
+						var loadFile = function(event) {
+						    var reader = new FileReader();
+						    reader.onload = function(){
+					      	var output = $('#img')[0];
+					      	output.src = reader.result;
+					    };
+					    
+					    reader.readAsDataURL(event.target.files[0]);
+					    
+					  };
+					</script>
+					
+				 </div><!-- 				 row -->
+
+				
+			</form>
+			
+		
+		<div class="clearfix"></div>
+	</div>
+	
+	</div>
+	</div>
+	
+
+
+
+</div>

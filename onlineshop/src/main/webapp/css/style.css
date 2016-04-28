@@ -42,16 +42,13 @@ body a{
 }
 
 .header2{
-	background: url(../images/1.jpg)  center top;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	background-position: center;
-	background-size: 100%;
+	background: url(../images/1.jpg) ;
+	-webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+	
 }
 .header-top {
-	padding: 2em 0 3em;
 }
 .logo{
 	float:left;
@@ -280,7 +277,6 @@ ul.quick_access li.check{
 }
 .welcome_box{
 	background:#fff51f;
-	padding:5em 1.4em;
 	margin-top:10px;
 }
 .welcome_box h2{
@@ -1897,13 +1893,12 @@ p.cart a{
 	width: 84.22%;
 }
 .header-top {
-	padding: 0.7em 0 3em;
+	
 }
 .logo {
 	margin-left: 2em;
 }
 .welcome_box {
-	padding:4em 1.4em;
 }
 .welcome_box p {
 	font-size: 16px;
@@ -1989,14 +1984,12 @@ ul.quick_access, ul.login{
 	font-size: 14px;
 }
 .welcome_box {
-	padding: 2em 1.4em;
 }
 .banner_btn {
 	padding: 10px 20px;
 	margin-top: 2em;
 }
 .header-top {
-	padding: 0.7em 0 2em;
 }
 .header_right {
 	width:39%;

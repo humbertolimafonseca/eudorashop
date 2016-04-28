@@ -115,10 +115,10 @@
 						</thead>
 						<tr ng-repeat="marca in marcas">
 							<td width="30px"><a class="glyphicon glyphicon-trash"
-								ng-click="remover(marca.id)" href="#/marca"></a></td>
+								ng-click="remover(marca)" href="#/marca"></a></td>
 							<!-- 					<td width="35px" ><img width="30px" name="imagem" src="../resources/marca/logomarca/{{marca.logomarca.nome}}/{{marca.id}}"> </td> -->
-							<td><a href="#/marca" ng-click="load(marca.id)">
-									{{marca.nome}} <a></a></td>
+							<td><a href="#/marca" ng-click="load(marca)">
+									{{marca.entity.nome}} <a></a></td>
 						</tr>
 					</table>
 				</div>

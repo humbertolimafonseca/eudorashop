@@ -8,7 +8,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.eudora.onlineshop.dao.TransactionManager;
@@ -25,7 +24,6 @@ public class TransactionFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-		
 		try{
 			
 			TransactionManager.beginTransaction();
@@ -34,14 +32,19 @@ public class TransactionFilter implements Filter {
 			HttpServletResponse r = (HttpServletResponse) response;
 			
 			if(r.getStatus()>=500){
-				TransactionManager.rolllBackTransaction();
-			}else{
-				TransactionManager.commitTransaction();
+				if(TransactionManager.isTransactionActive()){
+					TransactionManager.rolllBackTransaction();
+				}
 			}
 			
 		}catch (Throwable ex){
 			ex.printStackTrace();
-			TransactionManager.rolllBackTransaction();
+
+			if(TransactionManager.isTransactionActive()){
+				TransactionManager.rolllBackTransaction();
+			}
+		}finally {
+			TransactionManager.close();
 		}
 		
 		

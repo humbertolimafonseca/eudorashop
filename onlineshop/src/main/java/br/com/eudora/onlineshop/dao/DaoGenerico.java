@@ -6,11 +6,14 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Root;
 import javax.validation.Valid;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
+import org.hibernate.jpa.criteria.OrderImpl;
 import org.hibernate.metadata.ClassMetadata;
 
 public abstract class DaoGenerico<T, I extends Serializable> {
@@ -48,7 +51,13 @@ public abstract class DaoGenerico<T, I extends Serializable> {
 	public List<T> getList() {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> query = builder.createQuery(persistedClass);
-		query.from(persistedClass);
+		Root r = query.from(persistedClass);
+		OrderBy ob = persistedClass.getAnnotation(OrderBy.class);
+		
+		if(ob != null){
+			query = query.orderBy(builder.asc(r.get(ob.property())));
+		}
+		
 		return entityManager.createQuery(query).getResultList();
 	}
 
