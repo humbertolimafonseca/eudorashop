@@ -1,5 +1,6 @@
 package br.com.eudora.onlineshop.resources;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
@@ -16,8 +17,14 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.time.DateUtils;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
+import br.com.eudora.onlineshop.dominio.Ciclo;
 import br.com.eudora.onlineshop.dominio.ItemProduto;
+import br.com.eudora.onlineshop.dominio.PrecoCiclo;
 import br.com.eudora.onlineshop.dominio.Produto;
 import br.com.eudora.onlineshop.manager.ItemProdutoManager;
 import br.com.eudora.onlineshop.manager.MarcaManager;
@@ -41,18 +48,20 @@ public class ItemProdutoResource extends OnlineShopResource<ItemProdutoManager, 
 
 	@POST
 	@Path("/add")
-	public Response add(@FormParam("produto") String produto, @FormParam("inicio1") String inicio1,
-			@FormParam("fim1") String fim1, @FormParam("inicio2") String inicio2, @FormParam("fim2") String fim2,
-			@FormParam("preco1") String preco1, @FormParam("preco2") String preco2, @FormParam("custo") String custo,
-			@FormParam("quantidade") String quantidade) {
+	public Response add(@FormParam("produto") String produto, 
+			@FormParam("custo") String custo,
+			@FormParam("quantidade") String quantidade,
+			@FormParam("precosCiclos") String precosCiclos) {
 
 		try {
 
 			Produto p = produtoManager.encontrarPorCodigo(produto);
 
-			ItemProduto itemProduto = new ItemProduto(p, parse(inicio1), parse(fim1), preco1, "BRL", parse(inicio2),
-					parse(fim2), preco2, custo, Integer.parseInt(quantidade));
-
+			ItemProduto itemProduto = new ItemProduto(p, "BRL", custo, Integer.parseInt(quantidade));
+			
+//			parse(inicio1), parse(fim1), preco1,
+//			parse(inicio2), parse(fim2), preco2,
+				
 			getManager().salvar(itemProduto);
 
 		} catch (ChaveDuplicadaException e) {
@@ -67,10 +76,12 @@ public class ItemProdutoResource extends OnlineShopResource<ItemProdutoManager, 
 	@POST
 	@Path("/edit/{id}")
 	public Response edit(@PathParam("id") String id, @FormParam("produto") String produto,
-			@FormParam("inicio1") String inicio1, @FormParam("fim1") String fim1, @FormParam("inicio2") String inicio2,
-			@FormParam("fim2") String fim2, @FormParam("preco1") String preco1, @FormParam("preco2") String preco2,
-			@FormParam("custo") String custo, @FormParam("quantidade") String quantidade) {
-
+			@FormParam("precosCiclos") String precosCiclos,
+			@FormParam("custo") String custo, @FormParam("quantidade") String quantidade) 
+					throws JsonParseException, JsonMappingException, IOException {
+		
+		PrecoCiclo[] pcs = new ObjectMapper().readValue(precosCiclos, PrecoCiclo[].class);
+		
 		ItemProduto item = getManager().encontrar(new Long(id));
 
 		Produto p = produtoManager.encontrarPorCodigo(produto);
@@ -78,12 +89,19 @@ public class ItemProdutoResource extends OnlineShopResource<ItemProdutoManager, 
 		item.setProduto(p);
 
 		item.setCustoCompra(new BigDecimal(custo));
-		item.getPreco1().setInicio(parse(inicio1));
-		item.getPreco1().setFim(parse(fim1));
-		item.getPreco2().setInicio(parse(inicio2));
-		item.getPreco2().setFim(parse(fim2));
+//		item.getPreco1().setInicio(parse(inicio1));
+//		item.getPreco1().setFim(parse(fim1));
+//		item.getPreco2().setInicio(parse(inicio2));
+//		item.getPreco2().setFim(parse(fim2));
 
 		item.setQuantidade(new Integer(quantidade));
+		item.getPrecosCiclo().clear();
+		
+		for (PrecoCiclo pc : pcs) {
+			pc.setCiclo( p.getMarca().getCiclos().get(0) );
+			pc.setMoeda("BRL");
+			item.addPrecoCiclo(pc);
+		}
 
 		getManager().atualizar(item);
 

@@ -8,6 +8,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
@@ -21,7 +23,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -31,7 +32,12 @@ import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
+import br.com.eudora.onlineshop.dominio.Ciclo;
 import br.com.eudora.onlineshop.dominio.Marca;
 import br.com.eudora.onlineshop.manager.MarcaManager;
 import br.com.eudora.onlineshop.resources.hateoas.DefaultHateoasResponse;
@@ -58,32 +64,54 @@ public class MarcaResource {
 	@Path("/add")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response add(@FormParam("nome") String nome, @FormParam("descricao") String descricao, 
-			@FormParam("imgLogo") String imgLogo,  @FormParam("imagem") String imagem) {
+			@FormParam("imgLogo") String imgLogo,  @FormParam("ciclos") String ciclos) throws JsonParseException, JsonMappingException, IOException {
 
 		try {
+			List<Ciclo> cis = new ArrayList<Ciclo>();
 			
-			manager.salvar(new Marca(nome, descricao, imgLogo));
+			Marca m = new Marca(nome, descricao, imgLogo);
+			
+			Ciclo[] c = new ObjectMapper().readValue(ciclos, Ciclo[].class);
+			
+			for (Ciclo ciclo : c) {
+				m.addCiclo(ciclo);
+			} 
+			
+			manager.salvar(m); 
+			
 		}catch(ErroAoSalvarImagem ex){
 			return Response.serverError().entity("Erro ao incluir a imagem.").build();
 		} catch (ChaveDuplicadaException e) {
 			return Response.serverError().entity("Chave Duplicada.").build();
 		}
-
+		
 		return Response.ok("Marca criada com sucesso!").build();
 	}
 	
 	@POST
 	@Path("/edit/{id}/{imgLogo}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response edit(@FormParam("nome") String nome, @FormParam("descricao") String descricao,
+	public Response edit(@FormParam("nome") String nome,
+			@FormParam("descricao") String descricao,
+			@FormParam("ciclos") String ciclos,
 			@PathParam("id") String id,
-			@PathParam("imgLogo") String imgLogo) {
+			@PathParam("imgLogo") String imgLogo
+			) throws JsonParseException, JsonMappingException, IOException {
 
 			
 		Marca m = manager.encontrar(Long.parseLong(id));
 		m.setNome(nome);
 		m.setDescricao(descricao);
 		m.getLogomarca().setNome(imgLogo);
+		
+		Ciclo[] c = new ObjectMapper().readValue(ciclos, Ciclo[].class);
+		
+		m.getCiclos().clear();
+		
+		for (Ciclo ciclo : c) {
+			m.addCiclo(ciclo);
+		} 
+		
 		try {
 			manager.atualizar(m);
 		} catch (ErroAoSalvarImagem e) {

@@ -25,7 +25,10 @@ public class TesteItemProduto{
 	@Test
 	public void test() throws Throwable{
 		Produto p = manager.getList().get(0);
-		ItemProduto ip = new ItemProduto(p,new Date(), new Date(), "12.34", "BRL", new Date(), new Date(), "11.55", "5.98",3);
+		ItemProduto ip = new ItemProduto(p, "BRL","5.98",3);
+		
+//		new Date(), new Date(), "12.34",
+//		 new Date(), new Date(), "11.55"
 		TransactionManager.beginTransaction();
 		itemManager.salvar(ip);
 		TransactionManager.commitTransaction();

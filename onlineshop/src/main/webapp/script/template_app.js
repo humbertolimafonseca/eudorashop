@@ -30,6 +30,13 @@ eudoraShop.run(function($rootScope, $location, $anchorScroll){
 		
 	 }
 	 
+	 $rootScope.alert = function( message){
+		 
+		 
+		 console.log(message);
+		
+	 }
+	 
 	 
 	 
 	 $rootScope.gotoAnchor = function(anchor) {

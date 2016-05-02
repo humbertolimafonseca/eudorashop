@@ -4,12 +4,23 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import org.javamoney.moneta.Money;
 
-@Embeddable
-public class PrecoPeriodo {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class PrecoCiclo {
+	
+	@Id
+	@GeneratedValue
+	private Long id;
 	
 	private Date inicio;
 	
@@ -19,14 +30,13 @@ public class PrecoPeriodo {
 	
 	private String moeda;
 	
-	@Transient
-	private Money preco;
+	@ManyToOne
+	private Ciclo ciclo;
 	
-	public PrecoPeriodo() {
-		// TODO Auto-generated constructor stub
+	public PrecoCiclo() {
 	}
 
-	public PrecoPeriodo(Date inicio, Date fim, String valor, String moeda) {
+	public PrecoCiclo(Date inicio, Date fim, String valor, String moeda) {
 		super();
 		
 		this.inicio = inicio;
@@ -37,7 +47,6 @@ public class PrecoPeriodo {
 		this.valor = new BigDecimal(valor);
 		this.moeda = moeda;
 		
-		this.preco = Money.of(this.valor, moeda);
 	}
 
 	public Date getInicio() {
@@ -74,15 +83,15 @@ public class PrecoPeriodo {
 
 	public Money getPreco() {
 		
-		if(preco == null){
-			this.preco = Money.of(this.valor, moeda);
-		}
-		
-		return preco;
+		return Money.of(this.valor, moeda);
 	}
 
-	public void setPreco(Money preco) {
-		this.preco = preco;
+	public Ciclo getCiclo() {
+		return ciclo;
+	}
+
+	public void setCiclo(Ciclo ciclo) {
+		this.ciclo = ciclo;
 	}
 	
 	

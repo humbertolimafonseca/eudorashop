@@ -15,6 +15,8 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
 	 
 	 $scope.listar();
 	 
+	 $scope.precosCiclo = [];
+	 
 	 
 	 $scope.popup1 = {
 			 opened: false
@@ -44,6 +46,14 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
 		 .success(function(data) {
 			 console.log(data);
 			 $scope.produto = data;
+			 
+			 for (var i in $scope.produto.marca.ciclos){
+				 
+				 $scope.produto.marca.ciclos[i].inicio = new Date($scope.produto.marca.ciclos[i].inicio);
+				 $scope.produto.marca.ciclos[i].fim = new Date($scope.produto.marca.ciclos[i].fim);
+				 console.log($scope.itemProduto.precosCiclo);
+			 }
+			 
 			 $('#img')[0].src = '../resources/imagem/produto/'+ data.id + "/" + data.imagens[0].nome;
 		 })
 		 
@@ -64,6 +74,7 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
 			 $http.get('../resources/item-produto/'+id).success(function(data) {
 				 	console.log(data);
 				    $scope.itemProduto = data;
+				    $scope.precosCiclo =  $scope.itemProduto.precosCiclo;
 				    $scope.loadProduto();
 	// $scope.nome = data.entity.nome;
 	// $scope.descricao = data.entity.descricao;
@@ -95,6 +106,7 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
 	 
 	 $scope.limparForm = function(){
 		 $scope.itemProduto = null;
+		 $scope.produto = null;
 		 
 		 $('#form')[0].reset();
 		 
@@ -103,9 +115,11 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
 	
 	$scope.send = function() {
 		var form = $('#form')[0] ;
+		precosCiclos =  JSON.stringify($scope.precosCiclo); 
+
+		console.log($(form).serialize());
 		
-		
-		 $http.post('../resources/item-produto/add',$(form).serialize(), {
+		$http.post('../resources/item-produto/add',$(form).serialize(), {
 			  headers: {
 				  'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -122,8 +136,10 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
      
      $scope.edit = function() {
  		var form = $('#form')[0] ;
+ 		precosCiclos.value =  JSON.stringify($scope.precosCiclo); 
  		
  		console.log($(form).serialize());
+ 		
  		$http.post('../resources/item-produto/edit/' + $scope.itemProduto.id,$(form).serialize(), {
  			  headers: {
  				  'Content-Type': 'application/x-www-form-urlencoded'

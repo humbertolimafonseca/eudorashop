@@ -28,6 +28,7 @@
 						<form novalidate enctype="multipart/form-data" method="post"
 							id="formMarca" name="formMarca">
 							<input type="text" ng-model="imgLogo" name="imgLogo" id="imgLogo">
+							<input type="hidden" name="ciclos" id="ciclos">
 
 							<div class="form-group"
 								ng-class="{ 'has-error': formMarca.nome.$invalid }">
@@ -46,7 +47,82 @@
 										type="textarea"></textarea>
 								</div>
 							</div>
+						
+						<fieldset >
+							<legend>Ciclos</legend>
+							<ng-form name="formCiclo">
+								<div class="form-group"
+									ng-class="{ 'has-error': formCiclo.fim.$invalid }">
+									<label for="inicio1" class="col-sm-2 control-label">Inicio*</label>
+									<div class="col-sm-6">
+										<input class="col-sm-5" type="text" class="form-control"
+											uib-datepicker-popup="dd/MM/yyyy" ng-model="ciclo.inicio"
+											name="inicio" id="inicio" is-open="popup.opened"
+											datepicker-options="dateOptions" 
+											close-text="Fechar" alt-input-formats="altInputFormats"
+											current-text="Hoje" clear-text="Limpar" />
+										<button type="button" class="btn btn-default"
+											ng-click="openDatePicker(popup)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</div>
+								</div>
+							
+								<div class="form-group" ng-class="{ 'has-error': formCiclo.fim.$invalid }">
+									<label for="fim" class="col-sm-2 control-label">Fim*</label>
+									<div class="col-sm-6">
+										<input class="col-sm-5" type="text" class="form-control"
+											uib-datepicker-popup="dd/MM/yyyy" ng-model="ciclo.fim" name="fim"
+											id="fim" is-open="popup2.opened" datepicker-options="dateOptions"
+											close-text="Fechar"
+											alt-input-formats="altInputFormats" current-text="Hoje"
+											clear-text="Limpar" />
+										<button type="button" class="btn btn-default"
+											ng-click="openDatePicker(popup2)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</div>
+								</div>
+							
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+							
+										<input type="button" ng-hide="ciclo.id" class="btn btn-success"
+											ng-class="{ 'btn-danger': formCiclo.$invalid}"
+											ng-click="addCiclo();" ng-disabled="formCiclo.$invalid"
+											value="Salvar Ciclo"> <input type="button"
+											ng-show="ciclo.id" class="btn btn-success"
+											ng-class="{ 'btn-danger': formCiclo.$invalid}"
+											ng-click="editCiclo();" ng-disabled="formCiclo.$invalid"
+											value="Editar Ciclo"> <input type="button" class="btn"
+											ng-click="cancelCiclo();" value="Cancelar Ciclo">
+							
+									</div>
+								</div>
+							
+							
+								<div class="col-sm-6">
+							
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Ciclos</th>
+											</tr>
+										</thead>
+										<tr ng-repeat="ciclo in ciclos track by $index">
+											<td width="30px"><a class="glyphicon glyphicon-trash"
+												ng-click="removerCiclo($index)" href="#/marca"></a></td>
+											<!-- 					<td width="35px" ><img width="30px" name="imagem" src="../resources/marca/logomarca/{{marca.logomarca.nome}}/{{marca.id}}"> </td> -->
+											<td><a href="#/marca" ng-click="loadCiclo(ciclo)">
+													{{ciclo.nome}} <a></a></td>
+										</tr>
+									</table>
+								</div>
+							
+							</ng-form>
 
+						</fieldset>
 
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
@@ -103,7 +179,8 @@
 					</form>
 				</div>
 
-
+			<fieldset >
+				<legend>Marcas</legend>
 				<div class="col-sm-6">
 
 					<table class="table table-bordered">
@@ -122,7 +199,7 @@
 						</tr>
 					</table>
 				</div>
-
+				</fieldset>
 
 				<div class="clearfix"></div>
 			</div>

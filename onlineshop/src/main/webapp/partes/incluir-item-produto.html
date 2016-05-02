@@ -56,67 +56,72 @@
 							
 							</div>
 						</div>
+						<input type="hidden" id="precosCiclos" name="precosCiclos">
+						<fieldset ng-repeat="ciclo in produto.marca.ciclos track by $index">
+						<legend>{{ciclo.inicio.getMonth()+1 + '/' + ciclo.inicio.getFullYear()}}</legend>
+							
+							<div class="form-group" >
+								<label for="preco{{ciclo.id}}" class="col-sm-2 control-label">Preço*</label>
+								<div class="col-sm-6">
+									<input required placeholder="Preço Ciclo: {{ciclo.inicio.getMonth()+1 + '/' + ciclo.inicio.getFullYear()}}"   name="preco"  ng-model="precosCiclo[$index].valor" id="preco" class="form-control" type="number">
+								</div>
+							</div>
+							
+<!-- 							<div class="form-group" ng-class="{ 'has-error': form.fim1.$invalid }"> -->
+<!-- 								<label for="inicio1" class="col-sm-2 control-label">Inicio1*</label> -->
+<!-- 								<div class="col-sm-6"> -->
+<!-- 									<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy"  -->
+<!-- 						          		ng-model="itemProduto.preco1.inicio" name="inicio1" id="inicio1" is-open="popup1.opened"  -->
+<!-- 						          		datepicker-options="dateOptions"  -->
+<!-- 						          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats"  -->
+<!-- 						          		current-text="Hoje" clear-text="Limpar" -->
+<!-- 						          		/> -->
+<!-- 						          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup1)"><i class="glyphicon glyphicon-calendar"></i></button> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+							
+<!-- 							<div class="form-group" ng-class="{ 'has-error': form.fim1.$invalid }"> -->
+<!-- 								<label for="fim1" class="col-sm-2 control-label">Fim1*</label> -->
+<!-- 								<div class="col-sm-6"> -->
+<!-- 									<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy"  -->
+<!-- 						          		ng-model="itemProduto.preco1.fim" name="fim1" id="fim1" is-open="popup2.opened" datepicker-options="dateOptions"  -->
+<!-- 						          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats"  -->
+<!-- 						          		current-text="Hoje" clear-text="Limpar" -->
+<!-- 						          		 /> -->
+<!-- 						          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup2)"><i class="glyphicon glyphicon-calendar"></i></button> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
 						
 						
-						<div class="form-group" ng-class="{ 'has-error': form.preco1.$invalid }">
-							<label for="preco1" class="col-sm-2 control-label">Preço*</label>
-							<div class="col-sm-6">
-								<input required placeholder="Preço1"   name="preco1"  ng-model="itemProduto.preco1.valor" id="preco1" class="form-control" type="number">
-							</div>
-						</div>
-						<div class="form-group" ng-class="{ 'has-error': form.fim1.$invalid }">
-							<label for="inicio1" class="col-sm-2 control-label">Inicio1*</label>
-							<div class="col-sm-6">
-								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" 
-					          		ng-model="itemProduto.preco1.inicio" name="inicio1" id="inicio1" is-open="popup1.opened" 
-					          		datepicker-options="dateOptions" 
-					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" 
-					          		current-text="Hoje" clear-text="Limpar"
-					          		/>
-					          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup1)"><i class="glyphicon glyphicon-calendar"></i></button>
-							</div>
-						</div>
+						</fieldset>
 						
-						<div class="form-group" ng-class="{ 'has-error': form.fim1.$invalid }">
-							<label for="fim1" class="col-sm-2 control-label">Fim1*</label>
-							<div class="col-sm-6">
-								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" 
-					          		ng-model="itemProduto.preco1.fim" name="fim1" id="fim1" is-open="popup2.opened" datepicker-options="dateOptions" 
-					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" 
-					          		current-text="Hoje" clear-text="Limpar"
-					          		 />
-					          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup2)"><i class="glyphicon glyphicon-calendar"></i></button>
-							</div>
-						</div>
+<!-- 						<div class="form-group" ng-class="{ 'has-error': form.preco2.$invalid }"> -->
+<!-- 							<label for="preco2" class="col-sm-2 control-label">Preço2*</label> -->
+<!-- 							<div class="col-sm-6"> -->
+<!-- 								<input required placeholder="Preço2"   name="preco2"  ng-model="itemProduto.preco2.valor" id="preco2" class="form-control" type="number"> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="form-group" ng-class="{ 'has-error': form.fim2.$invalid }"> -->
+<!-- 							<label for="inicio2" class="col-sm-2 control-label">Inicio2*</label> -->
+<!-- 							<div class="col-sm-6"> -->
+<!-- 								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy"  -->
+<!-- 					          		ng-model="itemProduto.preco2.inicio" name="inicio2" id="inicio2" is-open="popup3.opened" datepicker-options="dateOptions"  -->
+<!-- 					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats"  -->
+<!-- 					          		current-text="Hoje" clear-text="Limpar" /> -->
+<!-- 					          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup3)"><i class="glyphicon glyphicon-calendar"></i></button> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						
-						
-						<div class="form-group" ng-class="{ 'has-error': form.preco2.$invalid }">
-							<label for="preco2" class="col-sm-2 control-label">Preço2*</label>
-							<div class="col-sm-6">
-								<input required placeholder="Preço2"   name="preco2"  ng-model="itemProduto.preco2.valor" id="preco2" class="form-control" type="number">
-							</div>
-						</div>
-						<div class="form-group" ng-class="{ 'has-error': form.fim2.$invalid }">
-							<label for="inicio2" class="col-sm-2 control-label">Inicio2*</label>
-							<div class="col-sm-6">
-								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" 
-					          		ng-model="itemProduto.preco2.inicio" name="inicio2" id="inicio2" is-open="popup3.opened" datepicker-options="dateOptions" 
-					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" 
-					          		current-text="Hoje" clear-text="Limpar" />
-					          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup3)"><i class="glyphicon glyphicon-calendar"></i></button>
-							</div>
-						</div>
-						
-						<div class="form-group" ng-class="{ 'has-error': form.fim2.$invalid }">
-							<label for="fim2" class="col-sm-2 control-label">Fim2*</label>
-							<div class="col-sm-6">
-								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" 
-					          		ng-model="itemProduto.preco2.fim" name="fim2" id="fim2" is-open="popup4.opened" datepicker-options="dateOptions" 
-					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats" 
-					          		current-text="Hoje" clear-text="Limpar" />
-					          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup4)"><i class="glyphicon glyphicon-calendar"></i></button>
-							</div>
-						</div>
+<!-- 						<div class="form-group" ng-class="{ 'has-error': form.fim2.$invalid }"> -->
+<!-- 							<label for="fim2" class="col-sm-2 control-label">Fim2*</label> -->
+<!-- 							<div class="col-sm-6"> -->
+<!-- 								<input class="col-sm-5" type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy"  -->
+<!-- 					          		ng-model="itemProduto.preco2.fim" name="fim2" id="fim2" is-open="popup4.opened" datepicker-options="dateOptions"  -->
+<!-- 					          		ng-required="true" close-text="Fechar" alt-input-formats="altInputFormats"  -->
+<!-- 					          		current-text="Hoje" clear-text="Limpar" /> -->
+<!-- 					          		<button type="button" class="btn btn-default" ng-click="openDatePicker(popup4)"><i class="glyphicon glyphicon-calendar"></i></button> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						
 						
 						<div class="form-group" ng-class="{ 'has-error': form.quantidade.$invalid }">

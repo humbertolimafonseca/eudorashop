@@ -1,4 +1,13 @@
 eudoraShop.controller('marcaCtrl', function ($scope, $http) {
+	$scope.ciclos = [];
+	
+	var Ciclo = function(inicio, fim){
+		 this.inicio = inicio;
+		 this.fim = fim;
+	 };
+	 
+	 $scope.ciclo = new Ciclo();
+	 $scope.cicloClone = new Ciclo();
 	
 	 $scope.listar = function (){
 		 $http.get('../resources/marca').success(function(data) {
@@ -7,6 +16,72 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 			    console.log($scope.marcas[0].selfLink);
 		  });
 	 }
+	 
+	 $scope.loadCiclo = function(ciclo){
+		 $scope.ciclo = ciclo;
+		 if(!$scope.ciclo.id){
+			 $scope.ciclo.id = 'temp';
+		 }
+		 
+		 $scope.cicloClone.inicio = $scope.ciclo.inicio;
+		 $scope.cicloClone.fim = $scope.ciclo.fim;
+		 $scope.cicloClone.id = $scope.ciclo.id;
+	 }
+	 
+	 $scope.removerCiclo = function(index){
+		 console.log($scope.ciclos);
+		 $scope.ciclos.splice(index, 1);
+	 }
+	 
+	 $scope.editCiclo = function(){
+		 $scope.ciclo.nome = new Date($scope.ciclo.inicio).getMonth() + 1 + "/" + new Date($scope.ciclo.inicio).getFullYear();
+		
+		 if($scope.ciclo.id == 'temp'){
+			 $scope.ciclo.id = null; 
+		 }
+		 
+		 $scope.ciclo = new Ciclo();
+	 }
+	 
+	 $scope.cancelCiclo= function(){
+		 if($scope.ciclo.id == 'temp'){
+			 $scope.ciclo.id = null; 
+		 }
+		 
+		 $scope.ciclo.inicio = $scope.cicloClone.inicio;
+		 $scope.ciclo.fim = $scope.cicloClone.fim;
+		 $scope.ciclo.id = $scope.cicloClone.id;
+		 
+		 $scope.ciclo = new Ciclo();
+	 }
+	 
+	 $scope.addCiclo = function(){
+		 if($scope.ciclo.inicio && $scope.ciclo.fim){
+			 console.log($scope.ciclo.inicio);
+			 console.log(new Date($scope.ciclo.inicio));
+			 $scope.ciclo.nome = new Date($scope.ciclo.inicio).getMonth() + 1 + "/" + new Date($scope.ciclo.inicio).getFullYear()
+			 
+			 $scope.ciclos.push($scope.ciclo);
+			 $scope.ciclo = new Ciclo();
+		 }else{
+			 alert('Preencha a data inicial e final do ciclo!');
+		 }
+	 }
+	 
+	 
+	 
+	 $scope.popup = {
+			 opened: false
+	 };
+	 
+	 $scope.popup2 = {
+			 opened: false
+	 };
+	 
+	 $scope.openDatePicker = function(popup){
+		 popup.opened = !popup.opened;
+	 };
+	 
 	 
 	 $scope.load = function (marca){
 		 $http.get(marca.selfLink).success(function(data) {
@@ -18,6 +93,12 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 			    $scope.imgLogo = data.entity.logomarca.nome;
 			    $scope.imagem = data.entity.logomarca;
 			    $scope.id = data.entity.id;
+			    $scope.ciclos = data.entity.ciclos;
+			    
+			    for (var i in $scope.ciclos){
+			    	$scope.ciclos[i].nome = new Date($scope.ciclos[i].inicio).getMonth() + 1 + "/" + new Date($scope.ciclos[i].inicio).getFullYear()
+			    }
+			    
 			    $('#img')[0].src="../resources/imagem/marca/" + $scope.id + "/" + $scope.imagem.nome;
 		  });
 	 }
@@ -69,6 +150,7 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 		 $scope.descricao="";
 		 $scope.logomarca="";
 		 $scope.id = "";
+		 $scope.ciclos=null;
 		 
 		 $('#formMarca')[0].reset();
 		 $('#img')[0].src = "";
@@ -77,7 +159,7 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 	
 	$scope.send = function() {
 		var form = $('#formMarca')[0] ;
-		
+		form.ciclos.value = JSON.stringify($scope.ciclos);
 		
 		 $http.post('../resources/marca/add',$(form).serialize(), {
 			  headers: {
@@ -99,8 +181,10 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
      
      $scope.edit = function() {
  		var form = $('#formMarca')[0] ;
+ 		form.ciclos.value = JSON.stringify($scope.ciclos);
  		
  		console.log($(form).serialize());
+ 		
  		$http.post($scope.marca.editLink + '/' + $scope.imagem.nome,$(form).serialize(), {
  			  headers: {
  				  'Content-Type': 'application/x-www-form-urlencoded'

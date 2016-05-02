@@ -32,6 +32,7 @@ public class PreMatchingFilter implements ContainerResponseFilter {
 			}
     		
     	}catch (Exception e){
+    		e.printStackTrace();
     		responseContext.setStatus(500); ;
     		responseContext.setEntity("Ocorreu um erro.");
     	}
