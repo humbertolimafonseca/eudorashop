@@ -698,7 +698,7 @@ ul.article_links li a{
 }
 p.title{
 	color: #000;
-	font-size: 0.95em;
+	font-size: 0.75em;
 	font-weight: bold;
 }
 p.title a:hover{
@@ -743,7 +743,7 @@ h3.m_2 {
    position: absolute;
    overflow: hidden;
    top:10em;
-   left:6.2em;
+   left:3.2em;
 }
 .view img {
    display: block;

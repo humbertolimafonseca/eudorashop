@@ -8,14 +8,16 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.eudora.onlineshop.dao.OrderBy;
 
 @Entity
 @OrderBy(property="nome")
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Marca implements OnlineShopEntity<Long>{
 	public static final String MARCA_IMAGE_FOLDER = "marca";
 	
@@ -27,7 +29,8 @@ public class Marca implements OnlineShopEntity<Long>{
 	private String nome;
 	private String descricao;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
+	@javax.persistence.OrderBy("inicio ASC")
 	private List<Ciclo> ciclos; 
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -43,8 +46,13 @@ public class Marca implements OnlineShopEntity<Long>{
 		this.logomarca = new Imagem(logomarca, getEntityResourceName(), true);
 	}
 	
-	public void addCiclo(Date inicio, Date fim, Marca m){
-		this.ciclos.add(new Ciclo(inicio, fim,m));
+	public void addCiclo(Date inicio, Date fim){
+		
+		this.getCiclos().add(new Ciclo(inicio, fim));
+	}
+	
+	public void removeCiclo(Ciclo c){
+		this.getCiclos().remove(c);
 	}
 
 	public String getNome() {
@@ -106,6 +114,18 @@ public class Marca implements OnlineShopEntity<Long>{
 
 	public void addCiclo(Ciclo ciclo) {
 		this.getCiclos().add(ciclo);
+	}
+	
+	
+	public Ciclo cicloAtual(){
+		for (Ciclo ciclo : ciclos) {
+			Date hoje = new Date();
+			if(hoje.after(ciclo.getInicio()) && hoje.before(ciclo.getFim())){
+				return ciclo;
+			}
+		}
+		
+		return null;
 	}
 
 

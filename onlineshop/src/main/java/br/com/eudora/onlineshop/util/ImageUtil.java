@@ -64,7 +64,7 @@ public class ImageUtil {
 
 	}
 
-	private static void remove(String filename, String source, String id) {
+	public static void remove(String filename, String source, String id) {
 		
 		String path = createPath(source, id, true) + filename;
 

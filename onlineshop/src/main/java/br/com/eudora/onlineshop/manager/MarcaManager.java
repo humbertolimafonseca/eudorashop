@@ -3,8 +3,8 @@ package br.com.eudora.onlineshop.manager;
 import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
 import br.com.eudora.onlineshop.dao.MarcaDao;
 import br.com.eudora.onlineshop.dominio.Marca;
+import br.com.eudora.onlineshop.util.DefaultImageService;
 import br.com.eudora.onlineshop.util.ErroAoSalvarImagem;
-import br.com.eudora.onlineshop.util.ImageUtil;
 
 public class MarcaManager extends Manager<MarcaDao, Marca, Long> {
 
@@ -28,7 +28,10 @@ public class MarcaManager extends Manager<MarcaDao, Marca, Long> {
 	}
 
 	private void salvaImagens(Marca m) throws ErroAoSalvarImagem {
-		ImageUtil.persiste(m.getLogomarca().getNome(), Marca.MARCA_IMAGE_FOLDER, m.getId().toString());
+		
+		ImageService imageService = DefaultImageService.getInstance();
+		
+		imageService.persiste(m.getLogomarca().getNome(), Marca.MARCA_IMAGE_FOLDER, m.getId().toString());
 	}
 
 }

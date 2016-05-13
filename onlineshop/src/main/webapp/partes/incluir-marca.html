@@ -1,5 +1,5 @@
 
-<div class="view view-first">
+<div class="view view-first" ng-init="gotoAnchor('home'); limpaMensagem();">
 	<ol class="breadcrumb">
 		<li><a href="../partes/template.html#/" title="Go to Home Page">Home</a></li>
 		<li><a href="../partes/template.html#/marca"> Marca </a></li>
@@ -11,7 +11,6 @@
 	<div class="clearfix"></div>
 
 	<script type="text/javascript">
-		$('#messageDiv').hide();
 		$('#imgLogo').hide();
 	</script>
 
@@ -20,7 +19,7 @@
 		<div class="panel-body">
 			<div class="form-horizontal" ng-controller="marcaCtrl">
 				<h3>Marca</h3>
-				<div id="messageDiv" class="alert alert-success"
+				<div ng-show="message" id="messageDiv" class="alert alert-success"
 					ng-class="{'alert-warning': messageError}">{{message}}</div>
 
 				<div class="row">
@@ -115,7 +114,7 @@
 												ng-click="removerCiclo($index)" href="#/marca"></a></td>
 											<!-- 					<td width="35px" ><img width="30px" name="imagem" src="../resources/marca/logomarca/{{marca.logomarca.nome}}/{{marca.id}}"> </td> -->
 											<td><a href="#/marca" ng-click="loadCiclo(ciclo)">
-													{{ciclo.nome}} <a></a></td>
+													{{ciclo.nome + " - " + ciclo.descricao}} <a></a></td>
 										</tr>
 									</table>
 								</div>

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -27,7 +28,7 @@ public class Produto {
 	
 	private String codigo;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Tag> tags = new ArrayList<Tag>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "produto")

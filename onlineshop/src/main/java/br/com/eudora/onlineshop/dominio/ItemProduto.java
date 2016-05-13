@@ -1,14 +1,16 @@
 package br.com.eudora.onlineshop.dominio;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
+import javax.money.format.MonetaryAmountFormat;
+import javax.money.format.MonetaryFormats;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,7 +18,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.javamoney.moneta.Money;
+
 import br.com.eudora.onlineshop.dao.OrderBy;
+import br.com.eudora.onlineshop.util.CurrencyUtil;
 
 /**
  * Representa o item de um produto
@@ -39,39 +44,11 @@ public class ItemProduto implements OnlineShopEntity<Long>{
 	
 	private Integer quantidade;
 	
-	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="itemProduto")
 	private List<PrecoCiclo> precosCiclo;
 	
 	@Transient
 	private String moeda;
-	
-//	@Embedded
-//	@AttributeOverrides( {
-//		@AttributeOverride(name="inicio", column = @Column
-//		(name ="inicio1")),
-//		@AttributeOverride(name="moeda", column = @Column
-//		(name ="moeda1")),
-//
-//		@AttributeOverride(name="valor", column = @Column
-//		(name ="valor1")),
-//		@AttributeOverride(name="fim",
-//		column = @Column(name = "fim1"))
-//	}) 
-//	private PrecoCiclo preco1;
-//	
-//	@Embedded
-//	@AttributeOverrides( {
-//		@AttributeOverride(name="inicio", column = @Column
-//		(name ="inicio2")),
-//		@AttributeOverride(name="valor", column = @Column
-//		(name ="valor2")),
-//		@AttributeOverride(name="moeda", column = @Column
-//		(name ="moeda2")),
-//		@AttributeOverride(name="fim",
-//		column = @Column(name = "fim2"))
-//	}) 
-//	private PrecoCiclo preco2;
-	
 	
 	public ItemProduto() {
 	}
@@ -79,15 +56,13 @@ public class ItemProduto implements OnlineShopEntity<Long>{
 	public ItemProduto(Produto produto, String moeda, String valorCompra, Integer qtd) {
 		super();
 		this.produto = produto;
-//		this.preco1 = new PrecoCiclo(inicio, fim, valor, moeda);
-//		this.preco2 = new PrecoCiclo(inicio2, fim2, valor2, moeda);
 		this.custoCompra = new BigDecimal(valorCompra);
 		this.quantidade = qtd;
 		this.moeda = moeda;
 	}
 	
-	public void addPrecoCiclo(Date inicio, Date fim, String valor){
-		this.precosCiclo.add(new PrecoCiclo(inicio, fim, valor,this.moeda));
+	public void addPrecoCiclo(String valor, Ciclo ciclo){
+		this.precosCiclo.add(new PrecoCiclo(valor,this.moeda, ciclo));
 	}
 
 	@Override
@@ -124,28 +99,42 @@ public class ItemProduto implements OnlineShopEntity<Long>{
 		this.quantidade = quantidade;
 	}
 
-//	public PrecoCiclo getPreco1() {
-//		return preco1;
-//	}
-//
-//	public void setPreco1(PrecoCiclo preco1) {
-//		this.preco1 = preco1;
-//	}
-//
-//	public PrecoCiclo getPreco2() {
-//		return preco2;
-//	}
-//
-//	public void setPreco2(PrecoCiclo preco2) {
-//		this.preco2 = preco2;
-//	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
 
 	public void addPrecoCiclo(PrecoCiclo pc) {
+		if(this.precosCiclo == null){
+			this.precosCiclo = new ArrayList<PrecoCiclo>();
+		}
+		
+		pc.setItemProduto(this);
+		
 		this.precosCiclo.add(pc);
+	}
+	
+	public String getPrecoCicloAtual(){
+		Ciclo cicloAtual = getProduto().getMarca().cicloAtual();
+		for (PrecoCiclo precoCiclo : precosCiclo) {
+			if(precoCiclo.getCiclo().equals(cicloAtual)){
+				
+				return CurrencyUtil.format( precoCiclo.getPreco() );
+			}
+		}
+		
+		throw new RuntimeException("Item de Produto sem preço atual.");
+	}
+	
+	public Money getPrecoAtual(){
+		Ciclo cicloAtual = getProduto().getMarca().cicloAtual();
+		for (PrecoCiclo precoCiclo : precosCiclo) {
+			if(precoCiclo.getCiclo().equals(cicloAtual)){
+				
+				return  precoCiclo.getPreco();
+			}
+		}
+		
+		throw new RuntimeException("Item de Produto sem ciclo Atual.");
 	}
 
 	public List<PrecoCiclo> getPrecosCiclo() {
@@ -155,5 +144,55 @@ public class ItemProduto implements OnlineShopEntity<Long>{
 	public void setPrecosCiclo(List<PrecoCiclo> precosCiclo) {
 		this.precosCiclo = precosCiclo;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		ItemProduto ip = null;
+
+		try {
+		
+			ip = (ItemProduto) obj;
+		
+			if (obj == this) {
+				return true;
+			} else if (ip.getId().equals(this.getId())) {
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		
+		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId());
+	}
+	
+	
+	public static void main(String[] args) {
+		Money m = Money.of(new BigDecimal(2.33), "BRL");
+		m.getCurrency().getCurrencyCode();
+		
+		MonetaryAmountFormat fmt =  MonetaryFormats.getAmountFormat(new Locale("pt","BR"));
+		
+		
+		NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
+		
+		System.out.println(fmt.format(m));
+		System.out.println(format.format(m.getNumber()));
+		
+		 double amount =200.0;
+		 System.out.println(NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(amount));
+		
+	}
 
 }
+
+
+
+
+
+
+

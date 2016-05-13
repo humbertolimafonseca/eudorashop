@@ -34,7 +34,12 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 	 }
 	 
 	 $scope.editCiclo = function(){
-		 $scope.ciclo.nome = new Date($scope.ciclo.inicio).getMonth() + 1 + "/" + new Date($scope.ciclo.inicio).getFullYear();
+		 var inicio = new Date($scope.ciclo.inicio);
+		 var fim = new Date($scope.ciclo.fim);
+		 $scope.ciclo.nome = inicio.getMonth() + 1 + "/" + inicio.getFullYear()
+		 $scope.ciclo.descricao= "de " + inicio.getDate() + " a " + fim.getDate();
+	    	
+//		 $scope.ciclo.nome = new Date($scope.ciclo.inicio).getMonth() + 1 + "/" + new Date($scope.ciclo.inicio).getFullYear();
 		
 		 if($scope.ciclo.id == 'temp'){
 			 $scope.ciclo.id = null; 
@@ -59,7 +64,12 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 		 if($scope.ciclo.inicio && $scope.ciclo.fim){
 			 console.log($scope.ciclo.inicio);
 			 console.log(new Date($scope.ciclo.inicio));
-			 $scope.ciclo.nome = new Date($scope.ciclo.inicio).getMonth() + 1 + "/" + new Date($scope.ciclo.inicio).getFullYear()
+			 var inicio = new Date($scope.ciclo.inicio);
+			 var fim = new Date($scope.ciclo.fim);
+			 
+			 $scope.ciclo.nome = inicio.getMonth() + 1 + "/" + inicio.getFullYear();
+			 
+			 $scope.ciclo.descricao= "de " + inicio.getDate() + " a " + fim.getDate();
 			 
 			 $scope.ciclos.push($scope.ciclo);
 			 $scope.ciclo = new Ciclo();
@@ -86,6 +96,7 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 	 $scope.load = function (marca){
 		 $http.get(marca.selfLink).success(function(data) {
 			    $scope.marca = data;
+			    console.log("LOAD");
 			    console.log(data);
 			    $scope.nome = data.entity.nome;
 			    $scope.descricao = data.entity.descricao;
@@ -96,7 +107,10 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 			    $scope.ciclos = data.entity.ciclos;
 			    
 			    for (var i in $scope.ciclos){
-			    	$scope.ciclos[i].nome = new Date($scope.ciclos[i].inicio).getMonth() + 1 + "/" + new Date($scope.ciclos[i].inicio).getFullYear()
+			    	var inicio = new Date($scope.ciclos[i].inicio);
+			    	var fim = new Date($scope.ciclos[i].fim);
+			    	$scope.ciclos[i].nome = inicio.getMonth() + 1 + "/" + inicio.getFullYear()
+			    	$scope.ciclos[i].descricao= "de " + inicio.getDate() + " a " + fim.getDate();
 			    }
 			    
 			    $('#img')[0].src="../resources/imagem/marca/" + $scope.id + "/" + $scope.imagem.nome;
@@ -150,7 +164,7 @@ eudoraShop.controller('marcaCtrl', function ($scope, $http) {
 		 $scope.descricao="";
 		 $scope.logomarca="";
 		 $scope.id = "";
-		 $scope.ciclos=null;
+		 $scope.ciclos=[];
 		 
 		 $('#formMarca')[0].reset();
 		 $('#img')[0].src = "";

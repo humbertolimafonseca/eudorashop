@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -33,12 +35,14 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
 import br.com.eudora.onlineshop.dominio.Ciclo;
 import br.com.eudora.onlineshop.dominio.Marca;
+import br.com.eudora.onlineshop.manager.ItemProdutoManager;
 import br.com.eudora.onlineshop.manager.MarcaManager;
 import br.com.eudora.onlineshop.resources.hateoas.DefaultHateoasResponse;
 import br.com.eudora.onlineshop.resources.hateoas.HateosResponseList;
@@ -53,6 +57,7 @@ public class MarcaResource {
 	private static final String CONTEXTO = "http://localhost:8080/onlineshop";
 
 	MarcaManager manager = CdiUtil.get(MarcaManager.class);
+	ItemProdutoManager itemManager = CdiUtil.get(ItemProdutoManager.class);
 	
 	@Context
 	private ServletContext context;
@@ -104,13 +109,42 @@ public class MarcaResource {
 		m.setDescricao(descricao);
 		m.getLogomarca().setNome(imgLogo);
 		
-		Ciclo[] c = new ObjectMapper().readValue(ciclos, Ciclo[].class);
+		ObjectMapper objectMapper  = new ObjectMapper();
 		
-		m.getCiclos().clear();
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		
-		for (Ciclo ciclo : c) {
+		
+		Ciclo[] c = objectMapper.readValue(ciclos, Ciclo[].class);
+
+		
+		List<Ciclo> novosCiclos = new ArrayList<Ciclo>();
+		List<Ciclo> removidosCiclos = new ArrayList<Ciclo>();
+		
+		novosCiclos.addAll(Arrays.asList(c));
+		novosCiclos.removeAll(m.getCiclos());
+		
+		removidosCiclos.addAll(m.getCiclos());
+		removidosCiclos.removeAll(Arrays.asList(c));
+		
+		for (Ciclo ciclo : novosCiclos) {
 			m.addCiclo(ciclo);
 		} 
+		
+		//atualiza os ciclos antigos.
+		for (Ciclo ciclo : m.getCiclos()) {
+			for (int i = 0; i < c.length; i++) {
+				if(c[i].equals(ciclo)){
+					ciclo.setInicio(c[i].getInicio());
+					ciclo.setFim(c[i].getFim());
+				}
+			}
+		}
+		
+		 m.getCiclos().removeAll(removidosCiclos);
+		 
+		 for (Ciclo ciclo : removidosCiclos) {
+			itemManager.removePrecoCiclo(ciclo);
+		}
 		
 		try {
 			manager.atualizar(m);

@@ -1,68 +1,49 @@
 package br.com.eudora.onlineshop.dominio;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.Objects;
 
-import javax.persistence.Embeddable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 
 import org.javamoney.moneta.Money;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class PrecoCiclo {
-	
-	@Id
-	@GeneratedValue
-	private Long id;
-	
-	private Date inicio;
-	
-	private Date fim;
+public class PrecoCiclo implements Serializable{
 	
 	private BigDecimal valor;
 	
 	private String moeda;
 	
-	@ManyToOne
+	@Id
+	@ManyToOne( optional=false)
 	private Ciclo ciclo;
+	
+	@Id
+	@ManyToOne( optional=false)
+	@JsonIgnore
+	private ItemProduto itemProduto;
 	
 	public PrecoCiclo() {
 	}
 
-	public PrecoCiclo(Date inicio, Date fim, String valor, String moeda) {
+	public PrecoCiclo(String valor, String moeda, Ciclo ciclo) {
 		super();
-		
-		this.inicio = inicio;
-		this.fim = fim;
 		this.valor = new BigDecimal(valor);
 		this.moeda = moeda;
 		
 		this.valor = new BigDecimal(valor);
 		this.moeda = moeda;
 		
-	}
-
-	public Date getInicio() {
-		return inicio;
-	}
-
-	public void setInicio(Date inicio) {
-		this.inicio = inicio;
-	}
-
-	public Date getFim() {
-		return fim;
-	}
-
-	public void setFim(Date fim) {
-		this.fim = fim;
+		this.ciclo = ciclo;
+		
 	}
 
 	public BigDecimal getValor() {
@@ -92,6 +73,40 @@ public class PrecoCiclo {
 
 	public void setCiclo(Ciclo ciclo) {
 		this.ciclo = ciclo;
+	}
+
+	public ItemProduto getItemProduto() {
+		return itemProduto;
+	}
+
+	public void setItemProduto(ItemProduto itemProduto) {
+		this.itemProduto = itemProduto;
+	}
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		PrecoCiclo pc = null;
+
+		try {
+		
+			pc = (PrecoCiclo) obj;
+		
+			if (obj == this) {
+				return true;
+			} else if (pc.getCiclo().equals(this.getCiclo()) && pc.getItemProduto().equals(this.getItemProduto())) {
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		
+		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getCiclo(), getItemProduto());
 	}
 	
 	

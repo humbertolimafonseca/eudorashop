@@ -1,5 +1,9 @@
 package br.com.eudora.onlineshop.dominio;
 
+import org.javamoney.moneta.Money;
+
+import br.com.eudora.onlineshop.util.CurrencyUtil;
+
 public class ItemCompra {
 	private ItemProduto itemProduto;
 	private int quantidade;
@@ -21,5 +25,13 @@ public class ItemCompra {
 	}
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
+	}
+	
+	public Money subtotal(){
+		return itemProduto.getPrecoAtual().multiply(this.quantidade);
+	}
+	
+	public String getValorSubtotal(){
+		return CurrencyUtil.format( itemProduto.getPrecoAtual().multiply(this.quantidade) );
 	}
 }

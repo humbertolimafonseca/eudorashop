@@ -56,6 +56,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		  <script src="../script/controllers/login-controller.js"></script>
 		   <script src="../script/controllers/index-controller.js"></script>
 		   <script src="../script/controllers/item-produto-controller.js"></script>
+		   <script src="../script/controllers/carrinho-controller.js" type="text/javascript" charset="UTF-8"></script>
 		  <script src="../script/accounting.js"></script>
 		  <script src="../script/filtros.js"></script>
 		  <script src="../script/services.js"></script>
@@ -69,7 +70,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
       <div class="container"> 
          <div class="header-top">
       		 <div class="logo">
-				<a href="index.html"><img src="../images/logo.png" alt=""/></a>
+				<a href="index.html#/"><img src="../images/logo.png" alt=""/></a>
 			 </div>
 		   <div class="header_right">
 			 <ul class="social">
@@ -95,24 +96,23 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		  <div class="bannertop_box">
 				   		 		<ul class="login">
 				   		 			<li class="login_text"><a href="login.html">Entrar</a></li>
-				   		 			<li class="wish"><a href="checkout.html">Lista de Desejos</a></li>
+				   		 			<li class="wish"><a href="#/carrinho">Lista de Desejos</a></li>
 				   		 			<div class='clearfix'></div>
 				   		 		</ul>
-				   		 		<div class="cart_bg">
+				   		 		<div class="cart_bg" ng-controller="carrinhoCtrl">
 					   		 		<ul class="cart">
-					   		 		   <i class="cart_icon"></i><p class="cart_desc">$1459.50<br><span class="yellow">2 items</span></p>
+					   		 		   <i class="cart_icon"></i><p class="cart_desc">{{carrinho.valorTotal}}<br><span class="yellow">{{carrinho.itens.length}} itens</span></p>
 					   		 		   <div class='clearfix'></div>
 					   		 		</ul>
 					   		 		<ul class="product_control_buttons">
-							  	      <li><a href="#"><img src="../images/close.png" alt=""/></a></li>
-							  	      <li><a href="#">Edit</a></li>
+							  	      <li><a style="cursor: pointer;" ng-click="confirmAndDo('Deseja limpar o carrinho ? ', limpar)"><img src="../images/close.png" alt=""/></a></li>
 							  		</ul>
 							  		<div class='clearfix'></div>
 							  	</div>
 							  	<ul class="quick_access">
-				   		 			<li class="view_cart"><a href="checkout.html">Ver Carrinho</a></li>
+				   		 			<li class="view_cart"><a href="#/carrinho">Ver Carrinho</a></li>
 				   		 			<li class="check"><a href="../partes/template.html"><i class="glyphicon glyphicon-wrench"></i></a></li>
-				   		 			<li style="text-align: right"><a href="checkout.html">Checkout</a></li>
+				   		 			<li style="text-align: right"><a href="#/carrinho">Checkout</a></li>
 				   		 			
 				   		 			<div class='clearfix'></div>
 				   		 		</ul>
@@ -193,9 +193,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					   </div>
 				    </div>
 				    <div class="tags">
-				    	<h4 class="tag_head">Tags Widget</h4>
+				    	<h4 class="tag_head">Tags</h4>
 				         <ul class="tags_links">
-							<li ng-repeat="tag in tags"><a ng-class="{ 'tag_selected': tag.checked }"  href="#" ng-click="selectTag(tag)">{{tag.nome}}</a></li>
+							<li ng-repeat="tag in tags"><a ng-class="{ 'tag_selected': tag.checked }"  href="#/" ng-click="selectTag(tag)">{{tag.nome}}</a></li>
 						</ul>
 						<a href="#" class="link1">Ver todas as tags</a>
 				     </div>

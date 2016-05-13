@@ -97,10 +97,10 @@
 <!-- 						</div> -->
 						
 						<div class="form-group" >
-							<label for="tags" class="col-sm-2 control-label">Tags*</label>
+							<label for="tagPanel" class="col-sm-2 control-label">Tags*</label>
 							<div class="col-sm-6" >
 								<input placeholder="Tag"  name="tag"  ng-model="tag" id="tag" class="form-control" type="text" >
-								<div id="tags" class="panel panel-default" style="height: 100px" >
+								<div id="tagPanel" class="panel panel-default" style="height: 100px" >
 									<span ng-repeat="t in tags | filter:tag" style="display: inline-block;" ng-class="{ 'label-success': t.checked }" class="label label-default">
 										<span ng-click="selectTag(t)">
 											#{{t.nome}}

@@ -17,6 +17,10 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
 	 
 	 $scope.precosCiclo = [];
 	 
+	 function PrecoCiclo (){
+		 this.ciclo = {id:""}
+	 }
+		 
 	 
 	 $scope.popup1 = {
 			 opened: false
@@ -46,13 +50,24 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
 		 .success(function(data) {
 			 console.log(data);
 			 $scope.produto = data;
-			 
+			 //$scope.precosCiclo = [];
+			
 			 for (var i in $scope.produto.marca.ciclos){
 				 
 				 $scope.produto.marca.ciclos[i].inicio = new Date($scope.produto.marca.ciclos[i].inicio);
 				 $scope.produto.marca.ciclos[i].fim = new Date($scope.produto.marca.ciclos[i].fim);
-				 console.log($scope.itemProduto.precosCiclo);
+				 
+				 console.log($scope.produto.marca.ciclos[i]);
+				 
+				 if(!$scope.precosCiclo[i]){
+					 var pc = new PrecoCiclo();
+					 pc.ciclo.id = $scope.produto.marca.ciclos[i].id;
+					 $scope.precosCiclo.push(pc);
+				 }
+				
+//				 $scope.precosCiclo[i].ciclo.id = $scope.produto.marca.ciclos[i].id;
 			 }
+			 
 			 
 			 $('#img')[0].src = '../resources/imagem/produto/'+ data.id + "/" + data.imagens[0].nome;
 		 })
@@ -76,6 +91,8 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
 				    $scope.itemProduto = data;
 				    $scope.precosCiclo =  $scope.itemProduto.precosCiclo;
 				    $scope.loadProduto();
+				    
+				    
 	// $scope.nome = data.entity.nome;
 	// $scope.descricao = data.entity.descricao;
 	// $scope.logomarca = data.entity.logomarca.nome;
@@ -107,6 +124,7 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
 	 $scope.limparForm = function(){
 		 $scope.itemProduto = null;
 		 $scope.produto = null;
+		 $scope.precosCiclo = [];
 		 
 		 $('#form')[0].reset();
 		 
@@ -115,8 +133,9 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
 	
 	$scope.send = function() {
 		var form = $('#form')[0] ;
-		precosCiclos =  JSON.stringify($scope.precosCiclo); 
-
+		
+		precosCiclos.value =  JSON.stringify($scope.precosCiclo); 
+		
 		console.log($(form).serialize());
 		
 		$http.post('../resources/item-produto/add',$(form).serialize(), {

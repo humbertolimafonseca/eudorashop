@@ -10,8 +10,6 @@ eudoraShop.controller('cartCtrl', function ($scope, $http) {
 });
 
 
-
-
 eudoraShop.controller('cartDetalheCtrl', function ($scope, $http, $routeParams) {
   
 	$http.get('resources/cart/' + $routeParams.produtoId).success(function(data) {

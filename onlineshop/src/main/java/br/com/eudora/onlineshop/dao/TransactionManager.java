@@ -2,6 +2,7 @@ package br.com.eudora.onlineshop.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
 
 import org.hibernate.jpa.HibernateEntityManagerFactory;
@@ -16,6 +17,7 @@ public class TransactionManager {
 		checkStart();
 		if(local.get() == null || !local.get().isOpen()){
 			local.set(emf.createEntityManager());
+			local.get().setFlushMode(FlushModeType.COMMIT);
 		}
 		return local.get();
 	}
@@ -64,7 +66,7 @@ public class TransactionManager {
 	
 	public static void close() {
 		checkStart();
-		getEntityManager().close();
+//		getEntityManager().close();
 	}
 
 }

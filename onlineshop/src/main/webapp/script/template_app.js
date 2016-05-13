@@ -1,6 +1,36 @@
 
 var eudoraShop = angular.module('eudoraShop', ['ngRoute', 'filtrosEudora', 'ui.bootstrap']);
 
+
+function testInterceptor($rootScope) {
+	  return {
+	    request: function(config) {
+	    	console.log(config);
+	    	return config;
+	    },
+
+	    requestError: function(config) {
+	      return config;
+	    },
+
+	    response: function(res) {
+	    	console.log(res);
+	    	console.log("LIMPAR MENSAGEM!!");
+	    	$rootScope.limpaMensagem();
+	      return res;
+	    },
+
+	    responseError: function(res) {
+	      return res;
+	    }
+	  }
+	}
+
+eudoraShop.factory('testInterceptor', testInterceptor)
+.config(function($httpProvider) {
+$httpProvider.interceptors.push('testInterceptor');
+});
+
 eudoraShop.run(function($rootScope, $location, $anchorScroll){
 	
 	
@@ -31,10 +61,7 @@ eudoraShop.run(function($rootScope, $location, $anchorScroll){
 	 }
 	 
 	 $rootScope.alert = function( message){
-		 
-		 
 		 console.log(message);
-		
 	 }
 	 
 	 

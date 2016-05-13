@@ -1,0 +1,14 @@
+<h3 class="m_1">Carrinho</h3>
+<div class="content_grid" ng-init="load();">
+	<div ng-repeat="ic in carrinho.itens" class="col_1_of_3 span_1_of_3">
+		<div class="view view-first"></div>
+		
+		Item: {{ic.produto.produto.nome}} </br>
+		Quantidade: {{ic.quantidade}} </br>
+		Valor individual: {{ic.produto.precoCicloAtual}}</br>
+		Sub Total: {{ic.valorSubtotal}}</br>
+		
+	</div>
+
+	<div class="clearfix"></div>
+</div>

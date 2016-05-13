@@ -95,7 +95,6 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, $rootScope, tagSer
 			    for (var tag in $scope.tags){
 				    if(sTag.nome == $scope.tags[tag].nome ){
 //				    		alert("Select: " + sTag.nome );
-				    		console.log($scope.tags[tag].nome);
 				    		$scope.selectTag($scope.tags[tag]);
 				    }
 				}
@@ -178,6 +177,7 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, $rootScope, tagSer
 		 $scope.imagem="";
 		 $("#img")[0].src = "";
 		 $("#formProduto")[0].reset();
+		 tag.value = "";
 		 
 		 for (tag in $scope.tags)
 		 {
@@ -219,9 +219,10 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, $rootScope, tagSer
     	 
     	 if(tag.checked){
     		 $scope.removerTag(tag)
+    		 console.log("CHECKED TO FALSE:" + tag.nome);
     	 }else{
     		 tag.checked=true;
-    		 console.log("CHECKED TO TRUE");
+    		 console.log("CHECKED TO TRUE:" + tag.nome);
     	 }
     	 
     	 $scope.updateSelectedTags();
@@ -240,7 +241,8 @@ eudoraShop.controller('produtoCtrl', function ($scope, $http, $rootScope, tagSer
     		 }
     	 }
     	 
-    	 console.log($scope.selectedTags.toString());
+    	 tags.value = $scope.selectedTags.toString();
+    	 console.log(tags);
      }
      
      

@@ -58,11 +58,12 @@
 						</div>
 						<input type="hidden" id="precosCiclos" name="precosCiclos">
 						<fieldset ng-repeat="ciclo in produto.marca.ciclos track by $index">
-						<legend>{{ciclo.inicio.getMonth()+1 + '/' + ciclo.inicio.getFullYear()}}</legend>
+						<legend>Ciclo: {{ciclo.inicio.getMonth()+1 + '/' + ciclo.inicio.getFullYear()}}</legend>
 							
 							<div class="form-group" >
 								<label for="preco{{ciclo.id}}" class="col-sm-2 control-label">Preço*</label>
 								<div class="col-sm-6">
+									
 									<input required placeholder="Preço Ciclo: {{ciclo.inicio.getMonth()+1 + '/' + ciclo.inicio.getFullYear()}}"   name="preco"  ng-model="precosCiclo[$index].valor" id="preco" class="form-control" type="number">
 								</div>
 							</div>

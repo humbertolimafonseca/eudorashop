@@ -19,18 +19,19 @@ import org.apache.commons.lang.time.DateUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
 import br.com.eudora.onlineshop.dominio.Ciclo;
 import br.com.eudora.onlineshop.dominio.ItemProduto;
 import br.com.eudora.onlineshop.dominio.PrecoCiclo;
 import br.com.eudora.onlineshop.dominio.Produto;
+import br.com.eudora.onlineshop.manager.CicloManager;
 import br.com.eudora.onlineshop.manager.ItemProdutoManager;
 import br.com.eudora.onlineshop.manager.MarcaManager;
 import br.com.eudora.onlineshop.manager.ProdutoManager;
 import br.com.eudora.onlineshop.manager.TagManager;
 import tarefas.CdiUtil;
+import tarefas.JSONUtil;
 
 @ApplicationPath("/resources")
 @Path("item-produto")
@@ -45,22 +46,36 @@ public class ItemProdutoResource extends OnlineShopResource<ItemProdutoManager, 
 	ProdutoManager produtoManager = CdiUtil.get(ProdutoManager.class);
 	TagManager tagManager = CdiUtil.get(TagManager.class);
 	MarcaManager marcaManager = CdiUtil.get(MarcaManager.class);
+	
+	CicloManager cicloManager = CdiUtil.get(CicloManager.class);
 
 	@POST
 	@Path("/add")
 	public Response add(@FormParam("produto") String produto, 
 			@FormParam("custo") String custo,
 			@FormParam("quantidade") String quantidade,
-			@FormParam("precosCiclos") String precosCiclos) {
+			@FormParam("precosCiclos") String precosCiclos) throws JsonParseException, JsonMappingException, IOException {
 
 		try {
-
+			
+			PrecoCiclo[] pcs = JSONUtil.read(precosCiclos, PrecoCiclo[].class);
+			
 			Produto p = produtoManager.encontrarPorCodigo(produto);
 
 			ItemProduto itemProduto = new ItemProduto(p, "BRL", custo, Integer.parseInt(quantidade));
 			
-//			parse(inicio1), parse(fim1), preco1,
-//			parse(inicio2), parse(fim2), preco2,
+			for (PrecoCiclo pc : pcs) {
+				
+				for (Ciclo ciclo : p.getMarca().getCiclos()) {
+					if(ciclo.getId().equals(pc.getCiclo().getId())){
+						pc.setCiclo(ciclo);
+					}
+				}
+				
+				pc.setMoeda("BRL");
+				itemProduto.addPrecoCiclo(pc);
+			}
+			
 				
 			getManager().salvar(itemProduto);
 
@@ -80,7 +95,7 @@ public class ItemProdutoResource extends OnlineShopResource<ItemProdutoManager, 
 			@FormParam("custo") String custo, @FormParam("quantidade") String quantidade) 
 					throws JsonParseException, JsonMappingException, IOException {
 		
-		PrecoCiclo[] pcs = new ObjectMapper().readValue(precosCiclos, PrecoCiclo[].class);
+		PrecoCiclo[] pcs = JSONUtil.read(precosCiclos, PrecoCiclo[].class);
 		
 		ItemProduto item = getManager().encontrar(new Long(id));
 
@@ -98,9 +113,8 @@ public class ItemProdutoResource extends OnlineShopResource<ItemProdutoManager, 
 		item.getPrecosCiclo().clear();
 		
 		for (PrecoCiclo pc : pcs) {
-			pc.setCiclo( p.getMarca().getCiclos().get(0) );
-			pc.setMoeda("BRL");
-			item.addPrecoCiclo(pc);
+			Ciclo c = cicloManager.encontrar(pc.getCiclo().getId());
+			item.addPrecoCiclo( new PrecoCiclo(pc.getValor().toString() , "BRL", c) );
 		}
 
 		getManager().atualizar(item);
