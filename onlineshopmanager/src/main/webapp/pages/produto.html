@@ -1,0 +1,67 @@
+<div class="col-md-9" data-ng-init="load(params.produtoId)">
+	<div class="dreamcrub">
+		<ul class="breadcrumbs">
+			<li class="home">
+				<a href="index.html#/" title="Go to Home Page">Início</a>&nbsp;
+			</li>
+		</ul>
+		<ul class="previous">
+			<li><a href="index.html">Voltar</a></li>
+		</ul>
+		<div class="clearfix"></div>
+	</div>
+	<div id="messageDiv" ng-show="message" class="alert alert-success"
+					ng-class="{'alert-warning': messageError}">{{message}}</div>
+	<div class="singel_right">
+		<div class="labout span_1_of_a1">
+			<img src="../resources/imagem/produto/{{produto.id}}/{{produto.imagens[0].nome}}" class="img-responsive" alt=""/>
+		</div>
+		<div class="cont1 span_2_of_a1">
+			<h1>{{produto.nome}}</h1>
+			<ul class="rating">
+				<li><a class="product-rate" href="#"> <label> </label></a> <span>
+				</span></li>
+				<li><a href="#">1 Avaliação</a></li>
+				<div class="clearfix"></div>
+			</ul>
+			<div class="price_single">
+				<span class="actual">{{itemProduto.precoCicloAtual}}</span>
+			</div>
+			<h2 class="quick"></h2>
+			<p class="quick_desc">{{itemProduto.produto.descricao}}</p>
+<!-- 			<ul class="size"> -->
+<!-- 				<h3>Size</h3> -->
+<!-- 				<li><a href="#">25</a></li> -->
+<!-- 				<li><a href="#">26</a></li> -->
+<!-- 				<li><a href="#">27</a></li> -->
+<!-- 				<li><a href="#">28</a></li> -->
+<!-- 				<li><a href="#">29</a></li> -->
+<!-- 				<li><a href="#">30</a></li> -->
+<!-- 				<li><a href="#">31</a></li> -->
+<!-- 				<li><a href="#">32</a></li> -->
+<!-- 				<li><a href="#">33</a></li> -->
+<!-- 			</ul> -->
+<!-- 			<ul class="size"> -->
+<!-- 				<h3>Length</h3> -->
+<!-- 				<li><a href="#">32</a></li> -->
+<!-- 				<li><a href="#">34</a></li> -->
+<!-- 			</ul> -->
+			<ul class="product-qty">
+				<span>Quantidade:</span>
+				<select ng-model="qtd">
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+				</select>
+			</ul>
+			
+			<div class="btn_form" ng-controller="carrinhoCtrl">
+					<input type="button" class="btn btn-success" ng-click="addItem(itemProduto.id,qtd)"	value="Comprar">
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>

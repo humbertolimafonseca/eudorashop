@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Wed Apr 06 17:45:43 BRT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0153-ed52-d8f9-0000034744f0 
+on database directory /home/03435691409/git/eudora/eudorashop/onlineshop/eudorashop with class loader sun.misc.Launcher$AppClassLoader@81fb 
+Loaded from file:/home/03435691409/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_51-b13
+user.dir=/home/03435691409/git/eudora/eudorashop/onlineshop
+os.name=Linux
+os.arch=i386
+os.version=3.2.0-58-generic-pae
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
