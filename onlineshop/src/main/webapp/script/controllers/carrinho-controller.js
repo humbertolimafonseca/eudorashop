@@ -12,9 +12,10 @@ eudoraShop.controller('carrinhoCtrl', function ($scope, $http, $rootScope) {
 	 $scope.addItem = function(itemProduto, qtd) {
 		 $http.get('../resources/carrinho/addItem/'+itemProduto+"/"+qtd).success(function(data){
 			    var message;
-			  	$rootScope.message = data;
+			  	$rootScope.carrinho = data;
 			  	console.log("Retorno addItem");
 			  	console.log(data);
+			  	$rootScope.message = "Item adcionado ao carrinho.";
 			  	$rootScope.messageError = false;
 		  }).error(function(data){
 			  $rootScope.message = data;
@@ -35,20 +36,15 @@ eudoraShop.controller('carrinhoCtrl', function ($scope, $http, $rootScope) {
 		  })
 	 }
 	
-	$scope.update = function() {
-		var form = $('#form')[0] ;
-		 $http.post('../resources/carrinho/update',$(form).serialize(), {
-			  headers: {
-				  'Content-Type': 'application/x-www-form-urlencoded'
-             }
-		  }).success(function(data){
+	$scope.removeItem = function(item) {
+		
+		 $http.get('../resources/carrinho/removeItem/' + item ).success(function(data){
 			    var message;
-			  	$scope.message = data;
+			  	$scope.message = "Item Removido com sucesso.";
+			  	$rootScope.carrinho = data;
 			  	$scope.messageError = false;
-			  	$('#messageDiv').show();
 		  }).error(function(data){
 			  $scope.message = data;
-			  $('#messageDiv').show();
 			  $scope.messageError = true;
 		  })
       };

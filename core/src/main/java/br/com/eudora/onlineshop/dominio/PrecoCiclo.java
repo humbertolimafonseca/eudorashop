@@ -2,9 +2,7 @@ package br.com.eudora.onlineshop.dominio;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -13,6 +11,7 @@ import org.javamoney.moneta.Money;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.base.Objects;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -106,7 +105,7 @@ public class PrecoCiclo implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getCiclo(), getItemProduto());
+		return Objects.hashCode(getCiclo(), getItemProduto());
 	}
 	
 	

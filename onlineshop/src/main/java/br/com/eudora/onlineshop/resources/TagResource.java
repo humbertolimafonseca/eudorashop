@@ -1,5 +1,7 @@
 package br.com.eudora.onlineshop.resources;
 
+import javax.annotation.ManagedBean;
+import javax.inject.Inject;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -13,15 +15,18 @@ import javax.ws.rs.core.Response;
 
 import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
 import br.com.eudora.onlineshop.dominio.Tag;
+import br.com.eudora.onlineshop.manager.MarcaManager;
 import br.com.eudora.onlineshop.manager.ProdutoManager;
 import br.com.eudora.onlineshop.manager.TagManager;
 import tarefas.CdiUtil;
 
 @ApplicationPath("/resources")
 @Path("tag")
+@ManagedBean
 public class TagResource {
 
 	TagManager manager = CdiUtil.get(TagManager.class);
+	
 	ProdutoManager produtoManager = CdiUtil.get(ProdutoManager.class);
 
 	@POST

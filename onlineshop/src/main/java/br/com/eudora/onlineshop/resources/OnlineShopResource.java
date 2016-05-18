@@ -3,6 +3,8 @@ package br.com.eudora.onlineshop.resources;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
+import javax.annotation.ManagedBean;
+import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,6 +14,7 @@ import javax.ws.rs.core.Response;
 import br.com.eudora.onlineshop.manager.Manager;
 import tarefas.CdiUtil;
 
+@ManagedBean
 public abstract class OnlineShopResource<M extends Manager<?,T,I>, T , I extends Serializable> {
 	
 	private M manager;

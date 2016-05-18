@@ -1,4 +1,4 @@
-eudoraShop.controller('tagCtrl', function ($scope, $http) {
+eudoraShop.controller('tagCtrl', function ($scope, $http, $rootScope) {
 	
 	 $scope.listar = function (){
 		 $http.get('../resources/tag').success(function(data) {
@@ -27,9 +27,8 @@ eudoraShop.controller('tagCtrl', function ($scope, $http) {
 		 });
 		 
 	 }
-	
-	
-	$scope.send = function() {
+
+	 $scope.send = function() {
 		var form = $('#formTag')[0] ;
 		//alert(form.elements[0].value);
 		 $http.post('../resources/tag/add',$(form).serialize(), {
@@ -38,15 +37,12 @@ eudoraShop.controller('tagCtrl', function ($scope, $http) {
              }
 		  }).success(function(data){
 			    var message;
-			  	$scope.message = data;
-			  	$scope.messageError = false;
-			  	$('#messageDiv').show();
+			  	$rootScope.message = data;
+			  	$rootScope.messageError = false;
 			  	$scope.nome="";
-			  	$scope.listar();
 		  }).error(function(data){
-			  $scope.message = data;
-			  $('#messageDiv').show();
-			  $scope.messageError = true;
+			  $rootScope.message = data;
+			  $rootScope.messageError = true;
 		  })
       };
       

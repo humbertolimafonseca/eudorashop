@@ -6,18 +6,12 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.hibernate.Hibernate;
-
 import br.com.eudora.onlineshop.dominio.Carrinho;
-import br.com.eudora.onlineshop.dominio.ItemCompra;
 import br.com.eudora.onlineshop.dominio.ItemProduto;
 import br.com.eudora.onlineshop.manager.ItemProdutoManager;
-import br.com.eudora.onlineshop.manager.MarcaManager;
 import tarefas.CdiUtil;
 
 @ApplicationPath("/resources")
@@ -64,7 +58,16 @@ public class CartResource {
 		
 		carrinho().addItem(ip, quantidade);
 		
-		return Response.ok("Item adicionado ao carrinho!").build();
+		return Response.ok().entity(carrinho()).build();
+	}
+	
+	@GET
+	@Path("/removeItem/{item}")
+	public Response removeItem(@PathParam("item") String id){
+		
+		carrinho().removeItem(id);
+		
+		return Response.ok().entity(carrinho()).build();
 	}
 	
 	@GET

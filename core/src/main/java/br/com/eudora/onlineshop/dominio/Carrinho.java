@@ -41,5 +41,15 @@ public class Carrinho {
 	public String getValorTotal(){
 		return CurrencyUtil.format(getTotal());
 	}
+
+	public void removeItem(String id) {
+		for (ItemCompra itemCompra : itens) {
+			String idproduto = itemCompra.getProduto().getId().toString(); 
+			if(idproduto.equals(id)){
+				getItens().remove(itemCompra);
+				return;
+			}
+		}
+	}
 	
 }

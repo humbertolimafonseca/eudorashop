@@ -1,5 +1,7 @@
 package br.com.eudora.onlineshop.dominio;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,21 +13,11 @@ import javax.persistence.Transient;
 @Entity
 public class Usuario {
 	
-	public Usuario(String nome, String email, String senha) {
-		super();
-		this.nome = nome;
-		this.email = email;
-		this.senha = senha;
-	}
-	
-	public Usuario() {
-		// TODO Auto-generated constructor stub
-	}
-
 	@Id
 	@GeneratedValue
 	private Long id;
 
+	@Column(unique=true, nullable=false)
 	private String nome;
 
 	private String email;
@@ -34,6 +26,23 @@ public class Usuario {
 	
 	@Transient
 	private Perfil perfil;
+	
+	@Embedded
+	private Endereco endereco;
+	
+	
+	public Usuario(String nome, String email, String senha, Endereco endereco) {
+		super();
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.endereco = endereco;
+	}
+	
+	public Usuario() {
+		// TODO Auto-generated constructor stub
+	}
+
 
 	public Long getId() {
 		return id;
@@ -65,5 +74,21 @@ public class Usuario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 }

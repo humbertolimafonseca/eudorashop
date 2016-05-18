@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ApplicationPath;
@@ -35,6 +37,8 @@ import tarefas.JSONUtil;
 
 @ApplicationPath("/resources")
 @Path("item-produto")
+@Named
+@RequestScoped
 public class ItemProdutoResource extends OnlineShopResource<ItemProdutoManager, ItemProduto, Long> {
 
 	@Context
@@ -44,10 +48,20 @@ public class ItemProdutoResource extends OnlineShopResource<ItemProdutoManager, 
 	private HttpServletRequest request;
 
 	ProdutoManager produtoManager = CdiUtil.get(ProdutoManager.class);
+	
 	TagManager tagManager = CdiUtil.get(TagManager.class);
+	
 	MarcaManager marcaManager = CdiUtil.get(MarcaManager.class);
 	
 	CicloManager cicloManager = CdiUtil.get(CicloManager.class);
+	
+	public ItemProdutoResource() {
+	}
+	
+	public static void main(String[] args) {
+		ItemProdutoResource teste = new ItemProdutoResource();
+		teste.getManager().encontrar(1l);
+	}
 
 	@POST
 	@Path("/add")

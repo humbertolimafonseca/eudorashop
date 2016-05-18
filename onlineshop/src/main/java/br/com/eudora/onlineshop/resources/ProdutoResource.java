@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.ManagedBean;
 import javax.imageio.ImageIO;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ApplicationPath;
@@ -41,6 +43,7 @@ import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
 import br.com.eudora.onlineshop.dominio.Imagem;
 import br.com.eudora.onlineshop.dominio.Marca;
 import br.com.eudora.onlineshop.dominio.Produto;
+import br.com.eudora.onlineshop.manager.ItemProdutoManager;
 import br.com.eudora.onlineshop.manager.MarcaManager;
 import br.com.eudora.onlineshop.manager.ProdutoManager;
 import br.com.eudora.onlineshop.manager.TagManager;
@@ -51,6 +54,7 @@ import tarefas.CdiUtil;
 
 @ApplicationPath("/resources")
 @Path("produto")
+@ManagedBean
 public class ProdutoResource {
 
 	@Context
@@ -60,7 +64,9 @@ public class ProdutoResource {
 	private HttpServletRequest request;
 
 	ProdutoManager manager = CdiUtil.get(ProdutoManager.class);
+	
 	TagManager tagManager = CdiUtil.get(TagManager.class);
+	
 	MarcaManager marcaManager = CdiUtil.get(MarcaManager.class);
 
 	String path;
@@ -147,8 +153,9 @@ public class ProdutoResource {
 			}
 
 		} catch (ErroAoSalvarImagem e) {
-			Response.serverError().entity("Erro ao salvar imagem").build();
 			e.printStackTrace();
+			return Response.serverError().entity("Erro ao salvar imagem").build();
+			
 		} 
 
 		return Response.ok("Produto atualizado com sucesso.").build();

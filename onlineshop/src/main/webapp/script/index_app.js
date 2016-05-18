@@ -18,7 +18,7 @@ eudoraShop.config([ '$routeProvider', function($routeProvider, $stateProvider) {
 
 } ]);
 
-function testInterceptor($rootScope) {
+function testInterceptor($rootScope, $q) {
 	  return {
 	    request: function(config) {
 	    	console.log(config);
@@ -26,7 +26,7 @@ function testInterceptor($rootScope) {
 	    },
 
 	    requestError: function(config) {
-	      return config;
+	      return $q.reject(config.data);
 	    },
 
 	    response: function(res) {
@@ -37,7 +37,10 @@ function testInterceptor($rootScope) {
 	    },
 
 	    responseError: function(res) {
-	      return res;
+	    	console.log(res);
+	    	console.log("LIMPAR MENSAGEM!!");
+	    	$rootScope.limpaMensagem();
+	      return $q.reject(res.data);
 	    }
 	  }
 	}
@@ -51,6 +54,11 @@ eudoraShop.factory('testInterceptor', testInterceptor)
 eudoraShop.run(function($rootScope, $location, $anchorScroll) {
 
 	$rootScope.carrinho = null;
+	
+	$rootScope.usuario = {
+			nome : '',
+			email : ''
+		};
 
 	$rootScope.confirmAndDo = function(msg, doIt, param) {
 		if (confirm(msg)) {

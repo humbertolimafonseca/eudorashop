@@ -9,6 +9,10 @@ import br.com.eudora.onlineshop.dao.ChaveDuplicadaException;
 import br.com.eudora.onlineshop.dao.DaoGenerico;
 
 public abstract class Manager<D extends DaoGenerico<T,I>, T, I extends Serializable> {
+	
+	public Manager() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Inject
 	protected D dao;

@@ -1,19 +1,15 @@
 package br.com.eudora.onlineshop.dominio;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.base.Objects;
 
 import br.com.eudora.onlineshop.dao.OrderBy;
 
@@ -94,7 +90,7 @@ public class Ciclo {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(inicio);
+		return Objects.hashCode(inicio);
 	}
 
 	// public List<PrecoCiclo> getPrecoCiclos() {

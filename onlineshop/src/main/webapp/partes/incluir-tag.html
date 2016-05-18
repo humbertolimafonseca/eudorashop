@@ -14,19 +14,16 @@
 	<div class="clearfix"></div>
 
 
-	<script type="text/javascript">
-		$('#messageDiv').hide();
-	</script>
-
-
 	</form>
 	<div class="panel panel-default">
 		<div class="panel-body">
 
 			<div class="form-horizontal" ng-controller="tagCtrl">
 				<h3>Nova Tag</h3>
-				<div id="messageDiv" class="alert alert-success"
-					ng-class="{'alert-warning': messageError}">{{message}}</div>
+				<div id="messageDiv" ng-show="message" class="alert alert-success" ng-class="{'alert-warning': messageError}">
+					{{message}}
+				 	<div style="display: inline;float: right;"><a href="" class="glyphicon glyphicon-remove" ng-click="limpaMensagem()"></a></div>
+				</div>
 				<form novalidate enctype="multipart/form-data" method="post"
 					id="formTag" name="formTag">
 					<div class="row">

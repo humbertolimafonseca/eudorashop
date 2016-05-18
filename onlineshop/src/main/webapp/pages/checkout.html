@@ -1,4 +1,6 @@
 <h3 class="m_1">Carrinho</h3>
+<div ng-show="message" id="messageDiv" class="alert alert-success"
+				ng-class="{'alert-warning': messageError}">{{message}}</div>
 <div class="content_grid" ng-init="load();">
 	<div ng-repeat="ic in carrinho.itens" class="col_1_of_3 span_1_of_3">
 		<div class="view view-first"></div>
@@ -8,6 +10,8 @@
 		Valor individual: {{ic.produto.precoCicloAtual}}</br>
 		Sub Total: {{ic.valorSubtotal}}</br>
 		
+		<div class="glyphicon glyphicon-remove-sign" style="cursor: pointer;" ng-click="removeItem(ic.produto.id);"></div>
+						
 	</div>
 
 	<div class="clearfix"></div>

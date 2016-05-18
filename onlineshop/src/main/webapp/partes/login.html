@@ -15,13 +15,12 @@
 		<div class="clearfix"></div>
 	
 
-	<script type="text/javascript">
-		$('#messageDiv').hide();
-	</script>
 
 	<div class="form-horizontal" ng-controller="loginCtrl">
 			<h3>Login</h3>
-			<div id="messageDiv" class="alert alert-success" ng-class="{'alert-warning': messageError}">{{message}}</div>
+			<div ng-show="message" id="messageDiv" class="alert alert-success"
+				ng-class="{'alert-warning': messageError}">{{message}}</div>
+			
 			<form novalidate enctype="multipart/form-data" method="post"  id="loginForm" name="loginForm">
 				<div class="form-group" ng-class="{ 'has-error': loginForm.login.$invalid }">
 					<label for="login" class="col-sm-2 control-label">Login*</label>

@@ -6,22 +6,7 @@
 
 	<persistence-unit name="eudorashop" >
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>br.com.eudora.onlineshop.dominio.Avaliacao</class>
-		<class>br.com.eudora.onlineshop.dominio.Carrinho </class>
-		<class>br.com.eudora.onlineshop.dominio.Ciclo </class>
-		<class>br.com.eudora.onlineshop.dominio.Cliente </class>
-		<class>br.com.eudora.onlineshop.dominio.Funcionalidade </class>
-		<class>br.com.eudora.onlineshop.dominio.Imagem </class>
-		<class>br.com.eudora.onlineshop.dominio.ItemCompra </class>
-		<class>br.com.eudora.onlineshop.dominio.ItemProduto </class>
-		<class>br.com.eudora.onlineshop.dominio.Loja </class>
-		<class>br.com.eudora.onlineshop.dominio.Marca </class>
-		<class>br.com.eudora.onlineshop.dominio.Perfil </class>
-		<class>br.com.eudora.onlineshop.dominio.PrecoCiclo </class>
-		<class>br.com.eudora.onlineshop.dominio.Produto </class>
-		<class>br.com.eudora.onlineshop.dominio.Tag </class>
-		<class>br.com.eudora.onlineshop.dominio.Usuario </class>
-		
+
 		<properties>
 
 <!-- 			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" /> -->
@@ -49,7 +34,7 @@
 			<property name="hibernate.connection.password" value="fm4t" />
 			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost/eudora" />		
 			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+<!-- 			<property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
 <!-- 			<property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.DefaultComponentSafeNamingStrategy"/> -->
 			
 			

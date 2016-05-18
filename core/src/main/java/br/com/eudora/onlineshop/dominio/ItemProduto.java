@@ -3,10 +3,8 @@ package br.com.eudora.onlineshop.dominio;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryFormats;
@@ -19,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.javamoney.moneta.Money;
+
+import com.google.common.base.Objects;
 
 import br.com.eudora.onlineshop.dao.OrderBy;
 import br.com.eudora.onlineshop.util.CurrencyUtil;
@@ -165,7 +165,7 @@ public class ItemProduto implements OnlineShopEntity<Long>{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getId());
+		return Objects.hashCode(getId());
 	}
 	
 	

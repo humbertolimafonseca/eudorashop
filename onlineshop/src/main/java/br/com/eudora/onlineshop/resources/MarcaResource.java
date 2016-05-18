@@ -10,10 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.ManagedBean;
 import javax.imageio.ImageIO;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ApplicationPath;
@@ -44,19 +45,21 @@ import br.com.eudora.onlineshop.dominio.Ciclo;
 import br.com.eudora.onlineshop.dominio.Marca;
 import br.com.eudora.onlineshop.manager.ItemProdutoManager;
 import br.com.eudora.onlineshop.manager.MarcaManager;
-import br.com.eudora.onlineshop.resources.hateoas.DefaultHateoasResponse;
-import br.com.eudora.onlineshop.resources.hateoas.HateosResponseList;
 import br.com.eudora.onlineshop.util.ErroAoSalvarImagem;
 import br.com.eudora.onlineshop.util.ImageUtil;
+import br.com.eudora.onlineshop.util.hateoas.DefaultHateoasResponse;
+import br.com.eudora.onlineshop.util.hateoas.HateosResponseList;
 import tarefas.CdiUtil;
 
 @ApplicationPath("/resources")
 @Path("marca")
+@ManagedBean
 public class MarcaResource {
 
 	private static final String CONTEXTO = "http://localhost:8080/onlineshop";
 
 	MarcaManager manager = CdiUtil.get(MarcaManager.class);
+	
 	ItemProdutoManager itemManager = CdiUtil.get(ItemProdutoManager.class);
 	
 	@Context
