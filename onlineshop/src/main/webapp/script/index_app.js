@@ -14,30 +14,33 @@ eudoraShop.config([ '$routeProvider', function($routeProvider, $stateProvider) {
 	}).when('/produto/:produtoId', {
 		templateUrl : '../pages/produto.html',
 		controller : 'itemProdutoCtrl'
-	});
+	}).when('/novo-usuario', {
+		templateUrl : '../pages/incluir-usuario.html',
+		controller : 'loginCtrl'
+	}).when('/login', {
+        templateUrl: '../partes/login.html',
+        controller: 'loginCtrl'
+      });
 
 } ]);
 
 function testInterceptor($rootScope, $q) {
 	  return {
 	    request: function(config) {
-	    	console.log(config);
 	    	return config;
 	    },
 
 	    requestError: function(config) {
-	      return $q.reject(config.data);
+	      return $q.reject(config);
 	    },
 
 	    response: function(res) {
-	    	console.log(res);
 	    	console.log("LIMPAR MENSAGEM!!");
 	    	$rootScope.limpaMensagem();
 	      return res;
 	    },
 
 	    responseError: function(res) {
-	    	console.log(res);
 	    	console.log("LIMPAR MENSAGEM!!");
 	    	$rootScope.limpaMensagem();
 	      return $q.reject(res.data);

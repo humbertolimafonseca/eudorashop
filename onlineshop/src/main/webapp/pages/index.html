@@ -93,9 +93,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
           <div class="clearfix"></div>
 		 </div>  
 		 <div class="index-banner">
-		  <div class="bannertop_box">
+		  <div class="bannertop_box" ng-controller="loginCtrl">
 				   		 		<ul class="login">
-				   		 			<li class="login_text"><a href="login.html">Entrar</a></li>
+				   		 			<li class="login_text" ng-hide="usuario"><a href="#/login">Entrar</a></li>
+				   		 			<li class="login_text" ng-show="usuario"><a>Olá {{usuario.nome}}</a><a style="font-size: x-small;" href="#" ng-click="logout();"> (sair)</a> </li>
 				   		 			<li class="wish"><a href="#/carrinho">Lista de Desejos</a></li>
 				   		 			<div class='clearfix'></div>
 				   		 		</ul>

@@ -1,0 +1,129 @@
+
+<div class="view view-first"
+	ng-init="gotoAnchor('home'); limpaMensagem();">
+	<ol class="breadcrumb">
+		<li><a href="../partes/template.html#/" title="Go to Home Page">Home</a></li>
+		<li><a href="../partes/template.html#/marca"> Marca </a></li>
+		<li class="active">Nova</li>
+	</ol>
+	<ul class="previous">
+		<li><a href="../partes/template.html#/">Back to Previous Page</a></li>
+	</ul>
+	<div class="clearfix"></div>
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="form-horizontal">
+				<h3>Novo Usuário</h3>
+				<div ng-show="message" id="messageDiv" class="alert alert-success"
+					ng-class="{'alert-warning': messageError}">{{message}}</div>
+
+				<div class="row">
+					<div class="col-md-10">
+						<form novalidate method="post" id="form" name="form">
+
+							<div class="form-group"
+								ng-class="{ 'has-error': form.nome.$invalid }">
+								<label for="nome" class="col-sm-2 control-label">Nome*</label>
+								<div class="col-sm-6">
+									<input required class="form-control" name="nome"
+										ng-model="usuario.nome" id="nome" type="text">
+								</div>
+							</div>
+							
+							<div class="form-group"
+								ng-class="{ 'has-error': form.email.$invalid }">
+								<label for="email" class="col-sm-2 control-label">Email*</label>
+								<div class="col-sm-6">
+									<input required name="email" class="form-control"
+										ng-model="usuario.email" id="email" type="email" />
+								</div>
+							</div>
+							
+							<div class="form-group"
+								ng-class="{ 'has-error': form.senha.$invalid }">
+								<label for="senha" class="col-sm-2 control-label">Senha*</label>
+								<div class="col-sm-6">
+									<input required name="senha" class="form-control"
+										ng-model="usuario.senha" id="email" type="password" />
+								</div>
+							</div>
+							
+							<div class="form-group"
+								ng-class="{ 'has-error': form.cep.$invalid }">
+								<label for="cep" class="col-sm-2 control-label">Cep*</label>
+								<div class="col-sm-6">
+									<input required name="cep" class="form-control"
+										ng-model="usuario.cep" id="cep" type="text" />
+								</div>
+							</div>
+							
+							<div class="form-group"
+								ng-class="{ 'has-error': form.logradouro.$invalid }">
+								<label for="logradouro" class="col-sm-2 control-label">Logradouro*</label>
+								<div class="col-sm-6">
+									<select required name="logradouro" class="form-control"
+										ng-model="usuario.endereco.logradouro" id="logradouro">
+										<option label="Rua" value="Rua"></option>
+										<option label="Av." value="Av."></option>
+									</select> 
+										
+								</div>
+							</div>
+							
+							<div class="form-group"
+								ng-class="{ 'has-error': form.endereco.$invalid }">
+								<label for="endereco" class="col-sm-2 control-label">Endereço*</label>
+								<div class="col-sm-6">
+									<input required name="endereco" class="form-control" type="text"
+										ng-model="usuario.endereco.endereco" id="endereco"/>
+								</div>
+							</div>
+							
+							<div class="form-group"
+								ng-class="{ 'has-error': form.numero.$invalid }">
+								<label for="numero" class="col-sm-2 control-label">Número*</label>
+								<div class="col-sm-6">
+									<input required name="numero" class="form-control" type="text"
+										ng-model="usuario.endereco.numero" id="numero"/>
+								</div>
+							</div>
+							
+							<div class="form-group"
+								ng-class="{ 'has-error': form.complemento.$invalid }">
+								<label for="numero" class="col-sm-2 control-label">Complemento</label>
+								<div class="col-sm-6">
+									<input name="complemento" class="form-control" type="text"
+										ng-model="usuario.endereco.complemento" id="complemento"/>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+
+									<input type="button" class="btn btn-success"
+										ng-class="{ 'btn-danger': form.$invalid}"
+										ng-click="novoUsuario();" ng-disabled="form.$invalid"
+										value="Enviar" /> 
+									
+									<input type="button" class="btn"
+										ng-click="cancel();" value="Cancelar">
+
+								</div>
+							</div>
+						</form>
+					</div>
+
+
+				</div>
+
+				<div class="clearfix"></div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+
+</div>

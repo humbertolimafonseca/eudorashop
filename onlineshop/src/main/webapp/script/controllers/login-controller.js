@@ -35,6 +35,23 @@ eudoraShop.controller('loginCtrl', function($scope, $http, $rootScope) {
 			$rootScope.messageError = true;
 		})
 	};
+	
+	$scope.novoUsuario = function(){
+		$http.post('../resources/usuario/add', $(form).serialize(), {
+			headers : {
+				'Content-Type' : 'application/x-www-form-urlencoded'
+			}
+		}).then(
+				function(data) {
+					$rootScope.message = data.data;
+					$rootScope.messageError = false;
+				}, 
+				function(data) {
+					$rootScope.message = data;
+					$rootScope.messageError = true;
+				}
+		);
+	}
 
 	$scope.logar = function() {
 		var form = $('#loginForm')[0];

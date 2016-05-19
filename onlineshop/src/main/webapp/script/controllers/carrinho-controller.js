@@ -40,14 +40,26 @@ eudoraShop.controller('carrinhoCtrl', function ($scope, $http, $rootScope) {
 		
 		 $http.get('../resources/carrinho/removeItem/' + item ).success(function(data){
 			    var message;
-			  	$scope.message = "Item Removido com sucesso.";
+			    $rootScope.message = "Item Removido com sucesso.";
 			  	$rootScope.carrinho = data;
-			  	$scope.messageError = false;
+			  	$rootScope.messageError = false;
 		  }).error(function(data){
-			  $scope.message = data;
-			  $scope.messageError = true;
+			  $rootScope.message = data;
+			  $rootScope.messageError = true;
 		  })
       };
+      
+      $scope.subtraiItem = function(item) {
+    		 $http.get('../resources/carrinho/subtraiItem/' + item ).success(function(data){
+ 			  	$rootScope.message = "Item atualizado.";
+ 			  	$rootScope.carrinho = data;
+ 			  	$scope.messageError = false;
+ 		  }).error(function(data){
+ 			 $rootScope.message = data;
+ 			 $rootScope.messageError = true;
+ 		  })
+       };
+      
       
       
       

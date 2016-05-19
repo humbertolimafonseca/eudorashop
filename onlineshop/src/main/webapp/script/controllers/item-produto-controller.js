@@ -44,6 +44,7 @@ eudoraShop.controller('itemProdutoCtrl', function ($scope, $http,$rootScope,$rou
 	 
 	 $scope.loadProduto = function()
 	 {
+		 $scope.qtd="1";
 		 
 		 $http.get('../resources/produto/codigo/'+$scope.itemProduto.produto.codigo)
 		 

@@ -27,7 +27,12 @@ public class Carrinho {
 	}
 	
 	public void addItem(ItemProduto ip, int qtd){
-		this.itens.add(new ItemCompra(ip, qtd));
+		ItemCompra ic = getItem(ip.getProduto().getId().toString());
+		if(ic != null ){
+			ic.setQuantidade(ic.getQuantidade() + qtd );
+		}else{
+			this.itens.add(new ItemCompra(ip, qtd));
+		}
 	}
 
 	public List<ItemCompra> getItens() {
@@ -43,12 +48,25 @@ public class Carrinho {
 	}
 
 	public void removeItem(String id) {
+		getItens().remove(getItem(id));
+	}
+	
+	public ItemCompra getItem(String id){
 		for (ItemCompra itemCompra : itens) {
-			String idproduto = itemCompra.getProduto().getId().toString(); 
+			String idproduto = itemCompra.getProduto().getProduto().getId().toString(); 
 			if(idproduto.equals(id)){
-				getItens().remove(itemCompra);
-				return;
+				return itemCompra;
 			}
+		}
+		return null;
+	}
+
+	public void subtraiItem(String id) {
+		ItemCompra ic = getItem(id);
+		if(ic.getQuantidade()>1){
+			ic.setQuantidade(ic.getQuantidade()-1);
+		}else{
+			removeItem(id);
 		}
 	}
 	

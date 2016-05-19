@@ -43,7 +43,7 @@ public class UsuarioResource extends OnlineShopResource<UsuarioManager, Usuario,
 			String senhaMd5 = SenhaUtil.ToMD5(senha);
 			Endereco end = new Endereco(logradouro, cep, endereco, new Integer(numero).intValue(), complemento);
 
-			getManager().salvar(new Usuario(nome, senha, email, end));
+			getManager().salvar(new Usuario(nome, email, senhaMd5, end));
 
 		} catch (ChaveDuplicadaException e) {
 			e.printStackTrace();

@@ -1,16 +1,24 @@
 <h3 class="m_1">Carrinho</h3>
+
 <div ng-show="message" id="messageDiv" class="alert alert-success"
-				ng-class="{'alert-warning': messageError}">{{message}}</div>
+				ng-class="{'alert-warning': messageError}">{{message}}
+	<div style="display: inline;float: right;"><a href="" class="glyphicon glyphicon-remove" ng-click="limpaMensagem()"></a></div>				
+</div>
+
 <div class="content_grid" ng-init="load();">
 	<div ng-repeat="ic in carrinho.itens" class="col_1_of_3 span_1_of_3">
 		<div class="view view-first"></div>
 		
 		Item: {{ic.produto.produto.nome}} </br>
+		<div >
+			<a href="#/produto/{{ic.produto.id}}" style="cursor: pointer;"><img id="img" name="img" ng-model="img"  class="img-thumbnail" style="width: 100px; height: auto" src="../resources/imagem/produto/{{ic.produto.produto.id}}/{{ic.produto.produto.imagens[0].nome}}" /></a>
+		</div>
 		Quantidade: {{ic.quantidade}} </br>
 		Valor individual: {{ic.produto.precoCicloAtual}}</br>
 		Sub Total: {{ic.valorSubtotal}}</br>
 		
-		<div class="glyphicon glyphicon-remove-sign" style="cursor: pointer;" ng-click="removeItem(ic.produto.id);"></div>
+		<div class="glyphicon glyphicon-remove-sign" style="cursor: pointer;" ng-click="confirmAndDo( 'Deseja remover o item?', removeItem, ic.produto.produto.id );"></div>
+		<div class="glyphicon glyphicon-minus" style="cursor: pointer;" ng-click="subtraiItem(ic.produto.produto.id);"></div>
 						
 	</div>
 

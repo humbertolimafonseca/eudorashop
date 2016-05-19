@@ -56,8 +56,8 @@ public class TransactionManager {
 
 	public static HibernateEntityManagerFactory getEmf() {
 		checkStart();
-		return emf;
-	}
+		return emf; 
+	} 
 
 	public static boolean isTransactionActive() {
 		checkStart();
@@ -66,7 +66,8 @@ public class TransactionManager {
 	
 	public static void close() {
 		checkStart();
-//		getEntityManager().close();
+		getEntityManager().close();
+		local.remove();	 
 	}
 
 }

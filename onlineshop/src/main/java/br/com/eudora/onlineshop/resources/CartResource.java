@@ -34,8 +34,6 @@ public class CartResource {
 		return  Response.ok().entity(carrinho).build();
 	}
 
-
-
 	private Carrinho carrinho() {
 		Carrinho carrinho = (Carrinho) request.getSession(true).getAttribute("carrinho");
 		
@@ -66,6 +64,15 @@ public class CartResource {
 	public Response removeItem(@PathParam("item") String id){
 		
 		carrinho().removeItem(id);
+		
+		return Response.ok().entity(carrinho()).build();
+	}
+	
+	@GET
+	@Path("/subtraiItem/{item}")
+	public Response subtraiItem(@PathParam("item") String id){
+		
+		carrinho().subtraiItem(id);
 		
 		return Response.ok().entity(carrinho()).build();
 	}
